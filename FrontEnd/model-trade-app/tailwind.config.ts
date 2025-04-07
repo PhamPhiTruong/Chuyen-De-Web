@@ -8,11 +8,25 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors:{
+        blue: {
+          600: '#FF00FF', // Điều chỉnh màu xanh chính xác
+        },
+        'bg-custom': '#F0F0F0', // Thêm màu nền tùy chỉnh
       },
+      backgroundImage: {
+        
+      },
+      keyframes: {
+        slideInFromLeft: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' }
+        }
+      },
+      animation: {
+        'slide-in-left': 'slideInFromLeft 0.3s ease-out forwards'
+      },
+      
     },
   },
   plugins: [],

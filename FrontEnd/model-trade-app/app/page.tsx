@@ -4,8 +4,8 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <main>
-      <h1>Hello Niga</h1>
-      <Link href='/users'>Users</Link>
+      
+      <Link href='/login'>Login</Link>
     </main>
   )
 }
