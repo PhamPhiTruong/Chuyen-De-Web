@@ -21,7 +21,7 @@ export default function ExactCustomerLogin() {
       <div className="grid md:grid-cols-2 gap-8">
         {/* Sign In Section */}
         <div>
-          <h2 className="text-gray-700 text-xl border-b font-bold border-b-4 font-bold border-gray-400  pb-2 mb-4">SIGN IN</h2>
+          <h2 className="text-gray-700 text-xl  font-bold border-b-4  border-gray-400  pb-2 mb-4">SIGN IN</h2>
           
           <p className="text-sm text-gray-600 mb-2">
             If you have an account, sign in with your email address.

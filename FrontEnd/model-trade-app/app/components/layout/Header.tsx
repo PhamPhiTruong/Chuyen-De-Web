@@ -16,9 +16,9 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b border-gray-200 w-full">
+    <header className="border-b border-gray-200 w-full ">
       {/* Top Bar */}
-      <div className="bg-white py-2">
+      <div className="bg-white py-2 ">
         <div className="container mx-auto flex justify-between items-center px-4">
           {/* Logo */}
           <Link href="/" className="flex items-start pl-0">
@@ -42,11 +42,11 @@ export default function Header() {
                 placeholder="search entire store here..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="border border-gray-900 rounded px-3  text-sm w-260 h-10"
+                className="border border-gray-900 rounded px-3  text-sm w-150 h-10"
               />
               <button 
                 type="submit"
-                className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white p-1 rounded"
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-blue-700 text-white p-1 rounded"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -74,7 +74,7 @@ export default function Header() {
       </div>
 
       {/* Navigation Bar */}
-      <nav className="bg-blue-600 text-white">
+      <nav className="bg-blue-700 text-white">
         <div className="container h-8  flex justify-between items-center ">
             <CategoryMenu/>
           <div className="container mx-auto px-4 flex  space-x-6 ">
