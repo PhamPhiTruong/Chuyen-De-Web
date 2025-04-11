@@ -1,7 +1,7 @@
 // components/navigation/CategoryMenu.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState,useRef,useEffect } from 'react';
 import Link from 'next/link';
 
 // Định nghĩa cấu trúc dữ liệu cho các mục menu
@@ -16,6 +16,8 @@ interface Category {
   subCategories?: SubCategory[];
   isAdult?: boolean;
 }
+
+
 
 // Dữ liệu menu
 const categories: Category[] = [
@@ -71,40 +73,98 @@ const categories: Category[] = [
   },
 ];
 
-// Danh sách các mục bên phải
-const rightCategories: SubCategory[] = [
-  { name: 'Other Kits & Accessories', url: '/other-kits' },
-  { name: 'Figures', url: '/figures' },
-  { name: 'Collectibles', url: '/collectibles' },
-  { name: 'All Preorders', url: '/preorders' },
-];
-
 export default function CategoryMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+   // Xử lý sự kiện click bên ngoài menu - tương thích với NextJS
+   useEffect(() => {
+    // Chỉ thực hiện ở client-side
+    if (typeof window !== 'undefined') {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (
+          menuRef.current && 
+          !menuRef.current.contains(event.target as Node) &&
+          buttonRef.current && 
+          !buttonRef.current.contains(event.target as Node)
+        ) {
+          setIsMenuOpen(false);
+        }
+      };
+      
+      // Thêm event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      
+      // Cleanup event listener
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, []);
+   
+
+
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Xử lý tìm kiếm
+    console.log('Searching for:', searchQuery);
+  };
+
   return (
-    <div className="relative">
+    <div className=" md:mr-24 flex md:relative ">
       {/* Category Menu Button */}
       <button 
+        ref={buttonRef}
         onClick={toggleMenu}
-        className="flex items-center text-white text-sm font-medium whitespace-nowrap focus:outline-none mr-24"
+        className="flex  items-center text-white text-sm font-medium  focus:outline-none mr-14 "
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1 ml-2 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round"  strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-        Category Menu
+        <p className='flex'>
+        <span className='hidden md:block'>Category </span>
+          Menu
+        </p>
       </button>
+      {/* Search and User Actions */}
+      <div className=" md:hidden w-full  flex items-center space-x-4 z-1 justify-end ">
+            {/* Search Bar */}
+            <form onSubmit={handleSearch} className="relative md:mr-22 bg-gray-50">
+              <input
+                type="text"
+                placeholder="search entire store here..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="border text-black border-gray-900  px-3  text-sm h-8 md:w-150 md:h-10"
+              />
+              <button 
+                type="submit"
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-blue-700 text-white p-1 rounded"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+            </form>
+
+            
+          </div>
 
       {/* Dropdown Menu */}
       {isMenuOpen  && (
-        <div className=" absolute left-0  w-screen z-50  mt-1 animate-slide-in-left" style={{ maxWidth: '500px' }}>
+        <div 
+        ref={menuRef}
+        className=" absolute left-0  w-screen z-50  mt-12 md:mt-7 animate-slide-right" style={{ maxWidth: '350px' }}>
           <div className="flex">
             {/* Left Column - Main Categories */}
-            <div className="w-1/2 bg-white border border-gray-700 rounded-lg">
+            <div className="w-full bg-white border border-gray-700 rounded-lg">
               <ul>
                 {categories.map((category, index) => (
                   <li key={index} className={`border-b ${category.isAdult ? 'text-red-500' : 'text-gray-700'}`}>
@@ -127,45 +187,9 @@ export default function CategoryMenu() {
                     Browse All Categories
                   </Link>
                 </li>
-                {/* <li className="bg-gray-900 text-white py-10 px-4">
-                  <Link href="/gundam" className="text-blue-300 hover:underline flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101" />
-                    </svg>
-                    https://www.hlj.com/gundam
-                  </Link>
-                </li> */}
+               
               </ul>
             </div>
-
-            {/* Right Column - Subcategories */}
-            {/* <div className="w-1/2 bg-gray-800">
-              <ul>
-                {categories.map((category, index) => (
-                  category.subCategories && category.subCategories.map((subCategory, subIndex) => (
-                    <li key={`${index}-${subIndex}`} className="border-b border-gray-700">
-                      <Link 
-                        href={subCategory.url}
-                        className="block px-4 py-3 text-white hover:bg-gray-700"
-                      >
-                        {subCategory.name}
-                      </Link>
-                    </li>
-                  ))
-                ))}
-                {rightCategories.map((category, index) => (
-                  <li key={`right-${index}`} className="border-b border-gray-700">
-                    <Link 
-                      href={category.url}
-                      className="block px-4 py-3 text-white hover:bg-gray-700"
-                    >
-                      {category.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div> */}
           </div>
         </div>
       )}

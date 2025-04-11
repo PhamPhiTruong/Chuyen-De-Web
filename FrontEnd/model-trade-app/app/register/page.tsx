@@ -6,7 +6,7 @@ import RegisterForm from '../components/auth/RegisterForm'
 
 const page = () => {
   return (
-    <div>
+    <div className='w-full h-full'>
     <Header/>
     <RegisterForm/>
     <Footer/>

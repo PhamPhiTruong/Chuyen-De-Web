@@ -93,8 +93,8 @@ export default function Footer() {
       </div>
 
       {/* Payment Methods and Copyright */}
-      <div className="bg-white py-6">
-        <div className="container mx-auto px-4">
+      <div className="bg-white ">
+        <div className="container mx-auto ">
           {/* Payment Methods */}
           {/* <div className="flex justify-center mb-4">
             <div className="flex items-center space-x-2">
@@ -113,7 +113,7 @@ export default function Footer() {
           </div> */}
           
           {/* Copyright */}
-          <div className="text-center text-gray-600 text-sm mt-10 mb-10">
+          <div className="text-center text-gray-600 text-sm mt-6 mb-6">
             All contents © 2024 HobbyLink Japan Ltd. Koishikawa Bld 1F, 1-20-7, Koishi, Bunkyo 112-0002 JAPAN
           </div>
         </div>

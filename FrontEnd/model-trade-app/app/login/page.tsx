@@ -5,11 +5,11 @@ import Footer from '../components/layout/Footer'
 
 const page = () => {
   return (
-    <div>
+    <div className='w-full h-full'>
     <Header/>
-    <div className="text-gray-700 text-2xl font-bold   mb-2 w-1/3 ml-70">CUSTOMER LOGIN
+    {/* <div className="text-chocolate text-2xl font-bold   mb-2 w-1/3 ml-70">CUSTOMER LOGIN
     
-    </div>
+    </div> */}
     <LoginForm/>
     <Footer/>
     </div>

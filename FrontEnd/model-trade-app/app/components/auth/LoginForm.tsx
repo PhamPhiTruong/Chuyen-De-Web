@@ -16,9 +16,16 @@ export default function ExactCustomerLogin() {
   };
 
   return (
-      <div className="bg-white p-6 shadow-sm w-4/6  mx-auto ">
-      
-      <div className="grid md:grid-cols-2 gap-8">
+    <div className='bg-gray-100'>
+      <div className=" w-full block md:w-5/6   mx-auto">
+        <div className='text-gray-700  text-2xl text-left md:text-2xl font-bold w-full  bg-gray-100 md:bg-none'>
+          <span className=''>
+                CUTOMER LOGIN
+          </span>
+            </div>
+      <div className=' w-full block mt-4 place-items-center'>
+
+      <div className="grid md:grid-cols-2 gap-8 w-19/20 bg-white p-4 ">
         {/* Sign In Section */}
         <div>
           <h2 className="text-gray-700 text-xl  font-bold border-b-4  border-gray-400  pb-2 mb-4">SIGN IN</h2>
@@ -117,6 +124,11 @@ export default function ExactCustomerLogin() {
           </div>
         </div>
       </div>
+      </div>
     </div>
+
+    </div>
+
+      
   );
 }
