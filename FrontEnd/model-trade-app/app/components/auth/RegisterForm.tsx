@@ -17,7 +17,7 @@ export default function RegisterForm(){
     };
 
     return(
-        <div className='  w-full  grid-rows-2 bg-gray-100' >
+        <div className='  w-full  grid-rows-2 bg-gray-100 ' >
             <div className='text-gray-700  text-2xl text-left  font-bold w-full md:text-center bg-gray-100 md:bg-none'>
                 CREATE NEW CUSTOMER ACCOUNT
             </div>

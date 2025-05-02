@@ -5,13 +5,14 @@
 
 :root {
   /* --foreground-rgb: 0, 0, 0;  */
-  --background-rgb:  240,240,240; 
+  --background-rgb:  rgb(244, 244, 244); 
 }
 
 body {
   /* color: rgb(var(--foreground-rgb)); */
   /* background: rgb(var(--background-rgb));  */
   color: var(--color-chocolate);
+  background-color: var(--color-background)
 }
 
 @theme {
@@ -21,6 +22,12 @@ body {
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --color-primary: #FFBA00;
+  --color-secondary: #FF8800;
+
+  --color-background: #F4F4F4;
+
   --color-red-50: oklch(0.971 0.013 17.38);
   --color-red-100: oklch(0.936 0.032 17.717);
   --color-red-200: oklch(0.885 0.062 18.334);

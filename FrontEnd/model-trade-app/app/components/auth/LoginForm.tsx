@@ -16,7 +16,7 @@ export default function ExactCustomerLogin() {
   };
 
   return (
-    <div className='bg-gray-100'>
+    <div className='bg-gray-100 flex-grow'>
       <div className=" w-full block md:w-5/6   mx-auto">
         <div className='text-gray-700  text-2xl text-left md:text-2xl font-bold w-full  bg-gray-100 md:bg-none'>
           <span className=''>

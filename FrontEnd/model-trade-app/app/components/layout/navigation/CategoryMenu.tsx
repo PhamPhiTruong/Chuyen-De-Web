@@ -3,6 +3,7 @@
 
 import { useState,useRef,useEffect } from 'react';
 import Link from 'next/link';
+import SearchBar from './Search';
 
 // Định nghĩa cấu trúc dữ liệu cho các mục menu
 interface SubCategory {
@@ -75,9 +76,16 @@ const categories: Category[] = [
 
 export default function CategoryMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const [searchQuery, setSearchQuery] = useState('');
+    
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Xử lý tìm kiếm
+    console.log('Searching for:', searchQuery);
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -111,51 +119,29 @@ export default function CategoryMenu() {
 
 
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Xử lý tìm kiếm
-    console.log('Searching for:', searchQuery);
-  };
+ 
 
   return (
-    <div className=" md:mr-24 flex md:relative ">
+    <div className='flex w-full'>
+
+    <div className="  flex md:relative mr-3 lg:mr-0 ">
       {/* Category Menu Button */}
       <button 
         ref={buttonRef}
         onClick={toggleMenu}
-        className="flex  items-center text-white text-sm font-medium  focus:outline-none mr-14 "
+        className="flex  items-center text-white text-sm font-medium  focus:outline-none lg:mr-14 "
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1 ml-2 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round"  strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-        <p className='flex'>
-        <span className='hidden md:block'>Category </span>
+        <p className=' flex text-xl lg:text-sm'>
+        <span className='hidden md:block mr-1'>Category  </span>
+          
           Menu
         </p>
+   
       </button>
-      {/* Search and User Actions */}
-      <div className=" md:hidden w-full  flex items-center space-x-4 z-1 justify-end ">
-            {/* Search Bar */}
-            <form onSubmit={handleSearch} className="relative md:mr-22 bg-gray-50">
-              <input
-                type="text"
-                placeholder="search entire store here..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="border text-black border-gray-900  px-3  text-sm h-8 md:w-150 md:h-10"
-              />
-              <button 
-                type="submit"
-                className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-blue-700 text-white p-1 rounded"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
-            </form>
-
-            
-          </div>
+    
 
       {/* Dropdown Menu */}
       {isMenuOpen  && (
@@ -193,6 +179,11 @@ export default function CategoryMenu() {
           </div>
         </div>
       )}
+    </div>
+       {/* Search Bar */}
+       <div className=' md:hidden w-full h-full'>
+        <SearchBar/>
+      </div>
     </div>
   );
 }
