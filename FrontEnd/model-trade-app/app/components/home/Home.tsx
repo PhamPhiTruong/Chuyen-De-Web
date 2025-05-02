@@ -9,12 +9,12 @@ import { PiShareFat } from 'react-icons/pi'
 const Home = () => {
   return (
     <div className='w-4/5 px-10 py-10'>
-                <div className='border-gray-600 border-2 rounded-2xl h-fit px-5'>
-                    <div className='flex items-center justify-between '>
+                <div className=' bg-white border-1  border-gray-300 rounded-2xl h-fit px-5'>
+                    <div className='flex items-center justify-between  '>
     
                     <div className='flex items-center justify-center mr-auto gap-3 w-fit mx-3 py-3'>
                         <div  >
-                            <FaCircleUser />    
+                            <FaCircleUser className='text-4xl' />    
     
                         </div>
                         <div >

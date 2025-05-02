@@ -7,10 +7,14 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { useState , useEffect} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import CategoryMenu from './navigation/CategoryMenu';
-import SearchBar from './navigation/Search';
+import CategoryMenu from './CategoryMenu';
+import SearchBar from './Search';
 
-export default function Header() {
+interface HeaderProps {
+  openModal?: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ openModal }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -49,6 +53,8 @@ export default function Header() {
     // Xử lý tìm kiếm
     console.log('Searching for:', searchQuery);
   };
+
+
 
   return (
     <header className=" border-gray-200 w-full top-0 left-0  sticky ">
@@ -103,12 +109,12 @@ export default function Header() {
             </div>
             </Link>
 
-            <Link className=" flex items-center w-full mx-3" href="/post">
+            <button className=" cursor-pointer flex items-center w-full mx-3"  onClick={openModal}>
             <div className="flex h-auto w-fit items-center justify-center  ">
             <BsChatDots className="text-2xl mr-2" />
             <p className="flex  whitespace-nowrap text-base">Bài viết</p>
             </div>
-            </Link>
+            </button>
 
 
 
@@ -155,4 +161,6 @@ export default function Header() {
     </header>
   );
 }
+
+export default Header;
 // components/layout/Header.tsx

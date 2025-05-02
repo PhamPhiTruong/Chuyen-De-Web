@@ -2,11 +2,11 @@ import React from 'react'
 
 const HomeSideRight = () => {
   return (
-    <div  className='lg:w-2/10 border-2 border-b-0 ' >
+    <div  className='lg:w-2/10 border-1  border-gray-300 border-b-0 ' >
             <div>
                 <div>
                     <div className=' text-center '>
-                        <div className='p-1 font-bold border-b-2'>Lối tắt</div>
+                        <div className='p-1 font-bold  border-gray-300 border-b-1'>Lối tắt</div>
                         <div>
                         <div className='ml-5 text-start'>
                             <div className='my-5'>Cửa hàng của bạn</div>

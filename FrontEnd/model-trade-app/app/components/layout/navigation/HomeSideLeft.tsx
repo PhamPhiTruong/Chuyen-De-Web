@@ -2,9 +2,9 @@ import React from 'react'
 
 const HomeSideLeft = () => {
   return (
-    <div className='lg:w-2/10 border-2 border-b-0 '>
+    <div className='lg:w-2/10 border-1  border-gray-300 border-b-0 '>
             <div className=' text-center '>
-            <div className='p-1 font-bold border-b-2'> Trao đổi</div>
+            <div className='p-1 font-bold  border-gray-300 border-b-1'> Trao đổi</div>
             <div className='px-5 py-5'> 
 
             <div className=' ml-5     text-start'>
