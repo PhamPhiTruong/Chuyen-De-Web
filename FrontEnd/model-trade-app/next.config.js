@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['d1gt5dppxgb6oq.cloudfront.net'], // Thêm hostname tại đây
+        domains: [
+          'd1gt5dppxgb6oq.cloudfront.net',
+          'static.chotot.com'
+        ], // Thêm hostname tại đây
       },
 }
 

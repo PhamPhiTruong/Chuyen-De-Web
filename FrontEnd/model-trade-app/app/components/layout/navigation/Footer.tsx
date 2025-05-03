@@ -1,10 +1,11 @@
 // components/layout/ExactFooter.tsx
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className='w-full'>
       {/* Main Footer */}
       <div className="bg-gray-900 text-white py-8">
         <div className="container mx-auto px-4">
@@ -93,8 +94,8 @@ export default function Footer() {
       </div>
 
       {/* Payment Methods and Copyright */}
-      <div className="bg-white py-6">
-        <div className="container mx-auto px-4">
+      <div className="bg-white ">
+        <div className="container mx-auto ">
           {/* Payment Methods */}
           {/* <div className="flex justify-center mb-4">
             <div className="flex items-center space-x-2">
@@ -113,7 +114,7 @@ export default function Footer() {
           </div> */}
           
           {/* Copyright */}
-          <div className="text-center text-gray-600 text-sm mt-10 mb-10">
+          <div className="text-center text-gray-600 text-sm mt-6 mb-6">
             All contents © 2024 HobbyLink Japan Ltd. Koishikawa Bld 1F, 1-20-7, Koishi, Bunkyo 112-0002 JAPAN
           </div>
         </div>
