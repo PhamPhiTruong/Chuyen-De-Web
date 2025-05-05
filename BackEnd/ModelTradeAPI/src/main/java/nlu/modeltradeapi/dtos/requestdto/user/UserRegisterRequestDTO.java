@@ -1,28 +1,20 @@
-package nlu.modeltradeapi.entities;
+package nlu.modeltradeapi.dtos.requestdto.user;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+public class UserRegisterRequestDTO {
     private String email;
     private String password;
     private String name;
     private String phoneNumber;
     private LocalDateTime dateOfBirth;
-    private LocalDateTime createdDate;
 }

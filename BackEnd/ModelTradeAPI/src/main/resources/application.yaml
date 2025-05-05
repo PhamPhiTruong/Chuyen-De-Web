@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/model_trade"
+    username: root
+    password: root
+  application:
+    name: ModelTradeAPI
+server:
+  port: 8080
+  servlet:
+    context-path: /model_trade
+
