@@ -14,19 +14,18 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
    const [lineCount, setLineCount] = useState(1);
    const textareaRef = useRef<HTMLTextAreaElement >(null);
 
-   // Hàm đếm số dòng
-  const updateLineCount = () => {
-    if (textareaRef.current) {
-      const textarea = textareaRef.current;
-      const lines = textarea.value.split('\n').length;
-      setLineCount(lines);
-    }
-  };
+  //  // Hàm đếm số dòng
+  // const updateLineCount = () => {
+  //   if (textareaRef.current) {
+  //     const textarea = textareaRef.current;
+  //     const lines = textarea.value.split('\n').length;
+  //     console.log('Số dòng:', lines); // In ra số dòng trong console
+  //     setLineCount(lines);
+  //   }
+  // };
 
-  // Cập nhật số dòng khi nội dung thay đổi
-  useEffect(() => {
-    updateLineCount();
-  }, [postContent]);
+  // Hàm đếm số dòng dựa trên nội dung và chiều cao
+
 
   if (!isOpen) return null;
 
@@ -57,10 +56,10 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
         <div>
           
           <textarea ref={textareaRef} placeholder='Bạn muốn trao đổi gì thế?' value={postContent} onChange={e => setPostContent(e.target.value)}  
-         className={`font-medium focus:outline-none w-full resize-y break-words transition-all duration-300 ${
+         className={`font-medium focus:outline-none w-full  break-words transition-all duration-300 ${
           postContent ? 'text-black' : 'text-gray-500'
-        } ${lineCount > 4 ? 'text-base' : 'text-2xl'}`}
-         // className=" text-2xl resize-y break-words transition-all duration-300  focus:outline-none w-full ${postContent ? 'text-black ':' text-gray-500'} ${lineCount > 4 ? 'text-base' : 'text-2xl'}" 
+        } ${lineCount > 4 ? 'text-base' : 'text-2xl'} ${postContent.length > 55 ? 'text-base' : 'text-2xl'} `  }
+        //  className=" text-2xl resize-y break-words transition-all duration-300  focus:outline-none w-full ${postContent ? 'text-black ':' text-gray-500'} ${lineCount > 4 ? 'text-base' : 'text-2xl'}" 
           maxLength={5000} rows={4} required/>
 
         </div>

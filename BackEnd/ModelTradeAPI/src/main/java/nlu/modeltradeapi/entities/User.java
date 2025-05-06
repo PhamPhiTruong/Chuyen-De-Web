@@ -1,5 +1,6 @@
 package nlu.modeltradeapi.entities;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
