@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -20,7 +22,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
-    private String userId;
+    private String id;
     @Column(name = "user_name")
     private String userName;
     @Column(name = "email")
@@ -38,7 +40,9 @@ public class User implements Serializable {
     @Column(name = "active")
     @Builder.Default
     private boolean active = false;
-    @Column(name = "delete")
+    @Column(name = "is_delete")
     @Builder.Default
-    private boolean delete = false;
+    private boolean is_delete = false;
+
+
 }
