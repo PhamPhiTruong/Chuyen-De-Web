@@ -12,10 +12,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRegisterRequestDTO {
-    private String userName;
+    private String username;
     private String email;
     private String password;
     private String name;
     private String phoneNumber;
     private LocalDate dateOfBirth;
+    private Boolean isDeleted;
+
 }

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -37,5 +39,10 @@ public class User implements Serializable {
     private LocalDateTime createdDate;
     @Column(name = "active")
     @Builder.Default
-    private boolean active = true;
+    private boolean active = false;
+    @Column(name = "is_delete")
+    @Builder.Default
+    private boolean is_delete = false;
+
+
 }

@@ -1,10 +1,12 @@
 package nlu.modeltradeapi.controller;
 
 import lombok.RequiredArgsConstructor;
+import nlu.modeltradeapi.dtos.requestdto.user.OTPVerificationRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserRegisterRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserUpdateRequestDTO;
 import nlu.modeltradeapi.dtos.responsedto.MessageResponseDTO;
 import nlu.modeltradeapi.entities.User;
+import nlu.modeltradeapi.services.implement.UserService;
 import nlu.modeltradeapi.services.template.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +24,25 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<MessageResponseDTO> register(@RequestBody UserRegisterRequestDTO urrd) {
         MessageResponseDTO message = MessageResponseDTO.builder().message("Không thành công").build();
-        if(userService.registerUser(urrd)!= null) message.setMessage("Thành công");
+        message.setEmail(urrd.getEmail());
+        if(userService.registerUser(urrd)!= null) message.setMessage("Registration successful. Please check your email for OTP.");
         return new ResponseEntity<>(
                 message,
                 HttpStatus.OK
         );
     }
+
+    @PostMapping("verifyOtp")
+    public ResponseEntity<MessageResponseDTO> verifyOtp(@RequestBody OTPVerificationRequestDTO requestDTO){
+        userService.verifyOTP(requestDTO);
+        MessageResponseDTO message = MessageResponseDTO.builder().message("Thành công").build();
+        message.setEmail(requestDTO.getEmail());
+        return new ResponseEntity<>(
+                message,
+                HttpStatus.OK
+                );
+    }
+
 
     @GetMapping("getAll")
     public List<User> getUsers(){
