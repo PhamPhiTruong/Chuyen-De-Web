@@ -20,7 +20,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
-    private String id;
+    private String userId;
     @Column(name = "user_name")
     private String userName;
     @Column(name = "email")
@@ -37,5 +37,8 @@ public class User implements Serializable {
     private LocalDateTime createdDate;
     @Column(name = "active")
     @Builder.Default
-    private boolean active = true;
+    private boolean active = false;
+    @Column(name = "delete")
+    @Builder.Default
+    private boolean delete = false;
 }
