@@ -51,7 +51,7 @@ public class UserService implements IUserService {
         LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(5);
         ActiveOTPUser otpUser = ActiveOTPUser.builder()
                 .otp(otp)
-                .userId(savedUser.getId())
+                .user(savedUser)
                 .expirationTime(expirationTime)
                 .build();
         activeOTPUserRepository.save(otpUser);
@@ -105,14 +105,14 @@ public class UserService implements IUserService {
     @Override
     public void verifyOTP(OTPVerificationRequestDTO request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() ->new RuntimeException("User not found"));
-        ActiveOTPUser otpUser = activeOTPUserRepository.findByUserIdAndOtp(user.getId(), request.getOtp())
+        ActiveOTPUser otpUser = activeOTPUserRepository.findByUserAndOtp(user, request.getOtp())
                 .orElseThrow(() -> new RuntimeException("Invalid OTP or user"));
 
         if (otpUser.getExpirationTime().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("OTP has expired");
         }
 
-        User user2 = userRepository.findById(user.getId())
+        User user2 = userRepository.findById(user.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user2.setActive(true);
         userRepository.save(user2);
