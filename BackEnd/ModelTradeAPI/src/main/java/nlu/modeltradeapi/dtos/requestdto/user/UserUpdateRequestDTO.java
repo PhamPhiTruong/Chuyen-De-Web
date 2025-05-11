@@ -17,4 +17,5 @@ public class UserUpdateRequestDTO {
     private String name;
     private String phoneNumber;
     private LocalDate dateOfBirth;
+    private boolean isDeleted;
 }
