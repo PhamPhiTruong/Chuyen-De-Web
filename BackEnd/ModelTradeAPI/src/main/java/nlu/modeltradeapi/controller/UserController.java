@@ -24,7 +24,7 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<MessageResponseDTO> register(@RequestBody UserRegisterRequestDTO urrd) {
         MessageResponseDTO message = MessageResponseDTO.builder().message("Không thành công").build();
-        message.setEmail(urrd.getEmail());
+//        message.setEmail(urrd.getEmail());
         if(userService.registerUser(urrd)!= null) message.setMessage("Registration successful. Please check your email for OTP.");
         return new ResponseEntity<>(
                 message,
@@ -36,7 +36,7 @@ public class UserController {
     public ResponseEntity<MessageResponseDTO> verifyOtp(@RequestBody OTPVerificationRequestDTO requestDTO){
         userService.verifyOTP(requestDTO);
         MessageResponseDTO message = MessageResponseDTO.builder().message("Thành công").build();
-        message.setEmail(requestDTO.getEmail());
+//        message.setEmail(requestDTO.getEmail());
         return new ResponseEntity<>(
                 message,
                 HttpStatus.OK

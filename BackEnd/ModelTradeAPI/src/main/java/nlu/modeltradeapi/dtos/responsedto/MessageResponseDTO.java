@@ -9,6 +9,6 @@ import lombok.Data;
 @Builder
 public class MessageResponseDTO {
     private String message;
-    private String email;
+//    private String email;
 
 }
