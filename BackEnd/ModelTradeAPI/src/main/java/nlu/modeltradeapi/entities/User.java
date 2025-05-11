@@ -9,20 +9,19 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-@Entity
+@Entity(name = "user")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
-    private String id;
+    private String userId;
     @Column(name = "user_name")
     private String userName;
     @Column(name = "email")
@@ -42,7 +41,5 @@ public class User implements Serializable {
     private boolean active = false;
     @Column(name = "is_delete")
     @Builder.Default
-    private boolean is_delete = false;
-
-
+    private boolean isDelete = false;
 }
