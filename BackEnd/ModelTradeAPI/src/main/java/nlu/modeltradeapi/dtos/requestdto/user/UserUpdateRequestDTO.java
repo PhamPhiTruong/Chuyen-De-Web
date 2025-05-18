@@ -1,5 +1,6 @@
 package nlu.modeltradeapi.dtos.requestdto.user;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserUpdateRequestDTO {
     private String email;
+    @Size(min = 6, max = 20, message = "Password must be at least 6 characters")
     private String password;
     private String name;
     private String phoneNumber;

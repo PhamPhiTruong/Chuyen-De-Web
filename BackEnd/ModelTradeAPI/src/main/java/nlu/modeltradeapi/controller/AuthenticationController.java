@@ -26,32 +26,13 @@ import java.text.ParseException;
 public class AuthenticationController {
     AuthenticationService authenticationService;
 
-//    @PostMapping("/log-in")
-//    ApiResponse<AuthenticationResponseonseDTO> authenticationResponseonseApiResponse(@RequestBody AuthenticationRequestDTO request){
-//        boolean result =authenticationService.authenticate(request);
-//        return  ApiResponse.<AuthenticationResponseonseDTO>builder().result(AuthenticationResponseonseDTO.builder().authenticated(result).build()).build();
-//
-//    }
-
     @PostMapping("/token")
-    public ResponseEntity<AuthenticationResponseonseDTO> authenticate(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
-        var response = authenticationService.authenticate(authenticationRequestDTO);
-        return new ResponseEntity<>(
-                response,
-                HttpStatus.OK
-
-        );
+    public ApiResponse<AuthenticationResponseonseDTO> authenticate(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
+        return ApiResponse.<AuthenticationResponseonseDTO>builder().message("Lấy token thành công").result(authenticationService.authenticate(authenticationRequestDTO)).build();
     }
     @PostMapping("/introspect")
-    public ResponseEntity<IntrospecResponseonseDTO> authenticate(@RequestBody IntrospectRequestDTO request) throws ParseException, JOSEException {
-        var response = authenticationService.introspect(request);
-        return new ResponseEntity<>(
-                response,
-                HttpStatus.OK
-
-        );
+    public ApiResponse<IntrospecResponseonseDTO> authenticate(@RequestBody IntrospectRequestDTO request) throws ParseException, JOSEException {
+        return ApiResponse.<IntrospecResponseonseDTO>builder().message("Quá trình xác thực token thành công").result(authenticationService.introspect(request)).build();
     }
-
-
 
 }

@@ -1,9 +1,11 @@
 package nlu.modeltradeapi.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nlu.modeltradeapi.dtos.requestdto.user.OTPVerificationRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserRegisterRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserUpdateRequestDTO;
+import nlu.modeltradeapi.dtos.responsedto.ApiResponse;
 import nlu.modeltradeapi.dtos.responsedto.MessageResponseDTO;
 import nlu.modeltradeapi.entities.User;
 import nlu.modeltradeapi.services.template.IUserService;
@@ -21,7 +23,7 @@ public class UserController {
     private final IUserService userService;
 
     @PostMapping("register")
-    public ResponseEntity<MessageResponseDTO> register(@RequestBody UserRegisterRequestDTO urrd) {
+    public ResponseEntity<MessageResponseDTO> register(@RequestBody @Valid UserRegisterRequestDTO urrd) {
         MessageResponseDTO message = MessageResponseDTO.builder().message("Không thành công").build();
 
         message.setMessage(urrd.getEmail() + message.getMessage());
@@ -47,18 +49,18 @@ public class UserController {
 
 
     @GetMapping("getAll")
-    public List<User> getUsers(){
-        return userService.getUsers();
+    public ApiResponse<List<User>> getUsers(){
+        return ApiResponse.<List<User>>builder().message("Lấy danh sách thành công").result(userService.getUsers()).build();
     }
 
     @GetMapping("/{userId}")
-    public User getUserById(@PathVariable("userId") String userId){
-        return userService.getUserById(userId);
+    public ApiResponse<User> getUserById(@PathVariable("userId") String userId){
+        return ApiResponse.<User>builder().message("Tìm thấy user").result(userService.getUserById(userId)).build();
     }
 
     @PutMapping("/updateUser/{userId}")
-    public User updateUser(@PathVariable String userId, @RequestBody UserUpdateRequestDTO uurd){
-        return userService.updateUser(userId, uurd);
+    public ApiResponse<User> updateUser(@PathVariable String userId, @RequestBody @Valid UserUpdateRequestDTO uurd){
+        return ApiResponse.<User>builder().message("Update user thành công").result(userService.updateUser(userId, uurd)).build();
     }
 
     @DeleteMapping("/deleteUser/{userId}")

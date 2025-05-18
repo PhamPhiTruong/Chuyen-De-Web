@@ -5,6 +5,7 @@ import nlu.modeltradeapi.dtos.requestdto.user.UserRegisterRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserUpdateRequestDTO;
 import nlu.modeltradeapi.entities.ActiveOTPUser;
 import nlu.modeltradeapi.entities.User;
+import nlu.modeltradeapi.exceptions.CustomException;
 import nlu.modeltradeapi.repository.ActiveOTPUserRepository;
 import nlu.modeltradeapi.repository.UserRepository;
 import nlu.modeltradeapi.services.template.IUserService;
@@ -33,10 +34,10 @@ public class UserService implements IUserService {
         System.out.println(registerRequest.getUserName());
 
         // Kiểm tra username đã tồn tại
-        if (userRepository.findByUserName(registerRequest.getUserName()).isPresent()) {
+        if (userRepository.existsByUserName(registerRequest.getUserName())) {
             throw new RuntimeException("Username already exists");
         }
-        if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
 
@@ -108,7 +109,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deleteUser(String userId) {
+    public void deleteUser(String userId) throws CustomException{
+        if(!userRepository.existsById(userId)) {
+            throw new CustomException("User not found");
+        }
         userRepository.deleteById(userId);
     }
 
