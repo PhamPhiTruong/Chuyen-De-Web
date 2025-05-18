@@ -1,10 +1,8 @@
 package nlu.modeltradeapi.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
@@ -14,6 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Table(name = "models")
 @Entity(name = "model")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Model implements Serializable {
 
     @Id
@@ -29,6 +28,8 @@ public class Model implements Serializable {
     private String description;
     @Column(name = "price")
     private double price;
+    @Column(name = "quantity")
+    private int quantity;
     @Column(name = "see")
     @Builder.Default
     private boolean see = false;

@@ -1,10 +1,8 @@
 package nlu.modeltradeapi.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "model_promotion_post_reacts")
 @Entity(name = "model_promotion_post_react")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ModelPromotionPostReact implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

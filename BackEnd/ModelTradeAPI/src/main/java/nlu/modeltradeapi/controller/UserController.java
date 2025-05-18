@@ -6,7 +6,6 @@ import nlu.modeltradeapi.dtos.requestdto.user.UserRegisterRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserUpdateRequestDTO;
 import nlu.modeltradeapi.dtos.responsedto.MessageResponseDTO;
 import nlu.modeltradeapi.entities.User;
-import nlu.modeltradeapi.services.implement.UserService;
 import nlu.modeltradeapi.services.template.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

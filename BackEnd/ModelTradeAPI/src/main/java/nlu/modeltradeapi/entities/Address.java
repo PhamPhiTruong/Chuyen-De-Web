@@ -34,4 +34,7 @@ public class Address implements Serializable {
     @Column(name = "is_main")
     @Builder.Default
     boolean is_main = false;
+    @Column(name = "is_delete")
+    @Builder.Default
+    boolean is_delete = false;
 }
