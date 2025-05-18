@@ -24,6 +24,7 @@ public class Model implements Serializable {
     private User user;
     @Column(name = "name")
     private String name;
+    @Lob
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     @Column(name = "price")

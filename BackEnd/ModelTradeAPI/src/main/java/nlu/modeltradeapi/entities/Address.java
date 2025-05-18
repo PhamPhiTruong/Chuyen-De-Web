@@ -27,6 +27,7 @@ public class Address implements Serializable {
     String ward;
     @Column(name = "home_address")
     String homeAddress;
+    @Lob
     @Column(name = "address_detail")
     String addressDetail;
     @Column(name = "type")

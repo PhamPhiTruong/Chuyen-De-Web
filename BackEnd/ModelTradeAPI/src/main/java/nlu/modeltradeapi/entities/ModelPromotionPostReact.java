@@ -29,5 +29,6 @@ public class ModelPromotionPostReact implements Serializable {
     @JoinColumn(name = "react_id")
     private React react;
     @Column(name = "react_time")
-    private LocalDateTime reactTime;
+    @Builder.Default
+    private LocalDateTime reactTime = LocalDateTime.now();
 }

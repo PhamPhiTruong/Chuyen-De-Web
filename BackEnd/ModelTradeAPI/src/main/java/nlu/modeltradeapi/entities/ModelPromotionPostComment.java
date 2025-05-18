@@ -27,8 +27,10 @@ public class ModelPromotionPostComment implements Serializable {
     private ModelPromotionPost modelPromotionPost;
     @Column(name = "parent_id")
     private String parentId;
+    @Lob
     @Column(name = "context", columnDefinition = "TEXT")
     private String context;
     @Column(name = "created_time")
-    private LocalDateTime createdTime;
+    @Builder.Default
+    private LocalDateTime createdTime = LocalDateTime.now();
 }
