@@ -50,9 +50,6 @@ public class AuthenticationService {
         return IntrospecResponseonseDTO.builder()
                 .valid( verified && expirationDate.after(new Date()))
                 .build();
-
-
-
     }
 
     public AuthenticationResponseonseDTO authenticate(AuthenticationRequestDTO authenticationRequestDTO) {
@@ -70,10 +67,6 @@ public class AuthenticationService {
                 .token(token)
                 .authenticated(true)
                 .build();
-
-
-
-
     }
 
     private String generateToken(String username) {

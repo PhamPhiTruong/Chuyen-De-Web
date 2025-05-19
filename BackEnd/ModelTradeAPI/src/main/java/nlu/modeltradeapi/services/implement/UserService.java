@@ -102,9 +102,12 @@ public class UserService implements IUserService {
         User user = getUserById(userId);
         user.setName(updateRequest.getName());
         user.setEmail(updateRequest.getEmail());
-        user.setPassword(updateRequest.getPassword());
         user.setPhoneNumber(updateRequest.getPhoneNumber());
         user.setDateOfBirth(updateRequest.getDateOfBirth());
+
+        PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(updateRequest.getPassword()));
+
         return userRepository.save(user);
     }
 

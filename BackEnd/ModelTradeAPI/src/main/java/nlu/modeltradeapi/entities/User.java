@@ -37,7 +37,8 @@ public class User implements Serializable {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
     @Column(name = "role")
-    private String role;
+    @Builder.Default
+    private String role = "Customer";
     @Column(name = "active")
     @Builder.Default
     private boolean active = false;
