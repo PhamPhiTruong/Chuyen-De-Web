@@ -1,5 +1,4 @@
 import * as React from "react";
-import LoginForm from "../components/auth/RegisterForm";
 import Header from "../components/layout/navigation/Header";
 import Footer from "../components/layout/navigation/Footer";
 import RegisterForm from "../components/auth/RegisterForm";
