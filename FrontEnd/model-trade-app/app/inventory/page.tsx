@@ -1,54 +1,99 @@
-import React from "react";
+// src/app/inventory/page.tsx
+"use client";
+import React, { useState, useEffect } from "react";
 import Header from "../components/layout/navigation/Header";
 import Footer from "../components/layout/navigation/Footer";
-import { IoInformationCircle } from "react-icons/io5";
-import { TbCameraPlus } from "react-icons/tb";
-import { FaPlus } from "react-icons/fa6";
+import SellerInfo from "../components/inventory/SellerInfo";
+import ProductList from "../components/inventory/ProductList";
 
-const page = () => {
+interface InventoryPageProps {}
+
+const InventoryPage: React.FC<InventoryPageProps> = () => {
+  const [seller, setSeller] = useState({
+    name: "Xưởng sản xuất mô hình",
+    rating: 4.8,
+    productCount: 7,
+    location: "Gò Vấp, Hồ Chí Minh",
+  });
+  const [products, setProducts] = useState([
+    {
+      id: "1",
+      name: "Nendoroid Akami Karubi",
+      price: 1000000,
+      location: "Tp.Hồ Chí Minh",
+      imageUrl: "https://via.placeholder.com/150", // Thay bằng URL ảnh thật
+    },
+    {
+      id: "2",
+      name: "Nendoroid Akami Karubi",
+      price: 1050000,
+      location: "Tp.Hồ Chí Minh",
+      imageUrl: "https://via.placeholder.com/150",
+    },
+    {
+      id: "3",
+      name: "Nendoroid Akami Karubi",
+      price: 1050000,
+      location: "Tp.Hồ Chí Minh",
+      imageUrl: "https://via.placeholder.com/150",
+    },
+    {
+      id: "4",
+      name: "Nendoroid Akami Karubi",
+      price: 1050000,
+      location: "Tp.Hồ Chí Minh",
+      imageUrl: "https://via.placeholder.com/150",
+    },
+    {
+      id: "5",
+      name: "Nendoroid Akami Karubi",
+      price: 1050000,
+      location: "Tp.Hồ Chí Minh",
+      imageUrl: "https://via.placeholder.com/150",
+    },
+    {
+      id: "6",
+      name: "Nendoroid Akami Karubi",
+      price: 1050000,
+      location: "Tp.Hồ Chí Minh",
+      imageUrl: "https://via.placeholder.com/150",
+    },
+  ]);
+
+  const handleFollow = () => {
+    console.log("Follow seller:", seller.name);
+    // TODO: Gọi API để theo dõi người bán
+  };
+
+  const handleViewMore = (productId: string) => {
+    console.log("View more product:", productId);
+    // TODO: Điều hướng đến trang chi tiết sản phẩm
+  };
+
+  useEffect(() => {
+    // Giả lập fetch dữ liệu từ API
+    // fetch(`http://localhost:8080/model_trade/api/seller/${sellerId}`)
+    //   .then((res) => res.json())
+    //   .then((data) => setSeller(data))
+    //   .catch((err) => console.error(err));
+    // fetch(`http://localhost:8080/model_trade/api/products/seller/${sellerId}`)
+    //   .then((res) => res.json())
+    //   .then((data) => setProducts(data))
+    //   .catch((err) => console.error(err));
+  }, []);
+
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center">
+    <div className="flex flex-col min-h-screen items-center">
       <Header />
-      <div className="flex-grow w-4/5 bg-white px-10 py-10">
-        <div className="flex ">
-          <div className="w-3/10">
-            <p className="text-center font-bold text-xl mb-3">
-              Hình ảnh về sản phẩm
-            </p>
-
-            <div className="mx-auto relative border-3 border-primary bg-gray-100 w-fit p-10">
-              <div className="absolute top-0 right-0 p-1 flex justify-end">
-                <IoInformationCircle className="text-2xl text-blue-500" />
-                <p className="text-blue-600">Hình ảnh hợp lệ</p>
-              </div>
-              <div className="flex flex-col items-center justify-center">
-                <TbCameraPlus className="text-6xl " />
-
-                <p>Đăng từ 1 đến 6 hình</p>
-              </div>
-            </div>
+      <div className="flex-grow w-4/5 py-10">
+        <div className="flex flex-col lg:flex-row gap-6">
+          <div className="w-full lg:w-3/10">
+            <SellerInfo seller={seller} onFollow={handleFollow} />
           </div>
-          <div className="w-7/10">
-            <div className="border-2 border-black">
-              <p>Thông tin chi tiết</p>
-              <div className="flex items-center">
-                <p>Series sản phẩm</p>
-                <div className="bg-yellow-300 p-2 w-fit rounded">
-                  <p>Pokemon</p>
-                </div>
-                <FaPlus />
-              </div>
-              <div className="flex items-center">
-                <div>
-                  <p>Tình trạng</p>
-                  <div className="flex items-center gap-4">
-                    <div>Đã sử dụng</div>
-                    <div>Mới</div>
-                    <FaPlus />
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="w-full lg:w-7/10">
+            <h2 className="text-xl font-bold mb-4">Đang hiển thị (14)</h2>
+            <p className="text-gray-600 mb-4">Đã bán (10)</p>
+            <ProductList products={products} onViewMore={handleViewMore} />
           </div>
         </div>
       </div>
@@ -57,4 +102,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default InventoryPage;
