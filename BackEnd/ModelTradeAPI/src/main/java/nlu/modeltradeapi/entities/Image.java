@@ -24,4 +24,6 @@ public class Image implements Serializable {
     private String url;
     @Column(name = "upload_date")
     private LocalDateTime uploadDate;
+    @Column(name="cloudinary_image_id")
+    private String CloudinaryImageId;
 }
