@@ -26,4 +26,6 @@ public class Image implements Serializable {
     @Column(name = "upload_date")
     @Builder.Default
     private LocalDateTime uploadDate = LocalDateTime.now();
+    @Column(name="cloudinary_image_id")
+    private String CloudinaryImageId;
 }

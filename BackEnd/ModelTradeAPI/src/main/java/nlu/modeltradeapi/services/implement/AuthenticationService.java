@@ -9,19 +9,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import nlu.modeltradeapi.dtos.requestdto.user.IntrospectRequestDTO;
+import nlu.modeltradeapi.dtos.requestdto.user.UserLoginRequestDTO;
 import nlu.modeltradeapi.dtos.responsedto.AuthenticationResponseonseDTO;
-import nlu.modeltradeapi.dtos.responsedto.IntrospecResponseonseDTO;
 import nlu.modeltradeapi.repository.UserRepository;
+import nlu.modeltradeapi.services.service_sp_object.JWTInfo;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import nlu.modeltradeapi.dtos.requestdto.user.AuthenticationRequestDTO;
 import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.function.Function;
 
 @Slf4j
 @Service
@@ -34,51 +35,47 @@ public class AuthenticationService {
     @NonFinal
     @Value("${jwt.signerKey}")
     private String SIGNER_KEY;
-;
 
-
-    public IntrospecResponseonseDTO introspect(IntrospectRequestDTO request) throws JOSEException, ParseException {
-        var token =request.getToken();
-        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
-
-        SignedJWT signedJWT = SignedJWT.parse(token);
-
-        Date expirationDate = signedJWT.getJWTClaimsSet().getExpirationTime();
-
-        var verified= signedJWT.verify(verifier);
-
-        return IntrospecResponseonseDTO.builder()
-                .valid( verified && expirationDate.after(new Date()))
-                .build();
+    private boolean isExpired(String token) {
+        return extractClaim(token, JWTClaimsSet::getExpirationTime).before(new Date());
     }
 
-    public AuthenticationResponseonseDTO authenticate(AuthenticationRequestDTO authenticationRequestDTO) {
-        System.out.println(authenticationRequestDTO.getUserName());
+    public boolean validateToken(String token, UserDetails userDetails) {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(token);
+            JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+            boolean isExpire = isExpired(token);
+            boolean verified= signedJWT.verify(verifier);
+            final String userName = signedJWT.getJWTClaimsSet().getSubject();
+            boolean isSameUser = userName.equals(userDetails.getUsername());
+            return !isExpire && verified && isSameUser;
+        } catch (JOSEException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        var user = userRepository.findByUserName(authenticationRequestDTO.getUserName()).orElseThrow(() -> new RuntimeException("User không tồn tại")) ;
+    public String authenticate(UserLoginRequestDTO userLoginRequestDTO) {
+        var user = userRepository.findByUserName(userLoginRequestDTO.getUserName()).orElseThrow(() -> new RuntimeException("User không tồn tại")) ;
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        boolean authenticated = passwordEncoder.matches(authenticationRequestDTO.getPassword(), user.getPassword());
+        boolean authenticated = passwordEncoder.matches(userLoginRequestDTO.getPassword(), user.getPassword());
 
         if(!authenticated) {
             throw new RuntimeException("Unauthenticated");
         }
-        var token = generateToken(authenticationRequestDTO.getUserName());
-        return  AuthenticationResponseonseDTO.builder()
-                .token(token)
-                .authenticated(true)
-                .build();
+        return generateToken(user.getUserName());
     }
 
     private String generateToken(String username) {
         //Header
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
         //Payload
-        JWTClaimsSet jwtClaimsSet= new JWTClaimsSet.Builder().subject(username).issuer("devnlu.com")
+        JWTClaimsSet jwtClaimsSet= new JWTClaimsSet.Builder()
+                .subject(username)
+                .issuer("devnlu.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
-                .claim("customClaim", "Custom")
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
 
@@ -92,6 +89,32 @@ public class AuthenticationService {
             log.error("Cannot create token",e);
 
             throw new RuntimeException(e);
+        }
+    }
+
+    private <T> T extractClaim(String token, Function<JWTClaimsSet, T> claimsResolver) {
+        try {
+            JWTClaimsSet claims = SignedJWT.parse(token).getJWTClaimsSet();
+            return claimsResolver.apply(claims);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot extract claim", e);
+        }
+    }
+
+    public JWTInfo extractInfo(String token){
+        return JWTInfo.builder()
+                .token(token)
+                .userName(extractClaim(token,JWTClaimsSet::getSubject))
+                .issuer(extractClaim(token,JWTClaimsSet::getIssuer))
+                .build();
+    }
+
+    private JWTClaimsSet extractClaims(String token) {
+        try {
+            SignedJWT jwt = SignedJWT.parse(token);
+            return jwt.getJWTClaimsSet();
+        }catch (Exception e) {
+            throw new RuntimeException("Cannot extract claims from token",e);
         }
     }
 

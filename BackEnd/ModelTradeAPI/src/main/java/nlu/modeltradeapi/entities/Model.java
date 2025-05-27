@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,24 +19,25 @@ public class Model implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "model_id")
-    private String modelId;
+    String modelId;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    User user;
     @Column(name = "name")
-    private String name;
+    String name;
     @Lob
     @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+    String description;
     @Column(name = "price")
-    private double price;
+    double price;
     @Column(name = "quantity")
-    private int quantity;
+    int quantity;
     @Column(name = "see")
     @Builder.Default
-    private boolean see = false;
+    boolean see = false;
     @Column(name = "is_delete")
     @Builder.Default
-    private boolean isDelete = false;
-
+    boolean isDelete = false;
+    @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ModelImage> images;
 }

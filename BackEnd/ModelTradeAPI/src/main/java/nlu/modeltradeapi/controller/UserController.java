@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
@@ -58,9 +58,9 @@ public class UserController {
         return ApiResponse.<User>builder().message("Tìm thấy user").result(userService.getUserById(userId)).build();
     }
 
-    @PutMapping("/updateUser/{userId}")
-    public ApiResponse<User> updateUser(@PathVariable String userId, @RequestBody @Valid UserUpdateRequestDTO uurd){
-        return ApiResponse.<User>builder().message("Update user thành công").result(userService.updateUser(userId, uurd)).build();
+    @PutMapping("/updateUser")
+    public ApiResponse<User> updateUser(@RequestBody @Valid UserUpdateRequestDTO uurd){
+        return ApiResponse.<User>builder().message("Update user thành công").result(userService.updateUser(uurd)).build();
     }
 
     @DeleteMapping("/deleteUser/{userId}")

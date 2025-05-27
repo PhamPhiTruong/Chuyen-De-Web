@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class CustomException extends Exception {
     protected int errorCode = HttpStatus.BAD_REQUEST.value();
     public CustomException(String message) {

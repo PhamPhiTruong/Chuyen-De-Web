@@ -12,7 +12,7 @@ public interface IUserService {
     public User registerUser(UserRegisterRequestDTO registerRequest);
     public List<User> getUsers();
     public User getUserById(String userId);
-    public User updateUser(String userId, UserUpdateRequestDTO updateRequest);
+    public User updateUser(UserUpdateRequestDTO updateRequest);
     public void deleteUser(String userId) throws CustomException;
     void verifyOTP(OTPVerificationRequestDTO request);
 }

@@ -12,6 +12,8 @@ import nlu.modeltradeapi.services.template.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ public class UserService implements IUserService {
     private ActiveOTPUserRepository activeOTPUserRepository;
     @Autowired
     private JavaMailSenderImpl mailSender;
+
+    private final PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(10);
 
     @Override
     public User registerUser(UserRegisterRequestDTO registerRequest) {
@@ -53,7 +57,6 @@ public class UserService implements IUserService {
                 .build();
         System.out.println(user.getUserName()+user.getEmail()+user.getPassword()+user.getPhoneNumber()+user.getDateOfBirth());
 
-        PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(10);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
 
@@ -98,16 +101,21 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User updateUser(String userId, UserUpdateRequestDTO updateRequest) {
-        User user = getUserById(userId);
-        user.setName(updateRequest.getName());
-        user.setEmail(updateRequest.getEmail());
-        user.setPhoneNumber(updateRequest.getPhoneNumber());
-        user.setDateOfBirth(updateRequest.getDateOfBirth());
-
-        PasswordEncoder passwordEncoder= new BCryptPasswordEncoder(10);
-        user.setPassword(passwordEncoder.encode(updateRequest.getPassword()));
-
+    public User updateUser(UserUpdateRequestDTO updateRequest) {
+        UserDetails userTrue = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        var userValue = userRepository.findByUserName(userTrue.getUsername()).orElseThrow(() -> new RuntimeException("User không tồn tại"));
+        User user = User.builder()
+                .userId(userValue.getUserId())
+                .userName(userValue.getUserName())
+                .email(updateRequest.getEmail())
+                .password(passwordEncoder.encode(updateRequest.getPassword()))
+                .name(updateRequest.getName())
+                .phoneNumber(updateRequest.getPhoneNumber())
+                .dateOfBirth(updateRequest.getDateOfBirth())
+                .createdDate(userValue.getCreatedDate())
+                .active(userValue.isActive())
+                .isDelete(updateRequest.isDeleted())
+                .build();
         return userRepository.save(user);
     }
 
