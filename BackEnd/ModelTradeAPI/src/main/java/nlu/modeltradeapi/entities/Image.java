@@ -20,8 +20,12 @@ public class Image implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "image_id")
     private String imageId;
+    @Lob
     @Column(name = "url")
     private String url;
     @Column(name = "upload_date")
-    private LocalDateTime uploadDate;
+    @Builder.Default
+    private LocalDateTime uploadDate = LocalDateTime.now();
+    @Column(name="cloudinary_image_id")
+    private String CloudinaryImageId;
 }

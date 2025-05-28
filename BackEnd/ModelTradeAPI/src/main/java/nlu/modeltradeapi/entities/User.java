@@ -1,10 +1,9 @@
 package nlu.modeltradeapi.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import nlu.modeltradeapi.constant.UserRole;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "users")
 @Entity(name = "user")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,6 +36,9 @@ public class User implements Serializable {
     private LocalDate dateOfBirth;
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+    @Column(name = "role")
+    @Builder.Default
+    private UserRole role = UserRole.CUSTOMER;
     @Column(name = "active")
     @Builder.Default
     private boolean active = false;
