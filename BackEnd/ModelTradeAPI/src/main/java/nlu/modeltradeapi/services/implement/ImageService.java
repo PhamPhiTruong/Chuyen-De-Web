@@ -36,6 +36,8 @@ public class ImageService {
 
         FileUploadUtil.assertAllowed(file, FileUploadUtil.IMAGE_PATTERN);
         final String fileName = FileUploadUtil.getFileName(file.getOriginalFilename());
+
+        //upload file len cloud
         final CloudinaryResponse response = this.cloudinaryService.uploadFile(file, fileName);
         // Tạo và lưu Image
         final Image image = Image.builder()

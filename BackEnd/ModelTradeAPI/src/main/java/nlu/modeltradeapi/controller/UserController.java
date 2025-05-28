@@ -22,18 +22,7 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
 
-    @PostMapping("register")
-    public ResponseEntity<MessageResponseDTO> register(@RequestBody @Valid UserRegisterRequestDTO urrd) {
-        MessageResponseDTO message = MessageResponseDTO.builder().message("Không thành công").build();
 
-        message.setMessage(urrd.getEmail() + message.getMessage());
-        if(userService.registerUser(urrd)!= null) message.setMessage("Đăng kí thành công. Vui lòng kiểm tra email");
-
-        return new ResponseEntity<>(
-                message,
-                HttpStatus.OK
-        );
-    }
 
     @PostMapping("verifyOtp")
     public ResponseEntity<MessageResponseDTO> verifyOtp(@RequestBody OTPVerificationRequestDTO requestDTO){
