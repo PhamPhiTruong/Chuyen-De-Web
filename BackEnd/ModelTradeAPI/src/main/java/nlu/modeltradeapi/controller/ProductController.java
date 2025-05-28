@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/models")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
     @Autowired
     ImageService imageService;

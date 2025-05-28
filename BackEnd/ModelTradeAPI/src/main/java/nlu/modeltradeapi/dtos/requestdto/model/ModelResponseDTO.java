@@ -1,20 +1,22 @@
 package nlu.modeltradeapi.dtos.requestdto.model;
 
-import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ModelUpdateRequestDTO {
+public class ModelResponseDTO {
     String modelId;
-    String modelName;
+    String name;
     String description;
     double price;
-    @Min(value = 0,message = "Số lượng không được âm")
     int quantity;
+    boolean see;
     boolean isDelete;
+    List<String> images;
 }

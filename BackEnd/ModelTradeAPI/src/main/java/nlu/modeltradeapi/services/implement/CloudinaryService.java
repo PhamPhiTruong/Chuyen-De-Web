@@ -20,12 +20,9 @@ public class CloudinaryService {
     @Transactional
     public CloudinaryResponse uploadFile(final MultipartFile file, final String fileName) {
         try {
-            final Map    result   = this.cloudinary.uploader()
-                    .upload(file.getBytes(),
-                            Map.of("public_id",
-                                    "nludev/product/"
-                                            + fileName));
-            final String url      = (String) result.get("secure_url");
+            final Map result = this.cloudinary.uploader()
+                    .upload(file.getBytes(), Map.of("public_id", "nludev/product/" + fileName));
+            final String url = (String) result.get("secure_url");
             final String publicId = (String) result.get("public_id");
             return CloudinaryResponse.builder().publicId(publicId).url(url)
                     .build();

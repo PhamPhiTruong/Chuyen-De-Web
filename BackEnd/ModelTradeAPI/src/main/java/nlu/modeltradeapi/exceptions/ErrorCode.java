@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatusCode;
 
 @Getter
 public enum ErrorCode {
-    USER_NOT_EXISTED(1003, "User is not existed!", HttpStatus.NOT_FOUND);
-
+    USER_NOT_EXISTED(1003, "User is not existed!", HttpStatus.NOT_FOUND),
+    FILE_NOT_EXISTED(1004, "File is not existed!", HttpStatus.NOT_FOUND);
     private final int code;
     private final String message;
     private final HttpStatusCode statusCode;
