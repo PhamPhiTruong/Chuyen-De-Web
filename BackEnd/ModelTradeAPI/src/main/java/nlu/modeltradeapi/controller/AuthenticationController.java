@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 @FieldDefaults (level = AccessLevel.PRIVATE, makeFinal = true)
-@CrossOrigin(origins = "http://localhost:3000")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final IUserService userService;
