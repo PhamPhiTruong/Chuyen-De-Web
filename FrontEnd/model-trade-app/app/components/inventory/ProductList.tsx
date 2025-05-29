@@ -5,7 +5,6 @@ interface Product {
   id: string;
   name: string;
   price: number;
-  location: string;
   imageUrl: string;
 }
 
