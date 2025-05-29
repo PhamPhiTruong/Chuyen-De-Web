@@ -86,7 +86,7 @@ export default function RegisterForm() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/model_trade/user/register",
+        "http://localhost:8080/model_trade/auth/register",
         {
           method: "POST",
           headers: {

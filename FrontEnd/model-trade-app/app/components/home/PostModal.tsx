@@ -15,25 +15,28 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const [modelId, setModelId] = useState("");
   const [models, setModels] = useState<{ modelId: string; name: string }[]>([]);
   const [error, setError] = useState("");
+  const modelIdTest = "001";
 
   // Lấy danh sách model từ API khi modal mở
   useEffect(() => {
     if (isOpen) {
       // const token = localStorage.getItem("token");
       const token =
-        "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg0NDY5MTYsImlhdCI6MTc0ODQ0MzMxNn0.x_DmiKlyAnpCPC_CQMlOuIVCV8RPtAIs0B6CuKa1kF0qRaD3G4wwE2zT2O5Oc4pgDG-2nTayHlcsVuBHH0en1g";
+        "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg1MTk3NDgsImlhdCI6MTc0ODUxNjE0OH0.gUtrOxhixyw9imdpUymNyNfAon757ydfFSp4pjqat_gHcMZ8IOYMDFS-ABQXHJAbq3Bo2g8XOnq0CntFCwia5Q";
       if (!token) {
         setError("Vui lòng đăng nhập để lấy danh sách sản phẩm");
         return;
       }
 
       console.log("Gọi API getModels");
-      fetch("http://localhost:8080/api/posts/getModels", {
+      fetch("http://localhost:8080/model_trade/api/posts/getModels", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        mode: "cors",
+        credentials: "include",
       })
         .then(async (res) => {
           if (!res.ok) {
@@ -71,25 +74,31 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       setError("Vui lòng nhập nội dung và chọn sản phẩm");
       return;
     }
+    const token =
+      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg1MTk3NDgsImlhdCI6MTc0ODUxNjE0OH0.gUtrOxhixyw9imdpUymNyNfAon757ydfFSp4pjqat_gHcMZ8IOYMDFS-ABQXHJAbq3Bo2g8XOnq0CntFCwia5Q";
 
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     if (!token) {
       setError("Vui lòng đăng nhập để đăng bài");
       return;
     }
 
     try {
-      const res = await fetch("http://localhost:8080/api/posts/createPost", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          promotionDescription: postContent,
-          modelId,
-        }),
-      });
+      const res = await fetch(
+        "http://localhost:8080/model_trade/api/posts/createPost",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+
+          body: JSON.stringify({
+            description: postContent, // Sử dụng description
+            modelID: modelId, // Sử dụng modelID
+          }),
+        }
+      );
       if (!res.ok) {
         const errorText = await res.text();
         if (res.status === 401) {
@@ -170,7 +179,6 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
               </option>
             ))}
           </select>
-          <IoIosArrowDown className="mx-2" />
         </div>
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
         <button
