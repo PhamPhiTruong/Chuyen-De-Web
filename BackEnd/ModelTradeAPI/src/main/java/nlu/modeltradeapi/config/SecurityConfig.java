@@ -30,12 +30,12 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/model_trade/auth/**")
+                        .requestMatchers("/auth/**")
                         .permitAll()
                         .requestMatchers(
-                                "/model_trade/api/models/**",
-                                "/model_trade/api/user/**",
-                                "/model_trade/api/model/**"
+                                "/api/models/**",
+                                "/api/user/**",
+                                "/api/model/**"
                         ).authenticated()
                         .anyRequest().authenticated()
                 )
