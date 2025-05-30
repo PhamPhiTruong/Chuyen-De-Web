@@ -1,5 +1,6 @@
 package nlu.modeltradeapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -20,6 +21,7 @@ public class ModelImage implements Serializable {
     private String MIId;
     @ManyToOne
     @JoinColumn(name = "model_id")
+    @JsonBackReference
     private Model model;
     @ManyToOne
     @JoinColumn(name = "image_id")

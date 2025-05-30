@@ -3,6 +3,7 @@ package nlu.modeltradeapi.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nlu.modeltradeapi.dtos.requestdto.post.PostCreateRequestDTO;
+import nlu.modeltradeapi.dtos.responsedto.post.PostResponseDTO;
 import nlu.modeltradeapi.entities.Model;
 import nlu.modeltradeapi.entities.ModelPromotionPost;
 import nlu.modeltradeapi.repository.ModelRepository;
@@ -31,6 +32,11 @@ public class PostController {
         List<Model> models = modelRepository.findAll();
         return ResponseEntity.ok(models);
 
+    }
+    @GetMapping("/getAllPosts")
+    public ResponseEntity<List<PostResponseDTO>> getAllPosts() {
+        List<PostResponseDTO> posts = postService.getAllPosts();
+        return ResponseEntity.ok(posts);
     }
 
 }

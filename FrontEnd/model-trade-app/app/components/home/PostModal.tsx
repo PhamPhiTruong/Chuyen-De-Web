@@ -22,7 +22,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
     if (isOpen) {
       // const token = localStorage.getItem("token");
       const token =
-        "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg1MTk3NDgsImlhdCI6MTc0ODUxNjE0OH0.gUtrOxhixyw9imdpUymNyNfAon757ydfFSp4pjqat_gHcMZ8IOYMDFS-ABQXHJAbq3Bo2g8XOnq0CntFCwia5Q";
+        "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
       if (!token) {
         setError("Vui lòng đăng nhập để lấy danh sách sản phẩm");
         return;
@@ -75,7 +75,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       return;
     }
     const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg1MTk3NDgsImlhdCI6MTc0ODUxNjE0OH0.gUtrOxhixyw9imdpUymNyNfAon757ydfFSp4pjqat_gHcMZ8IOYMDFS-ABQXHJAbq3Bo2g8XOnq0CntFCwia5Q";
+      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
 
     // const token = localStorage.getItem("token");
     if (!token) {

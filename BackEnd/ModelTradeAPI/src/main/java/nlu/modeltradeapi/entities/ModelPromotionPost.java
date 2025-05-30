@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,6 +23,10 @@ public class ModelPromotionPost implements Serializable {
     @ManyToOne
     @JoinColumn(name = "model_id")
     private Model model;
+    @OneToMany(mappedBy = "modelPromotionPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ModelPromotionPostComment> modelPromotionPostComments;
+    @OneToMany(mappedBy = "modelPromotionPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ModelPromotionPostReact> modelPromotionPostReacts;
     @Lob
     @Column(name = "promotion_description", columnDefinition = "TEXT")
     private String promotionDescription;

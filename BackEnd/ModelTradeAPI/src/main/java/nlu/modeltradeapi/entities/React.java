@@ -25,5 +25,7 @@ public class React implements Serializable {
     @Column(name = "name")
     private String name;
     @Column(name = "is_positive")
-    private boolean isPositive;
+    private boolean isPositive= true;
+
+
 }
