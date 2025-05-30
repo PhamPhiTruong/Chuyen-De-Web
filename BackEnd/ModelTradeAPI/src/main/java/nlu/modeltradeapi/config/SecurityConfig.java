@@ -32,9 +32,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**")
                         .permitAll()
+                        .requestMatchers("/api/posts/getAllPosts").permitAll()
                         .requestMatchers(
                                 "/api/models/**",
-                                "/api/user/**"
+                                "/api/user/**",
+                                "api/posts/**",
+                                "/api/model/**"
                         ).authenticated()
                         .anyRequest().authenticated()
                 )

@@ -100,6 +100,7 @@ public class UserService implements IUserService {
         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+
     @Override
     public User updateUser(UserUpdateRequestDTO updateRequest) {
         UserDetails userTrue = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

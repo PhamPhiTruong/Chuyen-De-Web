@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const [email, setEmail] = useState("");
-  const [confirmEmail, setConfirmEmail] = useState("");
+  // const [confirmEmail, setConfirmEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
@@ -15,7 +15,7 @@ export default function RegisterForm() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
-  const [confirmUsername, setConfirmUsername] = useState("");
+  // const [confirmUsername, setConfirmUsername] = useState("");/\
   // const [userId, setUserId] = useState<number | null>(null);
   const router = useRouter();
 
@@ -41,11 +41,11 @@ export default function RegisterForm() {
       setLoading(false);
       return;
     }
-    if (email !== confirmEmail) {
-      setError("Emails do not match");
-      setLoading(false);
-      return;
-    }
+    // if (email !== confirmEmail) {
+    //   setError("Emails do not match");
+    //   setLoading(false);
+    //   return;
+    // }
     if (password.length < 6) {
       setError("Password must be at least 6 characters");
       setLoading(false);
@@ -86,7 +86,7 @@ export default function RegisterForm() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/model_trade/user/register",
+        "http://localhost:8080/model_trade/auth/register",
         {
           method: "POST",
           headers: {
@@ -180,7 +180,7 @@ export default function RegisterForm() {
               required
             />
           </div>
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Confirm Email
             </label>
@@ -192,7 +192,7 @@ export default function RegisterForm() {
               maxLength={100}
               required
             />
-          </div>
+          </div> */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password

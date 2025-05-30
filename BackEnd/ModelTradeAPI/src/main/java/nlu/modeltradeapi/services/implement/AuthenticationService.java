@@ -74,7 +74,7 @@ public class AuthenticationService {
                 .issuer("devnlu.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
+                        Instant.now().plus(24, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
