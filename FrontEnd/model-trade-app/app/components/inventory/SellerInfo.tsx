@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 import { IoInformationCircle } from "react-icons/io5";
 
@@ -26,12 +27,14 @@ const SellerInfo: React.FC<SellerInfoProps> = ({ seller, onFollow }) => {
       <p className="text-gray-600 mb-4">Đã tham gia: 6 năm 5 tháng</p>
       <p className="text-gray-600 mb-4">Địa chỉ: {seller.location}</p>
       <div className="flex justify-center">
-        <button
-          onClick={onFollow}
-          className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition"
-        >
-          Theo dõi
-        </button>
+        <Link href="/uploadProduct">
+          <button
+            onClick={onFollow}
+            className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition"
+          >
+            Thêm sản phẩm
+          </button>
+        </Link>
       </div>
       <div className="mt-4 flex justify-end">
         <IoInformationCircle className="text-2xl text-blue-500 mr-2" />

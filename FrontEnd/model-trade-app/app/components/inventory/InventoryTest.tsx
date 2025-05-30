@@ -8,7 +8,7 @@ const InventoryTestPage = () => {
 
     useEffect(() => {
         const token =
-            "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoidHJ1b25ndGVzdDExMDYiLCJleHAiOjE3NDg1ODI5ODEsImlhdCI6MTc0ODQ5NjU4MX0.R061BhQSZSiH8NpIYamIkRLdsWKRQkicvWvs4CcQ61ISrtaNNPx0mxsMU8XMeZUmQ5sz5w2tW8JgglMolY-X2w";
+            "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoidHJ1b25ndGVzdDExMDYiLCJleHAiOjE3NDg2MDE5NzMsImlhdCI6MTc0ODUxNTU3M30.7Bz5arGvZO_yDi8X7rxgxeuezWjUM9NIXjMaCqDKGMLMA72oWXLjM08AsQ37JoFwvu6Ajsb9xwm4K_1m3dkDqA";
         console.log("Gọi API getAllModelByUser");
         fetch("http://localhost:8080/model_trade/api/model/getAllModelByUser", {
             method: "GET",

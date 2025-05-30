@@ -1,5 +1,6 @@
 package nlu.modeltradeapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -40,6 +41,7 @@ public class Model implements Serializable {
     @Builder.Default
     boolean isDelete = false;
     @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     List<ModelImage> images;
 
     public List<String> getImageLinks(){
