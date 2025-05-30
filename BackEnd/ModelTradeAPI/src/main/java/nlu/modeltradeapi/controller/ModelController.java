@@ -22,6 +22,12 @@ public class ModelController {
     @PostMapping(path = "addModel", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<ModelAddResponseDTO> addModel(@RequestPart("model") ModelAddRequestDTO modelAddRequestDTO,
                                                      @RequestPart("images") List<MultipartFile> images) {
+        if(images.isEmpty()){
+            return ApiResponse.<ModelAddResponseDTO>builder()
+                    .message("Add model success")
+                    .result(null)
+                    .build();
+        }
         ModelAddResponseDTO responseDTO = modelService.addModel(modelAddRequestDTO, images);
         return ApiResponse.<ModelAddResponseDTO>builder()
                 .message("Add model success")

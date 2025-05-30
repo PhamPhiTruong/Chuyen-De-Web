@@ -85,17 +85,17 @@ public class ImageService {
                 .build();
         Image savedImage = imageRepository.save(image);
 
-        // Check image order co ton tai chua
-        List<ModelImage> modelImages = model.getImages();
-        if(!modelImages.isEmpty()){
-            List<Integer> orderHaveList = new ArrayList<>();
-            for(ModelImage modelImage : modelImages){
-                if(modelImage.getOrderIndex() == orderIndex){
-                    modelImage.setImage(savedImage);
-                    return modelImage.getImage().getUrl();
-                }
-            }
-        }
+//        // Check image order co ton tai chua
+//        List<ModelImage> modelImages = model.getImages();
+//        if(!modelImages.isEmpty()){
+//            List<Integer> orderHaveList = new ArrayList<>();
+//            for(ModelImage modelImage : modelImages){
+//                if(modelImage.getOrderIndex() == orderIndex){
+//                    modelImage.setImage(savedImage);
+//                    return modelImage.getImage().getUrl();
+//                }
+//            }
+//        }
 
 
         // Tạo và lưu ModelImage để liên kết
