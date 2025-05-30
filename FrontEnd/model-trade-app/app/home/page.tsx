@@ -14,7 +14,9 @@ const page: React.FC = () => {
       <ClientWrapper>
         <div className="flex w-full h-fit ">
           <HomeSideLeft />
-          <Home />
+          <div className="w-full relative">
+            <Home />
+          </div>
           <HomeSideRight />
         </div>
       </ClientWrapper>

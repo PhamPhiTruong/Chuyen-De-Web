@@ -59,14 +59,18 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
       <div className="bg-primary py-2 relative lg:h-17   z-20">
         <div className="container mx-auto flex justify-between items-center px-2 md:px-1">
           {/* Logo */}
-          <Link href="/home" className="flex items-start ml-4 md:mx-8 ">
+          <Link
+            href="/home"
+            className="top-0 left-0 flex items-start ml-4 md:mx-8 "
+          >
             <div className="relative  pt-2 lg:pt-0">
               <Image
-                src="https://static.chotot.com/storage/APP_WRAPPER/logo/chotot-logo-appwrapper.png"
+                // src="https://static.chotot.com/storage/APP_WRAPPER/logo/chotot-logo-appwrapper.png"
+                src="https://res.cloudinary.com/dxgqzu2vb/image/upload/v1748609195/nludev/product/Efigure.png_20250530194627.png"
                 alt="Logo"
-                width={350}
-                height={70}
-                className=" text-2xl "
+                width={120}
+                height={50}
+                className="  "
               />
             </div>
           </Link>

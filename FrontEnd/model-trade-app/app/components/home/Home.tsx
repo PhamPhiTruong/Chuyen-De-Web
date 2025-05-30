@@ -203,7 +203,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="w-4/5 px-10 py-10 mx-auto">
+    <div className="w-full px-10 py-10 mx-auto">
       {posts.map((post) => (
         <div
           key={post.postId}
@@ -250,7 +250,7 @@ const Home: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="px-5 justify-end w-2/3 flex flex-col gap-2">
+            {/* <div className="px-5 justify-end w-2/3 flex flex-col gap-2">
               {post.images.slice(1).map((image: ImageDTO, index: number) => (
                 <div
                   key={index}
@@ -263,7 +263,7 @@ const Home: React.FC = () => {
                   />
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
           <div className="px-5 my-5">
             <div className="grid grid-cols-4 text-center py-3 border-b border-gray-300">
