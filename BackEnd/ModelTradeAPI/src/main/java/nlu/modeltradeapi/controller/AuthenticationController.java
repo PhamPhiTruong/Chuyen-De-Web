@@ -21,7 +21,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final IUserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public ResponseEntity<MessageResponseDTO> register(@RequestBody @Valid UserRegisterRequestDTO urrd) {
         MessageResponseDTO message = MessageResponseDTO.builder().message("Không thành công").build();
 
@@ -34,7 +34,7 @@ public class AuthenticationController {
         );
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public ApiResponse<String> login(@RequestBody UserLoginRequestDTO userLoginRequestDTO) {
         String token = authenticationService.authenticate(userLoginRequestDTO);
         if (token.isEmpty()) {
