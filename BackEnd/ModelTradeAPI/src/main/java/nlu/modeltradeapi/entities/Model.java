@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -42,4 +43,12 @@ public class Model implements Serializable {
     @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     List<ModelImage> images;
+
+    public List<String> getImageLinks(){
+        List<String> result = new ArrayList<>();
+        for (ModelImage mi : images) {
+            result.add(mi.getImage().getUrl());
+        }
+        return result;
+    }
 }

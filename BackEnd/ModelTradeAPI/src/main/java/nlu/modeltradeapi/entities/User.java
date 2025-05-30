@@ -8,6 +8,7 @@ import nlu.modeltradeapi.constant.UserRole;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -45,4 +46,6 @@ public class User implements Serializable {
     @Column(name = "is_delete")
     @Builder.Default
     private boolean isDelete = false;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Model> models;
 }

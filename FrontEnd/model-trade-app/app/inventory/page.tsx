@@ -8,6 +8,17 @@ import ProductList from "../components/inventory/ProductList";
 
 interface InventoryPageProps {}
 
+interface ModelResponseDTO{
+  modelId:string;
+  name:string;
+  description:string;
+  price:number;
+  quantity:number;
+  see:boolean;
+  isDelete:boolean;
+  images:Array<string>
+}
+
 const InventoryPage: React.FC<InventoryPageProps> = () => {
   const [seller, setSeller] = useState({
     name: "Xưởng sản xuất mô hình",
@@ -15,50 +26,7 @@ const InventoryPage: React.FC<InventoryPageProps> = () => {
     productCount: 7,
     location: "Gò Vấp, Hồ Chí Minh",
   });
-  const [products, setProducts] = useState([
-    {
-      id: "1",
-      name: "Nendoroid Akami Karubi",
-      price: 1000000,
-      location: "Tp.Hồ Chí Minh",
-      imageUrl: "https://via.placeholder.com/150", // Thay bằng URL ảnh thật
-    },
-    {
-      id: "2",
-      name: "Nendoroid Akami Karubi",
-      price: 1050000,
-      location: "Tp.Hồ Chí Minh",
-      imageUrl: "https://via.placeholder.com/150",
-    },
-    {
-      id: "3",
-      name: "Nendoroid Akami Karubi",
-      price: 1050000,
-      location: "Tp.Hồ Chí Minh",
-      imageUrl: "https://via.placeholder.com/150",
-    },
-    {
-      id: "4",
-      name: "Nendoroid Akami Karubi",
-      price: 1050000,
-      location: "Tp.Hồ Chí Minh",
-      imageUrl: "https://via.placeholder.com/150",
-    },
-    {
-      id: "5",
-      name: "Nendoroid Akami Karubi",
-      price: 1050000,
-      location: "Tp.Hồ Chí Minh",
-      imageUrl: "https://via.placeholder.com/150",
-    },
-    {
-      id: "6",
-      name: "Nendoroid Akami Karubi",
-      price: 1050000,
-      location: "Tp.Hồ Chí Minh",
-      imageUrl: "https://via.placeholder.com/150",
-    },
-  ]);
+  const [products, setProducts] = useState([]);
 
   const handleFollow = () => {
     console.log("Follow seller:", seller.name);
@@ -71,15 +39,26 @@ const InventoryPage: React.FC<InventoryPageProps> = () => {
   };
 
   useEffect(() => {
-    // Giả lập fetch dữ liệu từ API
-    // fetch(`http://localhost:8080/model_trade/api/seller/${sellerId}`)
-    //   .then((res) => res.json())
-    //   .then((data) => setSeller(data))
-    //   .catch((err) => console.error(err));
-    // fetch(`http://localhost:8080/model_trade/api/products/seller/${sellerId}`)
-    //   .then((res) => res.json())
-    //   .then((data) => setProducts(data))
-    //   .catch((err) => console.error(err));
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoidHJ1b25ndGVzdDExMDYiLCJleHAiOjE3NDg2OTcyODYsImlhdCI6MTc0ODYxMDg4Nn0.RB3-bRpscU-C8pYt9x1VfhNyEdyQ8BDMwviWoUpmIIQxkRr3plbphqepi5mJGELgapcR8eueMartUahfRRQ39A'
+    fetch("http://localhost:8080/model_trade/api/model/getAllModelByUser", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        mode: 'cors',
+        credentials: 'include',
+      }).then((res)=>res.json())
+      .then(
+        (data) => {
+                if (Array.isArray(data.result)) {
+                    setProducts(data.result);
+                } else {
+                    console.error("API không trả về result là mảng:", data);
+                }
+            }
+      )
+      .catch((err) => console.error("Fetch failed:", err));
   }, []);
 
   return (
@@ -91,8 +70,8 @@ const InventoryPage: React.FC<InventoryPageProps> = () => {
             <SellerInfo seller={seller} onFollow={handleFollow} />
           </div>
           <div className="w-full lg:w-7/10">
-            <h2 className="text-xl font-bold mb-4">Đang hiển thị (14)</h2>
-            <p className="text-gray-600 mb-4">Đã bán (10)</p>
+            <h2 className="text-xl font-bold mb-4">Đang hiển thị (${products.length})</h2>
+            <p className="text-gray-600 mb-4">Đã bán (${products.length-1})</p>
             <ProductList products={products} onViewMore={handleViewMore} />
           </div>
         </div>

@@ -14,7 +14,7 @@ export default function RegisterForm() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   // const [confirmUsername, setConfirmUsername] = useState("");/\
   // const [userId, setUserId] = useState<number | null>(null);
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function RegisterForm() {
     setLoading(true);
 
     // Xác thực đầu vào
-    if (!username.trim()) {
+    if (!userName.trim()) {
       setError("Username is required");
       setLoading(false);
       return;
@@ -75,7 +75,7 @@ export default function RegisterForm() {
 
     // Chuẩn bị dữ liệu gửi đi
     const userData = {
-      username,
+      userName,
       email,
       password,
       name,
@@ -97,8 +97,8 @@ export default function RegisterForm() {
         }
       );
 
-      const data = await response.json();
-
+      const data1 = await response.json();
+      const data = data1.result;
       if (response.ok) {
         setSuccess(
           data.message ||
@@ -147,7 +147,7 @@ export default function RegisterForm() {
             </label>
             <input
               type="text"
-              value={username}
+              value={userName}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full border border-blue-700 px-3 py-2 text-sm rounded focus:outline-none focus:border-blue-700"
               maxLength={100}
@@ -180,19 +180,6 @@ export default function RegisterForm() {
               required
             />
           </div>
-          {/* <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Confirm Email
-            </label>
-            <input
-              type="email"
-              value={confirmEmail}
-              onChange={(e) => setConfirmEmail(e.target.value)}
-              className="w-full border border-blue-700 px-3 py-2 text-sm rounded focus:outline-none focus:border-blue-700"
-              maxLength={100}
-              required
-            />
-          </div> */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
