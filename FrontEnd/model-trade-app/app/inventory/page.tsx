@@ -8,20 +8,20 @@ import ProductList from "../components/inventory/ProductList";
 
 interface InventoryPageProps {}
 
-interface ModelResponseDTO{
-  modelId:string;
-  name:string;
-  description:string;
-  price:number;
-  quantity:number;
-  see:boolean;
-  isDelete:boolean;
-  images:Array<string>
+interface ModelResponseDTO {
+  modelId: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  see: boolean;
+  isDelete: boolean;
+  images: Array<string>;
 }
 
 const InventoryPage: React.FC<InventoryPageProps> = () => {
   const [seller, setSeller] = useState({
-    name: "Xưởng sản xuất mô hình",
+    name: "Trần Hoàng Sơn",
     rating: 4.8,
     productCount: 7,
     location: "Gò Vấp, Hồ Chí Minh",
@@ -39,25 +39,25 @@ const InventoryPage: React.FC<InventoryPageProps> = () => {
   };
 
   useEffect(() => {
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoidHJ1b25ndGVzdDExMDYiLCJleHAiOjE3NDg2OTcyODYsImlhdCI6MTc0ODYxMDg4Nn0.RB3-bRpscU-C8pYt9x1VfhNyEdyQ8BDMwviWoUpmIIQxkRr3plbphqepi5mJGELgapcR8eueMartUahfRRQ39A'
+    const token =
+      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
     fetch("http://localhost:8080/model_trade/api/model/getAllModelByUser", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        mode: 'cors',
-        credentials: 'include',
-      }).then((res)=>res.json())
-      .then(
-        (data) => {
-                if (Array.isArray(data.result)) {
-                    setProducts(data.result);
-                } else {
-                    console.error("API không trả về result là mảng:", data);
-                }
-            }
-      )
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      mode: "cors",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.result)) {
+          setProducts(data.result);
+        } else {
+          console.error("API không trả về result là mảng:", data);
+        }
+      })
       .catch((err) => console.error("Fetch failed:", err));
   }, []);
 
@@ -70,8 +70,12 @@ const InventoryPage: React.FC<InventoryPageProps> = () => {
             <SellerInfo seller={seller} onFollow={handleFollow} />
           </div>
           <div className="w-full lg:w-7/10">
-            <h2 className="text-xl font-bold mb-4">Đang hiển thị (${products.length})</h2>
-            <p className="text-gray-600 mb-4">Đã bán (${products.length-1})</p>
+            <h2 className="text-xl font-bold mb-4">
+              Đang hiển thị (${products.length})
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Đã bán (${products.length - 1})
+            </p>
             <ProductList products={products} onViewMore={handleViewMore} />
           </div>
         </div>

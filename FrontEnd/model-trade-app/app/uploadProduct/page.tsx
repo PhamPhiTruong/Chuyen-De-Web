@@ -12,7 +12,7 @@ const SellProduct = () => {
     modelName: string;
     description: string;
     price: number;
-    quantity: number
+    quantity: number;
   }
 
   const [modelName, setModelName] = useState("");
@@ -25,8 +25,8 @@ const SellProduct = () => {
     modelName,
     description,
     price,
-    quantity
-  }
+    quantity,
+  };
   // State để quản lý giá trị radio button
   const [formData, setFormData] = useState({
     condition: "", // Tình trạng: new, used
@@ -49,36 +49,39 @@ const SellProduct = () => {
     { value: "sell", label: "Bán" },
   ];
 
-
-
-
   // Xử lý submit form (gửi dữ liệu lên backend)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("model", new Blob([JSON.stringify(modelData)], { type: "application/json" }));
+    formData.append(
+      "model",
+      new Blob([JSON.stringify(modelData)], { type: "application/json" })
+    );
 
     // Gửi các ảnh
     images.forEach((file) => {
       formData.append("images", file); // tên này phải đúng với `@RequestPart("images")`
     });
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoidHJ1b25ndGVzdDExMDYiLCJleHAiOjE3NDg2OTcyODYsImlhdCI6MTc0ODYxMDg4Nn0.RB3-bRpscU-C8pYt9x1VfhNyEdyQ8BDMwviWoUpmIIQxkRr3plbphqepi5mJGELgapcR8eueMartUahfRRQ39A'
+    const token =
+      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
     try {
-      const response = await fetch("http://localhost:8080/model_trade/api/model/addModel", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        mode: 'cors',
-        credentials: 'include',
-        body: formData,
-      });
+      const response = await fetch(
+        "http://localhost:8080/model_trade/api/model/addModel",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: "cors",
+          credentials: "include",
+          body: formData,
+        }
+      );
 
       if (!response.ok) throw new Error("Upload thất bại!");
 
       const result = await response.json();
       alert("Thêm thành công: " + JSON.stringify(result.result)); // Có thể in riêng tên nếu muốn
-
     } catch (err) {
       console.error(err);
       alert("Có lỗi xảy ra khi gửi dữ liệu.");
@@ -94,7 +97,9 @@ const SellProduct = () => {
             <label htmlFor="imageUpload" className="cursor-pointer">
               <div className="w-48 h-40 border-2 border-dashed border-primary rounded-lg bg-gray-100 hover:bg-gray-200 flex flex-col items-center justify-center transition-all duration-200">
                 <TbCameraPlus className="text-5xl text-gray-600" />
-                <p className="text-sm mt-2 text-gray-500 text-center">Đăng từ 1 đến 6 hình</p>
+                <p className="text-sm mt-2 text-gray-500 text-center">
+                  Đăng từ 1 đến 6 hình
+                </p>
               </div>
             </label>
 
@@ -127,7 +132,7 @@ const SellProduct = () => {
               <div className="flex items-center gap-4">
                 <p>Series sản phẩm</p>
                 <div className="bg-yellow-300 p-2 w-fit rounded">
-                  <p>Pokemon</p>
+                  <p>Mô hình</p>
                 </div>
                 <FaPlus className="bg-gray-200 p-1 h-fit w-7 hover:bg-gray-300" />
               </div>
@@ -153,7 +158,6 @@ const SellProduct = () => {
                 </div>
               </div>
               <div className="items-center gap-4 grid">
-
                 <textarea
                   className="h-fit w-full border-1 px-2 py-2 focus:border-4 rounded-lg"
                   placeholder="Tên sản phẩm"
