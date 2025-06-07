@@ -202,7 +202,7 @@ const Home: React.FC = () => {
                   {formatDate(post.postTime)}
                 </p>
               </div>
-              <div className="mx-4 px-4 py-1 bg-orange-300 rounded-full">
+              <div className="cursor-pointer mx-4 px-4 py-1 bg-orange-300 rounded-full">
                 <div>{post.model.name}</div>
               </div>
             </div>

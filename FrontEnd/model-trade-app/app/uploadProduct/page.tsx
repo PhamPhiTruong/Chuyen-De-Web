@@ -62,8 +62,8 @@ const SellProduct = () => {
     images.forEach((file) => {
       formData.append("images", file); // tên này phải đúng với `@RequestPart("images")`
     });
-    const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
+    const token = localStorage.getItem("token");
+
     try {
       const response = await fetch(
         "http://localhost:8080/model_trade/api/model/addModel",

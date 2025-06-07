@@ -39,8 +39,10 @@ const InventoryPage: React.FC<InventoryPageProps> = () => {
   };
 
   useEffect(() => {
-    const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
+    const token = localStorage.getItem("token");
+
+    // const token =
+    //   "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
     fetch("http://localhost:8080/model_trade/api/model/getAllModelByUser", {
       method: "GET",
       headers: {
