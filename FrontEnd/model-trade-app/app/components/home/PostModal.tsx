@@ -21,8 +21,6 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       const token = localStorage.getItem("token");
-      // const token =
-      //   "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
       if (!token) {
         setError("Vui lòng đăng nhập để lấy danh sách sản phẩm");
         return;
@@ -74,10 +72,8 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       setError("Vui lòng nhập nội dung và chọn sản phẩm");
       return;
     }
-    const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
 
-    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (!token) {
       setError("Vui lòng đăng nhập để đăng bài");
       return;
@@ -113,6 +109,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       setError("");
       onClose();
       alert("Đăng bài thành công!");
+      window.location.href = "/home"; // Tải lại trang để cập nhật danh sách bài viết
     } catch (err: unknown) {
       let errorMessage = "Lỗi không xác định";
       if (err instanceof Error) {

@@ -1,90 +1,12 @@
-// src/app/inventory/page.tsx
-"use client";
-import React, { useState, useEffect } from "react";
-import Header from "../components/layout/navigation/Header";
-import Footer from "../components/layout/navigation/Footer";
-import SellerInfo from "../components/inventory/SellerInfo";
-import ProductList from "../components/inventory/ProductList";
+import React from "react";
+import UploadProduct from "../components/inventory/UploadProduct";
 
-interface InventoryPageProps {}
-
-interface ModelResponseDTO {
-  modelId: string;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  see: boolean;
-  isDelete: boolean;
-  images: Array<string>;
-}
-
-const InventoryPage: React.FC<InventoryPageProps> = () => {
-  const [seller, setSeller] = useState({
-    name: "Trần Hoàng Sơn",
-    rating: 4.8,
-    productCount: 7,
-    location: "Gò Vấp, Hồ Chí Minh",
-  });
-  const [products, setProducts] = useState([]);
-
-  const handleFollow = () => {
-    console.log("Follow seller:", seller.name);
-    // TODO: Gọi API để theo dõi người bán
-  };
-
-  const handleViewMore = (productId: string) => {
-    console.log("View more product:", productId);
-    // TODO: Điều hướng đến trang chi tiết sản phẩm
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    // const token =
-    //   "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
-    fetch("http://localhost:8080/model_trade/api/model/getAllModelByUser", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      mode: "cors",
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data.result)) {
-          setProducts(data.result);
-        } else {
-          console.error("API không trả về result là mảng:", data);
-        }
-      })
-      .catch((err) => console.error("Fetch failed:", err));
-  }, []);
-
+const page = () => {
   return (
-    <div className="flex flex-col min-h-screen items-center">
-      <Header />
-      <div className="flex-grow w-4/5 py-10">
-        <div className="flex flex-col lg:flex-row gap-6">
-          <div className="w-full lg:w-3/10">
-            <SellerInfo seller={seller} onFollow={handleFollow} />
-          </div>
-          <div className="w-full lg:w-7/10">
-            <h2 className="text-xl font-bold mb-4">
-              Đang hiển thị (${products.length})
-            </h2>
-            <p className="text-gray-600 mb-4">
-              Đã bán (${products.length - 1})
-            </p>
-            <ProductList products={products} onViewMore={handleViewMore} />
-          </div>
-        </div>
-      </div>
-      <Footer />
+    <div>
+      <UploadProduct />
     </div>
   );
 };
 
-export default InventoryPage;
+export default page;

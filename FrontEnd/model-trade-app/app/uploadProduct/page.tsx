@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/layout/navigation/Header";
 import Footer from "../components/layout/navigation/Footer";
 import RadioButton from "../components/radioGroup/RadioButton";
 import { IoInformationCircle } from "react-icons/io5";
 import { TbCameraPlus } from "react-icons/tb";
 import { FaPlus } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 const SellProduct = () => {
   interface AddModelRequestDTO {
@@ -20,6 +21,7 @@ const SellProduct = () => {
   const [price, setPrice] = useState(1);
   const [quantity, setQuantity] = useState(1);
   const [images, setImages] = useState<File[]>([]);
+  const router = useRouter();
 
   const modelData = {
     modelName,
@@ -48,6 +50,15 @@ const SellProduct = () => {
     { value: "trade", label: "Trao đổi" },
     { value: "sell", label: "Bán" },
   ];
+
+  //Kiểm tra token khi component được mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Vui lòng đăng nhập để sử dụng chức năng này!");
+      router.push("/login");
+    }
+  }, [router]);
 
   // Xử lý submit form (gửi dữ liệu lên backend)
   const handleSubmit = async (e: React.FormEvent) => {
@@ -81,7 +92,9 @@ const SellProduct = () => {
       if (!response.ok) throw new Error("Upload thất bại!");
 
       const result = await response.json();
-      alert("Thêm thành công: " + JSON.stringify(result.result)); // Có thể in riêng tên nếu muốn
+      // alert("Thêm thành công:  ${result.result.modelName}"); // Có thể in riêng tên nếu muốn
+      alert(`Thêm thành công: ${result.result.modelName}`);
+      router.push("/inventory"); // Điều hướng về trang danh sách sản phẩm
     } catch (err) {
       console.error(err);
       alert("Có lỗi xảy ra khi gửi dữ liệu.");

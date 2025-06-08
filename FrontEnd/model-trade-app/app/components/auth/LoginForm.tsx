@@ -165,7 +165,9 @@ export default function ExactCustomerLogin() {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Đăng nhập thất bại: ${errorText}`);
+        throw new Error(
+          `Đăng nhập thất bại: Vui lòng kiểm tra lại thông tin đăng nhập của bạn.`
+        );
       }
 
       const data = await response.json();
