@@ -30,4 +30,6 @@ public class ModelExchange implements Serializable {
     String note;
     @Column(name = "money_compensation")
     double moneyCompensation;
+    @Column(name = "status")
+    String status;
 }

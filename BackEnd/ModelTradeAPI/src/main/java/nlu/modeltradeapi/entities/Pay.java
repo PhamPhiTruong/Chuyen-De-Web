@@ -1,0 +1,49 @@
+package nlu.modeltradeapi.entities;
+
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "pays")
+@Entity(name = "pay")
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Pay {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pay_id")
+    Long payId;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "exchange_id")
+    Exhange exhange;
+    @Column(name = "pay_TmnCode")
+    String payTmnCode;
+    @Column(name = "pay_Amount")
+    double payAmount;
+    @Column(name = "pay_BankCode")
+    String payBankCode;
+    @Column(name = "pay_BankTranNo")
+    String payBankTranNo;
+    @Column(name = "pay_CardType")
+    String payCardType;
+    @Column(name = "pay_Date")
+    LocalDateTime payDate;
+    @Column(name = "pay_OrderInfo")
+    String payOrderInfo;
+    @Column(name = "pay_TransactionNo")
+    double payTransactionNo;
+    @Column(name = "pay_ResponseCode")
+    int payResponseCode;
+    @Column(name = "pay_TransactionStatus")
+    int payTransactionStatus;
+    @Column(name = "pay_TxnRef")
+    String payTxnRef;
+    @Column(name = "pay_SecureHash")
+    String paySecureHash;
+
+}
