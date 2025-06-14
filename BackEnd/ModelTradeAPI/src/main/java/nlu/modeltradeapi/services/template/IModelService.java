@@ -13,4 +13,5 @@ public interface IModelService {
     public ModelAddResponseDTO addModel(ModelAddRequestDTO modelAddRequestDTO, List<MultipartFile> files);
     public List<ModelResponseDTO> getAllModelByUser();
     public ModelResponseDTO updateModel(ModelUpdateRequestDTO modelUpdateRequestDTO, List<MultipartFile> files);
+    public ModelResponseDTO getModelById(String id);
 }

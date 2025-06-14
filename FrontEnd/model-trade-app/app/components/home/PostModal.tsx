@@ -21,6 +21,8 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       const token = localStorage.getItem("token");
+      // const token = request.cookies.get("token")?.value;
+
       if (!token) {
         setError("Vui lòng đăng nhập để lấy danh sách sản phẩm");
         return;

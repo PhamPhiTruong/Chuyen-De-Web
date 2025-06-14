@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**")
                         .permitAll()
                         .requestMatchers("/api/posts/getAllPosts").permitAll()
+                        
                         .requestMatchers(
                                 "/api/models/**",
                                 "/api/user/**",

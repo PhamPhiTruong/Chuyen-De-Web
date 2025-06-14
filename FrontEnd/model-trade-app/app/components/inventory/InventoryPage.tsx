@@ -38,6 +38,7 @@ const InventoryPage: React.FC<InventoryPageProps> = ({ token }) => {
 
   const handleViewMore = (productId: string) => {
     console.log("View more product:", productId);
+    router.push(`/product/${productId}`); // Điều hướng đến trang chi tiết
     // TODO: Điều hướng đến trang chi tiết sản phẩm
   };
 

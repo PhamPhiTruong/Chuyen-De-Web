@@ -1,5 +1,6 @@
 package nlu.modeltradeapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -47,5 +48,6 @@ public class User implements Serializable {
     @Builder.Default
     private boolean isDelete = false;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     List<Model> models;
 }
