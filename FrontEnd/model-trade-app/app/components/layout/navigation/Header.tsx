@@ -22,8 +22,15 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
   const router = useRouter();
 
   // Kiểm tra trạng thái đăng nhập dựa trên token
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   setIsAuthenticated(!!token);
+  // }, []);
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      ?.split("=")[1];
     setIsAuthenticated(!!token);
   }, []);
 
@@ -51,17 +58,27 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
     console.log("Searching for:", searchQuery);
   };
 
-  // Xử lý đăng xuất
+  // // Xử lý đăng xuất
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token"); // Xóa token khỏi localStorage
+  //   setIsAuthenticated(false); // Cập nhật trạng thái đăng nhập
+  //   router.push("/login"); // Chuyển hướng về trang đăng nhập
+  // };
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Xóa token khỏi localStorage
-    setIsAuthenticated(false); // Cập nhật trạng thái đăng nhập
-    router.push("/login"); // Chuyển hướng về trang đăng nhập
+    document.cookie = "token=; max-age=0"; // Xóa cookie
+    setIsAuthenticated(false);
+    router.push("/login");
   };
 
   //  Xử lý nhấp vào logo reload trang
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ a
-    window.location.reload(); // Tải lại trang
+    const curentPath = window.location.pathname; // Lưu đường dẫn hiện tại
+    if (curentPath === "/home") {
+      // Nếu đang ở trang home, không cần reload
+      window.location.reload(); // Tải lại trang
+    }
+    router.push("/home"); // Chuyển hướng về trang home
   };
 
   return (

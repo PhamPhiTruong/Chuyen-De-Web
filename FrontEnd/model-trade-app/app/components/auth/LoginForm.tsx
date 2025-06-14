@@ -172,10 +172,8 @@ export default function ExactCustomerLogin() {
 
       const data = await response.json();
       if (data.code === 1000) {
-        // Lưu token vào localStorage
-        localStorage.setItem("token", data.result);
-        alert("Đăng nhập thành công!");
-        // Chuyển hướng về trang chính (ví dụ: /home)
+        const token = data.result;
+        document.cookie = `token=${token}; path=/; max-age=864000`; // Lưu token vào cookie với thời gian sống 1 giờ
         router.push("/home");
       } else {
         throw new Error(data.message || "Đăng nhập thất bại");
