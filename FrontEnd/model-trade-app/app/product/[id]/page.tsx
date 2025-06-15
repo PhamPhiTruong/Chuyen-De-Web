@@ -16,9 +16,10 @@ interface Product {
   isDelete: boolean;
   images: Array<string>;
   seller?: {
+    userId: string;
     name: string;
-    rating: number;
-    followCount: number;
+    phoneNumber: string;
+    createDate: string;
   };
 }
 

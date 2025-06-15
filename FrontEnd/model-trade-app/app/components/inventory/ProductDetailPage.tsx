@@ -3,6 +3,7 @@ import React from "react";
 import Header from "../layout/navigation/Header";
 import Footer from "../layout/navigation/Footer";
 import { FaShoppingCart } from "react-icons/fa";
+import { useState } from "react";
 
 interface Product {
   modelId: string;
@@ -14,9 +15,10 @@ interface Product {
   isDelete: boolean;
   images: Array<string>;
   seller?: {
+    userId: string;
     name: string;
-    rating: number;
-    followCount: number;
+    phoneNumber: string;
+    createDate: string;
   };
 }
 
@@ -29,6 +31,43 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   product,
   token,
 }) => {
+  // Hàm định dạng giá thủ công (dùng dấu chấm cho locale tiếng Việt)
+  const formatPrice = (price: number) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
+  };
+  /// Hàm tính toán thời gian hoạt động
+  const getActivityTime = (createDate: string | undefined) => {
+    if (!createDate) return "Không có thông tin";
+
+    // Parse chuỗi ISO 8601 thành Date
+    const dateObj = new Date(createDate);
+    if (isNaN(dateObj.getTime())) {
+      return "Ngày không hợp lệ";
+    }
+
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - dateObj.getTime());
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffMonths = Math.floor(diffDays / 30); // Giả sử 1 tháng = 30 ngày
+    const diffYears = Math.floor(diffDays / 365);
+
+    if (diffDays <= 31) {
+      return `${diffDays} ngày trước`;
+    } else if (diffDays > 31 && diffYears < 1) {
+      return `${diffMonths} tháng trước`;
+    } else {
+      return `${diffYears} năm trước`;
+    }
+  };
+  // State để theo dõi ảnh chính được chọn
+  const [selectedImage, setSelectedImage] = useState<string>(
+    product.images[0] || "/placeholder-image1.jpg"
+  );
+
+  // Hàm xử lý khi click vào thumbnail
+  const handleThumbnailClick = (image: string) => {
+    setSelectedImage(image);
+  };
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -36,9 +75,9 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Hình ảnh sản phẩm */}
           <div className="w-full lg:w-1/2">
-            <div className="w-full h-96 bg-gray-200 rounded-lg overflow-hidden">
+            <div className="w-full h-124 bg-gray-200 rounded-lg overflow-hidden">
               <img
-                src={product.images[0] || "/placeholder-image1.jpg"}
+                src={selectedImage}
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
@@ -47,7 +86,8 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               {product.images.map((image, index) => (
                 <div
                   key={index}
-                  className="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden"
+                  className="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden cursor-pointer"
+                  onClick={() => handleThumbnailClick(image)}
                 >
                   <img
                     src={image || `/placeholder-image${index + 2}.jpg`}
@@ -60,9 +100,11 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
           </div>
 
           {/* Thông tin sản phẩm */}
-          <div className="w-full lg:w-1/2">
+          <div className="w-full pl-10 lg:w-1/2">
             <h1 className="text-2xl font-bold">{product.name}</h1>
-            <p className="text-red-600 text-xl mt-2">{`${product.price.toLocaleString()} đ`}</p>
+            <p className="text-red-600 text-xl mt-2">
+              {formatPrice(product.price)}
+            </p>
 
             <div className="mt-6 flex space-x-4">
               <button className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">
@@ -76,31 +118,31 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
             <div className="w-full bg-gray-100 p-4 rounded-lg mt-8">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <img
-                    src="/placeholder-avatar.jpg" // Thay bằng API trả về avatar nếu có
+                  {/* <img
+                    src="/placeholder-avatar.jpg"
                     alt={product.seller?.name || "Seller Avatar"}
                     className="w-10 h-10 rounded-full mr-2"
-                  />
+                  /> */}
                   <div>
                     <p className="font-semibold">
                       {product.seller?.name || "Unknown Seller"}
                     </p>
                     <p className="text-yellow-500">
-                      ★ {product.seller?.rating || 0}
+                      Số điện thoại {product.seller?.phoneNumber || 0}
                     </p>
                   </div>
                 </div>
-                <button className="bg-blue-600 text-white text-sm py-1 px-2 rounded hover:bg-blue-700">
+                {/* <button className="bg-blue-600 text-white text-sm py-1 px-2 rounded hover:bg-blue-700">
                   Theo dõi
-                </button>
+                </button> */}
               </div>
               <p className="text-sm text-gray-500 mt-2">
-                {product.seller?.followCount || 0} người theo dõi
+                Đã tham gia: {getActivityTime(product.seller?.createDate)}
               </p>
-              <div className="mt-4 text-sm text-gray-600">
-                <p>Đánh giá: 98% (174 đánh giá)</p> {/* Có thể lấy từ API */}
-                <p>Đang bán: 5 sản phẩm</p> {/* Có thể lấy từ API */}
-              </div>
+              {/* <div className="mt-4 text-sm text-gray-600">
+                <p>Đánh giá: 98% (174 đánh giá)</p> 
+                <p>Đang bán: 5 sản phẩm</p> 
+              </div> */}
             </div>
           </div>
         </div>

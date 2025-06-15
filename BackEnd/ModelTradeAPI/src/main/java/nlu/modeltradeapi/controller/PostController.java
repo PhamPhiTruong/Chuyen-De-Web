@@ -38,5 +38,12 @@ public class PostController {
         List<PostResponseDTO> posts = postService.getAllPosts();
         return ResponseEntity.ok(posts);
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<PostResponseDTO>> searchPosts(
+            @RequestParam("keyword") String keyword,
+            @RequestHeader("Authorization") String authorization) {
+        List<PostResponseDTO> posts = postService.searchPosts(keyword);
+        return ResponseEntity.ok(posts);
+    }
 
 }

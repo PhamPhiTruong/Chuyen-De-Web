@@ -2,10 +2,9 @@ package nlu.modeltradeapi.controller;
 
 import lombok.RequiredArgsConstructor;
 import nlu.modeltradeapi.dtos.requestdto.model.ModelAddRequestDTO;
-import nlu.modeltradeapi.dtos.requestdto.model.ModelResponseDTO;
+import nlu.modeltradeapi.dtos.responsedto.model.ModelResponseDTO;
 import nlu.modeltradeapi.dtos.responsedto.ApiResponse;
 import nlu.modeltradeapi.dtos.responsedto.model.ModelAddResponseDTO;
-import nlu.modeltradeapi.entities.Model;
 import nlu.modeltradeapi.services.implement.ModelService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

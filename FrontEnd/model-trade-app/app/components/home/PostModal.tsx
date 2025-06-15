@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosArrowDown, IoIosCloseCircle } from "react-icons/io";
@@ -17,11 +18,19 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const [error, setError] = useState("");
   const modelIdTest = "001";
 
+  // Hàm lấy token từ cookie
+  // Phải tải js-cookie để sử dụng Cookies.get
+  // npm install js-cookie
+  // Phải tải npm install --save-dev @types/js-cookie để phù hợp tsx
+  const getToken = () => {
+    return Cookies.get("token");
+  };
+
   // Lấy danh sách model từ API khi modal mở
   useEffect(() => {
+    const token = getToken();
     if (isOpen) {
-      const token = localStorage.getItem("token");
-      // const token = request.cookies.get("token")?.value;
+      // const token = localStorage.getItem("token");
 
       if (!token) {
         setError("Vui lòng đăng nhập để lấy danh sách sản phẩm");
@@ -29,7 +38,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       }
 
       console.log("Gọi API getModels");
-      fetch("http://localhost:8080/model_trade/api/posts/getModels", {
+      fetch("http://localhost:8080/model_trade/api/model/getAllModelByUser", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +61,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
         })
         .then((data) => {
           console.log("Dữ liệu models:", data);
-          setModels(data);
+          setModels(data.result);
         })
         .catch((err: unknown) => {
           let errorMessage = "Lỗi không xác định";
@@ -75,7 +84,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
       setError("Vui lòng đăng nhập để đăng bài");
       return;

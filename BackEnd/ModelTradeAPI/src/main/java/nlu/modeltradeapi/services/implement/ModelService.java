@@ -1,12 +1,10 @@
 package nlu.modeltradeapi.services.implement;
 
 import nlu.modeltradeapi.dtos.requestdto.model.ModelAddRequestDTO;
-import nlu.modeltradeapi.dtos.requestdto.model.ModelResponseDTO;
+import nlu.modeltradeapi.dtos.responsedto.model.ModelResponseDTO;
 import nlu.modeltradeapi.dtos.requestdto.model.ModelUpdateRequestDTO;
 import nlu.modeltradeapi.dtos.responsedto.model.ModelAddResponseDTO;
 import nlu.modeltradeapi.entities.Model;
-import nlu.modeltradeapi.repository.ImageRepository;
-import nlu.modeltradeapi.repository.ModelImageRepository;
 import nlu.modeltradeapi.repository.ModelRepository;
 import nlu.modeltradeapi.repository.UserRepository;
 import nlu.modeltradeapi.services.template.IModelService;
@@ -80,7 +78,9 @@ public class ModelService implements IModelService {
                             .isDelete(m.isDelete())
                             .images(m.getImageLinks())
                             .build()
+
             );
+
         }
         return result;
     }
@@ -111,6 +111,7 @@ public class ModelService implements IModelService {
                 .isDelete(modelSaved.isDelete())
                 .images(images)
                 .build();
+
     }
 
     @Override
@@ -120,16 +121,43 @@ public class ModelService implements IModelService {
         return convertToDTO(model);
     }
 
+//    private ModelResponseDTO convertToDTO(Model model) {
+//        return ModelResponseDTO.builder()
+//                .modelId(model.getModelId())
+//                .name(model.getName())
+//                .description(model.getDescription())
+//                .price(model.getPrice())
+//                .quantity(model.getQuantity())
+//                .see(model.isSee())
+//                .isDelete(model.isDelete())
+//                .images(model.getImageLinks())
+//                .build();
+//    }
     private ModelResponseDTO convertToDTO(Model model) {
-        return ModelResponseDTO.builder()
+        ModelResponseDTO dto = ModelResponseDTO.builder()
                 .modelId(model.getModelId())
                 .name(model.getName())
                 .description(model.getDescription())
-                .price(model.getPrice())
+                .price( model.getPrice())
                 .quantity(model.getQuantity())
                 .see(model.isSee())
                 .isDelete(model.isDelete())
                 .images(model.getImageLinks())
                 .build();
+
+        // Thêm thông tin người bán
+        if (model.getUser() != null) {
+            ModelResponseDTO.SellerDTO seller = new ModelResponseDTO.SellerDTO();
+            seller.setUserId(model.getUser().getUserId());
+            seller.setName(model.getUser().getName());
+            seller.setPhoneNumber(model.getUser().getPhoneNumber());
+            seller.setCreateDate(model.getUser().getCreatedDate());
+            // Giả lập rating và followCount (có thể lấy từ bảng khác nếu có)
+//            seller.setRating(4.5); // Ví dụ
+//            seller.setFollowCount(100L); // Ví dụ
+            dto.setSeller(seller);
+        }
+
+        return dto;
     }
 }
