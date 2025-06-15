@@ -20,7 +20,7 @@ public class Pay {
     Long payId;
     @ManyToOne(optional = true)
     @JoinColumn(name = "exchange_id")
-    Exhange exhange;
+    Exchange exchange;
     @Column(name = "pay_TmnCode")
     String payTmnCode;
     @Column(name = "pay_Amount")
@@ -36,11 +36,11 @@ public class Pay {
     @Column(name = "pay_OrderInfo")
     String payOrderInfo;
     @Column(name = "pay_TransactionNo")
-    double payTransactionNo;
+    Double payTransactionNo;
     @Column(name = "pay_ResponseCode")
-    int payResponseCode;
+    Integer payResponseCode;
     @Column(name = "pay_TransactionStatus")
-    int payTransactionStatus;
+    Integer payTransactionStatus;
     @Column(name = "pay_TxnRef")
     String payTxnRef;
     @Column(name = "pay_SecureHash")

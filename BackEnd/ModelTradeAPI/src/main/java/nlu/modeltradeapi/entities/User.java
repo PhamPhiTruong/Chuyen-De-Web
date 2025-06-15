@@ -48,4 +48,6 @@ public class User implements Serializable {
     private boolean isDelete = false;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Model> models;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<AddressOwner> addressOwners;
 }

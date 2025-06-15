@@ -11,7 +11,7 @@ public interface PayMapper {
 
     DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
-    @Mapping(source = "vnp_PayDate", target = "payDate", qualifiedByName = "stringToLocalDateTime")
+    @Mapping(source = "payDate", target = "payDate", qualifiedByName = "stringToLocalDateTime")
     Pay toEntity(PayVNPResponseDTO dto);
 
     @Named("stringToLocalDateTime")
@@ -21,7 +21,7 @@ public interface PayMapper {
     }
 
     // Nếu cần map ngược (entity → DTO)
-    @Mapping(source = "payDate", target = "vnp_PayDate", qualifiedByName = "localDateTimeToString")
+    @Mapping(source = "payDate", target = "payDate", qualifiedByName = "localDateTimeToString")
     PayVNPResponseDTO toDto(Pay entity);
 
     @Named("localDateTimeToString")

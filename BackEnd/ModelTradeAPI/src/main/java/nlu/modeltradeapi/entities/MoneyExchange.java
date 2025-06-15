@@ -3,6 +3,7 @@ package nlu.modeltradeapi.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import nlu.modeltradeapi.constant.ExchangeStatus;
 
 import java.io.Serializable;
 
@@ -20,12 +21,13 @@ public class MoneyExchange implements Serializable {
     private String moneyEId;
     @ManyToOne
     @JoinColumn(name = "exchange_id")
-    Exhange exhange;
+    Exchange exchange;
     @ManyToOne
     @JoinColumn(name = "buyer_id")
     User buyer;
     @Column(name = "money")
     double money;
     @Column(name = "status")
-    String status;
+    @Builder.Default
+    private ExchangeStatus status = ExchangeStatus.PENDING;
 }

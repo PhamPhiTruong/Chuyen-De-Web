@@ -15,9 +15,9 @@ public class PayVNPResponseDTO {
     String payCardType;
     String payDate;
     String payOrderInfo;
-    double payTransactionNo;
-    int payResponseCode;
-    int payTransactionStatus;
+    Double payTransactionNo;
+    Integer payResponseCode;
+    Integer payTransactionStatus;
     String payTxnRef;
     String paySecureHash;
 }

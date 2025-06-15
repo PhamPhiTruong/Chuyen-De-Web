@@ -1,13 +1,12 @@
 package nlu.modeltradeapi.dtos.requestdto.model;
 
 import jakarta.validation.constraints.Min;
-import lombok.*;
+
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ModelAddRequestDTO {
     String modelName;
