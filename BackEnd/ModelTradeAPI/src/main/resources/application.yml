@@ -35,6 +35,6 @@ vnpay:
   vnp_TmnCode: GR9YBAQM
   vnp_HashSecret: QBK41FAVLP3AEEUDLTHNPYDWE6ETQRA4
   vnp_Url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
-  return_Url: http://localhost:8080/model_trade
+  return_Url: http://localhost:8080/model_trade/api/exchange/vnp-return
 
 

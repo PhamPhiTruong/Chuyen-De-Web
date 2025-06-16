@@ -1,11 +1,9 @@
 package nlu.modeltradeapi.dtos.responsedto.vnpay;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 public class PayVNPResponseDTO {
     String payTmnCode;

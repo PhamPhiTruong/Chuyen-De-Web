@@ -52,7 +52,7 @@ export default function OTPVerificationForm() {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/model_trade/user/verifyOtp",
+        "http://localhost:8080/model_trade/auth/verifyOtp",
         {
           method: "POST",
           headers: {

@@ -37,20 +37,20 @@ public class VNPService implements IVNPService {
 
     @Override
     public String createPaymentUrl(String payAmount, String clientIp, String exchangeId) throws UnsupportedEncodingException {
+        String sanitizedExchangeId = exchangeId.replaceAll("[^A-Za-z0-9]", "");
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
-        String vnp_OrderInfo = "Thanh toán cho giao dịch" + exchangeId ;
+        String vnp_OrderInfo = "OK" + sanitizedExchangeId;
         String orderType = "other";
-        String vnp_TmnCode = vnpTmnCode;
 
-        int amount = Integer.parseInt(payAmount) * 100;
-        Map vnp_Params = new HashMap<>();
+        long amount = (long) (Double.parseDouble(payAmount) * 100);
+        Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
-        vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
+        vnp_Params.put("vnp_TmnCode", vnpTmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
-        vnp_Params.put("vnp_TxnRef", exchangeId);
+        vnp_Params.put("vnp_TxnRef", sanitizedExchangeId);
         vnp_Params.put("vnp_OrderInfo", vnp_OrderInfo);
         vnp_Params.put("vnp_OrderType", orderType);
         vnp_Params.put("vnp_Locale", "vn");
@@ -58,55 +58,61 @@ public class VNPService implements IVNPService {
         vnp_Params.put("vnp_IpAddr", clientIp);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        String vnp_CreateDate = formatter.format(LocalDateTime.now());
-        vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+        vnp_Params.put("vnp_CreateDate", formatter.format(LocalDateTime.now()));
+        vnp_Params.put("vnp_ExpireDate", formatter.format(LocalDateTime.now().plusMinutes(15)));
 
-        String vnp_ExpireDate = formatter.format(LocalDateTime.now().plusMinutes(15));
-        vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
-
-        //Build data to hash and querystring
-        List fieldNames = new ArrayList(vnp_Params.keySet());
+        // Sắp xếp theo thứ tự từ điển A-Z
+        List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
         Collections.sort(fieldNames);
+
+        // Tạo chuỗi hashData KHÔNG encode
         StringBuilder hashData = new StringBuilder();
         StringBuilder query = new StringBuilder();
-        Iterator itr = fieldNames.iterator();
-        while (itr.hasNext()) {
-            String fieldName = (String) itr.next();
-            String fieldValue = (String) vnp_Params.get(fieldName);
-            if ((fieldValue != null) && (fieldValue.length() > 0)) {
-                //Build hash data
-                hashData.append(fieldName);
-                hashData.append('=');
-                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
-                //Build query
+
+        for (int i = 0; i < fieldNames.size(); i++) {
+            String fieldName = fieldNames.get(i);
+            String fieldValue = vnp_Params.get(fieldName);
+            if (fieldValue != null && !fieldValue.isEmpty()) {
+                hashData.append(fieldName).append("=").append(fieldValue); // ❌ KHÔNG encode
+
                 query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
-                query.append('=');
+                query.append("=");
                 query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
-                if (itr.hasNext()) {
-                    query.append('&');
-                    hashData.append('&');
+
+                if (i < fieldNames.size() - 1) {
+                    hashData.append("&");
+                    query.append("&");
                 }
             }
         }
-        // Tạo secure hash
-        String vnp_SecureHash = hmacSHA512(vnpHashSecret, hashData.toString());
 
-        // Gắn thêm vào cuối URL
+        // Ký SHA512
+        String vnp_SecureHash = hmacSHA512(vnpHashSecret, hashData.toString());
         query.append("&vnp_SecureHash=").append(vnp_SecureHash);
 
         return vnpUrl + "?" + query.toString();
     }
 
+
     private String hmacSHA512(String key, String data) {
         try {
-            Mac sha512_HMAC = Mac.getInstance("HmacSHA512");
-            SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA512");
-            sha512_HMAC.init(secretKey);
+            if (key == null || data == null) {
+                throw new NullPointerException();
+            }
+            final Mac hmac512 = Mac.getInstance("HmacSHA512");
+            byte[] hmacKeyBytes = key.getBytes();
+            final SecretKeySpec secretKey = new SecretKeySpec(hmacKeyBytes, "HmacSHA512");
+            hmac512.init(secretKey);
+            byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
+            byte[] result = hmac512.doFinal(dataBytes);
+            StringBuilder sb = new StringBuilder(2 * result.length);
+            for (byte b : result) {
+                sb.append(String.format("%02x", b & 0xff));
+            }
+            return sb.toString();
 
-            byte[] hashBytes = sha512_HMAC.doFinal(data.getBytes(StandardCharsets.UTF_8));
-            return bytesToHex(hashBytes);
-        } catch (Exception e) {
-            throw new RuntimeException("Lỗi khi mã hóa HMAC SHA512", e);
+        } catch (Exception ex) {
+            return "";
         }
     }
 
