@@ -20,29 +20,29 @@ const SellerInfo: React.FC<SellerInfoProps> = ({ seller, onFollow }) => {
   const [joinedTime, setJoinedTime] = useState<string>("");
 
   // Tính toán thời gian tham gia nếu có createdDate
-  useEffect(() => {
-    if (seller.createdDate) {
-      const calculateJoinedTime = () => {
-        const created = new Date(seller.createdDate);
-        const now = new Date();
-        const diffTime = now.getTime() - created.getTime();
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        const diffMonths = Math.floor(diffDays / 30);
-        const diffYears = Math.floor(diffDays / 365);
+  // useEffect(() => {
+  //   if (seller.createdDate) {
+  //     const calculateJoinedTime = () => {
+  //       const created = new Date(seller.createdDate);
+  //       const now = new Date();
+  //       const diffTime = now.getTime() - created.getTime();
+  //       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  //       const diffMonths = Math.floor(diffDays / 30);
+  //       const diffYears = Math.floor(diffDays / 365);
 
-        if (diffYears > 0) {
-          return `${diffYears} năm ${diffMonths % 12} tháng`;
-        } else if (diffMonths > 0) {
-          return `${diffMonths} tháng`;
-        } else {
-          return `${diffDays} ngày`;
-        }
-      };
-      setJoinedTime(calculateJoinedTime());
-    } else {
-      setJoinedTime("6 năm 5 tháng"); // Giá trị mặc định nếu không có createdDate
-    }
-  }, [seller.createdDate]);
+  //       if (diffYears > 0) {
+  //         return `${diffYears} năm ${diffMonths % 12} tháng`;
+  //       } else if (diffMonths > 0) {
+  //         return `${diffMonths} tháng`;
+  //       } else {
+  //         return `${diffDays} ngày`;
+  //       }
+  //     };
+  //     setJoinedTime(calculateJoinedTime());
+  //   } else {
+  //     setJoinedTime("6 năm 5 tháng"); // Giá trị mặc định nếu không có createdDate
+  //   }
+  // }, [seller.createdDate]);
 
   return (
     <div className="w-full p-6 bg-white border-2 border-gray-200 rounded-lg shadow-md">
@@ -59,7 +59,7 @@ const SellerInfo: React.FC<SellerInfoProps> = ({ seller, onFollow }) => {
       <div className="flex justify-center">
         <Link href="/uploadProduct">
           <button
-            onClick={onFollow}
+            // onClick={onFollow}
             className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition"
           >
             Thêm sản phẩm

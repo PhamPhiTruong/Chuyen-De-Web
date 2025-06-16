@@ -235,6 +235,7 @@ import CategoryMenu from "./CategoryMenu";
 import SearchBar from "./Search";
 import { useRouter } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
+import { MdOutlineInventory2 } from "react-icons/md";
 
 interface HeaderProps {
   openModal?: () => void;
@@ -316,17 +317,32 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
           <div className="flex items-center justify-end">
             {isAuthenticated && (
               <>
+                <Link
+                  href="/inventory"
+                  className="flex md:hidden items-center mx-3"
+                >
+                  <div className="flex w-fit items-center">
+                    <MdOutlineInventory2 className="text-2xl mr-2" />
+                    <p className="md:flex hidden text-base items-center">
+                      Inventory
+                    </p>
+                  </div>
+                </Link>
                 <Link href="/cart" className="flex items-center mx-3">
                   <div className="flex w-fit items-center">
                     <MdOutlineShoppingCart className="text-2xl mr-2" />
-                    <p className="flex text-base items-center">Cart</p>
+                    <p className="md:flex hidden text-base items-center">
+                      Cart
+                    </p>
                   </div>
                 </Link>
 
-                <Link href="/chat" className="flex items-center mx-3">
+                <Link href="/chat" className="hidden md:flex items-center mx-3">
                   <div className="flex w-fit items-center">
                     <BsChatDots className="text-2xl mr-2" />
-                    <p className="flex text-base items-center">Chat</p>
+                    <p className="md:flex hidden   text-base items-center">
+                      Chat
+                    </p>
                   </div>
                 </Link>
 
@@ -336,14 +352,19 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
                 >
                   <div className="flex h-auto w-fit items-center justify-center">
                     <BsChatDots className="text-2xl mr-2" />
-                    <p className="flex whitespace-nowrap text-base">Bài viết</p>
+                    <p className="md:flex hidden  whitespace-nowrap text-base">
+                      Bài viết
+                    </p>
                   </div>
                 </button>
 
-                <Link className="flex items-center mx-3" href="/notification">
+                <Link
+                  className="hidden md:flex items-center mx-3"
+                  href="/notification"
+                >
                   <div className="flex h-auto w-fit items-center">
                     <BsChatDots className="text-2xl mr-2" />
-                    <p className="flex text-base whitespace-nowrap">
+                    <p className="md:flex hidden  text-base whitespace-nowrap">
                       Thông báo
                     </p>
                   </div>
@@ -354,7 +375,9 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
                   className="flex items-center mx-3 hover:text-red-700"
                 >
                   <IoLogOutOutline className="text-2xl mr-2" />
-                  <span className="flex text-base items-center">Logout</span>
+                  <span className="md:flex hidden  text-base items-center">
+                    Logout
+                  </span>
                 </button>
               </>
             )}

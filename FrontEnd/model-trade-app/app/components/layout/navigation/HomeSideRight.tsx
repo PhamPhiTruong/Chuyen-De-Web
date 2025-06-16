@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const HomeSideRight = () => {
   return (
-    <div className="lg:w-2/10 border-1  border-gray-300 border-b-0 h-screen sticky right-0 top-25 ">
+    <div className="md:w-2/10 md:block border-1 hidden border-gray-300 border-b-0 h-screen sticky right-0 top-25 ">
       <div>
         <div>
           <div className=" text-center ">

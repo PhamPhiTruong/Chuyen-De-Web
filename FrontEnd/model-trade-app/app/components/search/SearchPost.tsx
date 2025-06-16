@@ -5,6 +5,9 @@ import { FaHeart, FaRegComment } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import Header from "../layout/navigation/Header";
 import Footer from "../layout/navigation/Footer";
+import { PiShareFat } from "react-icons/pi";
+import { TbArrowsExchange } from "react-icons/tb";
+import { useRouter } from "next/navigation";
 // import formatDate from "@/app/utils/formatDate";
 
 interface ImageDTO {
@@ -104,6 +107,7 @@ const SearchPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc"); // Mặc định sắp xếp gần đây nhất
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -222,7 +226,7 @@ const SearchPage: React.FC = () => {
 
   return (
     <div>
-      <div className="w-full px-10 py-10 mx-auto">
+      <div className="w-full md:px-10 py-10 mx-auto">
         <h1 className="text-2xl font-bold mb-4">
           Kết quả tìm kiếm cho: {keyword}
         </h1>
@@ -267,7 +271,10 @@ const SearchPage: React.FC = () => {
                     {formatDate(post.postTime)}
                   </p>
                 </div>
-                <div className="cursor-pointer mx-4 px-4 py-1 bg-orange-300 rounded-full">
+                <div
+                  className="md:block hidden cursor-pointer mx-4 px-4 py-1 bg-orange-300 rounded-full"
+                  onClick={() => router.push(`/product/${post.model.modelId}`)}
+                >
                   <div>{post.model.name}</div>
                 </div>
               </div>
@@ -279,6 +286,12 @@ const SearchPage: React.FC = () => {
                   <IoMdClose className="text-xl mx-3 cursor-pointer" />
                 </div>
               </div>
+            </div>
+            <div
+              className="md:hidden cursor-pointer w-fit mx-4 px-4 py-1 bg-orange-300 rounded-full"
+              onClick={() => router.push(`/product/${post.model.modelId}`)}
+            >
+              <div>{post.model.name}</div>
             </div>
             <div className="px-5 my-5">
               <p>{post.promotionDescription}</p>
@@ -299,7 +312,7 @@ const SearchPage: React.FC = () => {
               </div>
             </div>
             <div className="px-5 my-5">
-              <div className="grid grid-cols-4 text-center py-3 border-b border-gray-300">
+              <div className="grid  grid-cols-3 md:grid-cols-4 text-center py-3 border-b border-gray-300">
                 <div className="flex items-center justify-center">
                   <p className="text-base" />
                   <div className="mx-3 text-base">
@@ -310,27 +323,27 @@ const SearchPage: React.FC = () => {
                   <div className="text-base">{post.comments.length || 0}</div>
                   <div className="text-base mx-1">bình luận</div>
                 </div>
-                <div className="flex items-center justify-center">
+                <div className="md:flex hidden items-center justify-center">
                   <div className="text-base">0</div>
                   <div className="text-base mx-1">yêu cầu</div>
                 </div>
                 <div className="flex items-center justify-center">
                   <div className="text-base">{post.totalShare || 0}</div>
-                  <div className="text-base mx-1">lượt chia sẻ</div>
+                  <div className="text-base mx-1"> chia sẻ</div>
                 </div>
               </div>
-              <div className="grid grid-cols-4 text-center py-2">
+              <div className="grid md:grid-cols-4 grid-cols-3 text-center py-2">
                 <div className="flex items-center justify-center">
                   <FaHeart className="text-2xl cursor-pointer hover:text-red-500" />
                 </div>
                 <div className="flex items-center justify-center">
                   <FaRegComment className="text-2xl cursor-pointer hover:text-blue-500" />
                 </div>
-                <div className="flex items-center justify-center">
-                  <p className="text-2xl cursor-pointer hover:text-green-500" />
+                <div className=" md:flex hidden items-center justify-center">
+                  <TbArrowsExchange className="text-2xl cursor-pointer hover:text-green-500" />
                 </div>
                 <div className="flex items-center justify-center">
-                  <p className="text-2xl cursor-pointer hover:text-purple-500" />
+                  <PiShareFat className="text-2xl cursor-pointer hover:text-purple-500" />
                 </div>
               </div>
             </div>

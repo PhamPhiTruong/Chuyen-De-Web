@@ -61,7 +61,7 @@ export default function SearchBar() {
         />
         <button
           type="submit"
-          className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-secondary text-white p-1 rounded mr-1 lg:mr-0"
+          className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-secondary text-white p-1  rounded mr-1 lg:mr-0"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +80,7 @@ export default function SearchBar() {
         </button>
         <button
           onClick={listening ? stopListening : startListening}
-          className={`absolute text-2xl right-10 top-1/2 transform -translate-y-1/2 p-1 rounded ${
+          className={`absolute mr-2 text-2xl right-10 top-1/2 transform -translate-y-1/2 p-1 rounded ${
             listening ? "bg-red-500" : "bg-green-500"
           } text-white`}
         >
