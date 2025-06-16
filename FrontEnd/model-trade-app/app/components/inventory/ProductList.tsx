@@ -2,14 +2,14 @@
 import React from "react";
 
 interface Product {
-  modelId:string;
-  name:string;
-  description:string;
-  price:number;
-  quantity:number;
-  see:boolean;
-  isDelete:boolean;
-  images:Array<string>
+  modelId: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  see: boolean;
+  isDelete: boolean;
+  images: Array<string>;
 }
 
 interface ProductListProps {
@@ -23,7 +23,8 @@ const ProductList: React.FC<ProductListProps> = ({ products, onViewMore }) => {
       {products.map((product) => (
         <div
           key={product.modelId}
-          className="border-2 border-gray-200 rounded-lg p-4 bg-white shadow-md"
+          className="border-2 border-gray-200 rounded-lg p-4 bg-white shadow-md hover:shadow-lg transition-shadow   cursor-pointer"
+          onClick={() => onViewMore(product.modelId)}
         >
           <img
             src={product.images[0]}

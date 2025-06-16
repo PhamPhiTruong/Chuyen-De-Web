@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosArrowDown, IoIosCloseCircle } from "react-icons/io";
@@ -17,19 +18,27 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const [error, setError] = useState("");
   const modelIdTest = "001";
 
+  // Hàm lấy token từ cookie
+  // Phải tải js-cookie để sử dụng Cookies.get
+  // npm install js-cookie
+  // Phải tải npm install --save-dev @types/js-cookie để phù hợp tsx
+  const getToken = () => {
+    return Cookies.get("token");
+  };
+
   // Lấy danh sách model từ API khi modal mở
   useEffect(() => {
+    const token = getToken();
     if (isOpen) {
       // const token = localStorage.getItem("token");
-      const token =
-        "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
+
       if (!token) {
         setError("Vui lòng đăng nhập để lấy danh sách sản phẩm");
         return;
       }
 
       console.log("Gọi API getModels");
-      fetch("http://localhost:8080/model_trade/api/posts/getModels", {
+      fetch("http://localhost:8080/model_trade/api/model/getAllModelByUser", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +61,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
         })
         .then((data) => {
           console.log("Dữ liệu models:", data);
-          setModels(data);
+          setModels(data.result);
         })
         .catch((err: unknown) => {
           let errorMessage = "Lỗi không xác định";
@@ -74,10 +83,8 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       setError("Vui lòng nhập nội dung và chọn sản phẩm");
       return;
     }
-    const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
 
-    // const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
       setError("Vui lòng đăng nhập để đăng bài");
       return;
@@ -113,6 +120,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       setError("");
       onClose();
       alert("Đăng bài thành công!");
+      window.location.href = "/home"; // Tải lại trang để cập nhật danh sách bài viết
     } catch (err: unknown) {
       let errorMessage = "Lỗi không xác định";
       if (err instanceof Error) {

@@ -3,6 +3,7 @@ package nlu.modeltradeapi.services.implement;
 import nlu.modeltradeapi.dtos.requestdto.user.OTPVerificationRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserRegisterRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserUpdateRequestDTO;
+import nlu.modeltradeapi.dtos.responsedto.user.UserBasicDTO;
 import nlu.modeltradeapi.entities.ActiveOTPUser;
 import nlu.modeltradeapi.entities.User;
 import nlu.modeltradeapi.exceptions.CustomException;
@@ -145,5 +146,23 @@ public class UserService implements IUserService {
 
         // Xóa OTP sau khi xác nhận
         activeOTPUserRepository.delete(otpUser);
+    }
+
+    @Override
+    public UserBasicDTO getUser() {
+        UserDetails userTrue = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByUserName(userTrue.getUsername()).orElseThrow(() -> new RuntimeException("User không tồn tại"));
+        return UserBasicDTO.builder()
+                .userId(user.getUserId())
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .name(user.getName())
+                .phoneNumber(user.getPhoneNumber())
+                .dateOfBirth(user.getDateOfBirth())
+                .createdDate(user.getCreatedDate())
+                .role(user.getRole())
+                .active(user.isActive())
+                .isDelete(user.isDelete())
+                .build();
     }
 }

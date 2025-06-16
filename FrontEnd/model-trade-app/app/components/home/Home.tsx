@@ -1,94 +1,3 @@
-// import React from "react";
-// import { FaCircleUser } from "react-icons/fa6";
-// import { BsThreeDots } from "react-icons/bs";
-// import { IoMdClose } from "react-icons/io";
-// import { FcLike } from "react-icons/fc";
-// import { FaHeart, FaRegComment } from "react-icons/fa";
-// import { TbArrowsExchange } from "react-icons/tb";
-// import { PiShareFat } from "react-icons/pi";
-// const Home = () => {
-//   return (
-//     <div className="w-4/5 px-10 py-10">
-//       <div className=" bg-white border-1  border-gray-300 rounded-2xl h-fit px-5">
-//         <div className="flex items-center justify-between  ">
-//           <div className="flex items-center justify-center mr-auto gap-3 w-fit mx-3 py-3">
-//             <div>
-//               <FaCircleUser className="text-4xl" />
-//             </div>
-//             <div>
-//               <p>Tran Son</p>
-//               <p>Thoi gian </p>
-//             </div>
-//             <div className="mx-4 px-4 py-1 bg-orange-300 rounded-full">
-//               <div>Model.Name</div>
-//             </div>
-//           </div>
-//           <div className="flex">
-//             <div>
-//               <BsThreeDots className="text-xl mx-3" />
-//             </div>
-//             <div>
-//               <IoMdClose className="text-xl mx-3" />
-//             </div>
-//           </div>
-//         </div>
-//         <div className="px-5 my-5">
-//           <p>
-//             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Expedita
-//             eaque quidem, quo porro illum ab dolores aperiam optio architecto,
-//             beatae minus dicta ea iure non exercitationem dignissimos alias odit
-//             voluptates.
-//           </p>
-//         </div>
-//         <div className=" px-5 my-5 flex w-full">
-//           <div className=" w-full h-auto bg-gray-200"></div>
-//           <div className="px-5  justify-end w-2/3">
-//             <div className="mx-2 my-1 w-9/10 h-50 bg-gray-200"></div>
-//             <div className=" mx-2 my-1 w-9/10 h-50 bg-gray-200"></div>
-//           </div>
-//         </div>
-//         <div className="px-5 my-5">
-//           <div>
-//             <div className="grid grid-cols-4 text-center py-3 border-b-1">
-//               <div className="justify-center flex items-center">
-//                 <FcLike className="text-base" />
-//                 <div className="mx-3 text-base">10</div>
-//               </div>
-//               <div className="justify-center flex items-center">
-//                 <div className=" text-base">10</div>
-//                 <div className="text-base mx-1">bình luận</div>
-//               </div>
-//               <div className="justify-center flex items-center">
-//                 <div className=" text-base">10</div>
-//                 <div className="text-base mx-1">yêu cầu</div>
-//               </div>
-//               <div className="justify-center flex items-center">
-//                 <div className=" text-base">10</div>
-//                 <div className="text-base mx-1">lượt chia sẻ</div>
-//               </div>
-//             </div>
-//             <div className="grid grid-cols-4 text-center py-2">
-//               <div className="justify-center flex items-center">
-//                 <FaHeart className="text-2xl " />
-//               </div>
-//               <div className="justify-center flex items-center">
-//                 <FaRegComment className="text-2xl " />
-//               </div>
-//               <div className="justify-center flex items-center">
-//                 <TbArrowsExchange className="text-2xl" />
-//               </div>
-//               <div className="justify-center flex items-center">
-//                 <PiShareFat className="text-2xl" />
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Home;
 "use client";
 import React, { useState, useEffect } from "react";
 import { FaCircleUser } from "react-icons/fa6";
@@ -142,14 +51,14 @@ interface PostResponseDTO {
 
 const Home: React.FC = () => {
   const [posts, setPosts] = useState<PostResponseDTO[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch dữ liệu từ API khi component mount
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const response = await fetch(
           "http://localhost:8080/model_trade/api/posts/getAllPosts"
         );
@@ -172,7 +81,9 @@ const Home: React.FC = () => {
       } catch (err) {
         setError(err instanceof Error ? err.message : "Lỗi không xác định");
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000); // Giả lập thời gian tải 1 giây
       }
     };
 
@@ -189,9 +100,80 @@ const Home: React.FC = () => {
       minute: "2-digit",
     });
   };
+  // Component Skeleton Loading
+  const SkeletonPost = () => (
+    <div className="bg-white border border-gray-300 rounded-2xl h-fit   mx-10 my-2">
+      <div className="flex items-center justify-between py-3">
+        <div className="flex items-center gap-3 mx-3">
+          <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
+          <div>
+            <div className="h-4 w-24 bg-gray-200 rounded animate-pulse mb-2"></div>
+            <div className="h-3 w-16 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+          <div className="h-6 w-20 bg-gray-200 rounded-full animate-pulse"></div>
+        </div>
+        <div className="flex gap-3 px-5">
+          <div className="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+          <div className="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+        </div>
+      </div>
+      <div className="px-5 my-5">
+        <div className="h-4 w-full bg-gray-200 rounded animate-pulse mb-2"></div>
+        <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse"></div>
+      </div>
+      <div className="relative h-120 mb-4 flex justify-center items-center bg-gray-300 animate-pulse">
+        <svg
+          className="w-10 h-10 text-gray-200 dark:text-gray-600"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 18"
+        >
+          <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z" />
+        </svg>
+      </div>
+      <div className="px-5 my-5">
+        <div className="grid grid-cols-4 text-center py-3 border-b border-gray-300">
+          <div className="flex items-center justify-center">
+            <div className="w-4 h-4 bg-gray-200 rounded animate-pulse mr-2"></div>
+            <div className="h-4 w-8 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+        </div>
+        <div className="grid grid-cols-4 text-center py-2">
+          <div className="flex items-center justify-center">
+            <div className="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="w-6 h-6 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
-  if (loading) {
-    return <div className="text-center py-10">Đang tải...</div>;
+  if (isLoading) {
+    return (
+      <div className="text-center py-10">
+        <SkeletonPost />
+        <SkeletonPost />
+        <SkeletonPost />
+      </div>
+    );
   }
 
   if (error) {
@@ -203,7 +185,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="w-4/5 px-10 py-10 mx-auto">
+    <div className="w-full px-10 py-10 mx-auto">
       {posts.map((post) => (
         <div
           key={post.postId}
@@ -220,7 +202,7 @@ const Home: React.FC = () => {
                   {formatDate(post.postTime)}
                 </p>
               </div>
-              <div className="mx-4 px-4 py-1 bg-orange-300 rounded-full">
+              <div className="cursor-pointer mx-4 px-4 py-1 bg-orange-300 rounded-full">
                 <div>{post.model.name}</div>
               </div>
             </div>
@@ -249,20 +231,6 @@ const Home: React.FC = () => {
                   Không có ảnh
                 </div>
               )}
-            </div>
-            <div className="px-5 justify-end w-2/3 flex flex-col gap-2">
-              {post.images.slice(1).map((image: ImageDTO, index: number) => (
-                <div
-                  key={index}
-                  className="mx-2 my-1 w-full h-32 bg-gray-200 rounded-lg overflow-hidden"
-                >
-                  <img
-                    src={image.url}
-                    alt={post.model.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
             </div>
           </div>
           <div className="px-5 my-5">

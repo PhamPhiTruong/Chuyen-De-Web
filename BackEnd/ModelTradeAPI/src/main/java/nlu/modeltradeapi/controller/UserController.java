@@ -3,10 +3,10 @@ package nlu.modeltradeapi.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nlu.modeltradeapi.dtos.requestdto.user.OTPVerificationRequestDTO;
-import nlu.modeltradeapi.dtos.requestdto.user.UserRegisterRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserUpdateRequestDTO;
 import nlu.modeltradeapi.dtos.responsedto.ApiResponse;
 import nlu.modeltradeapi.dtos.responsedto.MessageResponseDTO;
+import nlu.modeltradeapi.dtos.responsedto.user.UserBasicDTO;
 import nlu.modeltradeapi.entities.User;
 import nlu.modeltradeapi.services.template.IUserService;
 import org.springframework.http.HttpStatus;
@@ -65,5 +65,10 @@ public class UserController {
                     HttpStatus.OK
             );
         }
+    }
+    @GetMapping("getUser")
+    public ApiResponse<UserBasicDTO> getUser(){
+        return ApiResponse.<UserBasicDTO>builder().message("Get information user successful").result( userService.getUser()).build();
+
     }
 }

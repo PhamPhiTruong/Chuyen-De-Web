@@ -1,5 +1,6 @@
 package nlu.modeltradeapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,6 +25,7 @@ public class Model implements Serializable {
     String modelId;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     User user;
     @Column(name = "name")
     String name;
