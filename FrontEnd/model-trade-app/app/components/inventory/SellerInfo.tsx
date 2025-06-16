@@ -23,7 +23,7 @@ const SellerInfo: React.FC<SellerInfoProps> = ({ seller, onFollow }) => {
   useEffect(() => {
     if (seller.createdDate) {
       const calculateJoinedTime = () => {
-        // const created = new Date(seller.createdDate);
+        const created = new Date(seller.createdDate);
         const now = new Date();
         const diffTime = now.getTime() - created.getTime();
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));

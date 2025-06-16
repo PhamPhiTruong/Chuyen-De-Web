@@ -232,20 +232,6 @@ const Home: React.FC = () => {
                 </div>
               )}
             </div>
-            {/* <div className="px-5 justify-end w-2/3 flex flex-col gap-2">
-              {post.images.slice(1).map((image: ImageDTO, index: number) => (
-                <div
-                  key={index}
-                  className="mx-2 my-1 w-full h-32 bg-gray-200 rounded-lg overflow-hidden"
-                >
-                  <img
-                    src={image.url}
-                    alt={post.model.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div> */}
           </div>
           <div className="px-5 my-5">
             <div className="grid grid-cols-4 text-center py-3 border-b border-gray-300">

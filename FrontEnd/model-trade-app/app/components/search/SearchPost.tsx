@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { FaHeart, FaRegComment } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import Header from "../layout/navigation/Header";
+import Footer from "../layout/navigation/Footer";
 // import formatDate from "@/app/utils/formatDate";
 
 interface ImageDTO {
@@ -101,6 +103,7 @@ const SearchPage: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc"); // Mặc định sắp xếp gần đây nhất
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -118,7 +121,7 @@ const SearchPage: React.FC = () => {
         }
 
         const response = await fetch(
-          `http://localhost:8080/api/posts/search?keyword=${encodeURIComponent(
+          `http://localhost:8080/model_trade/api/posts/search?keyword=${encodeURIComponent(
             keyword
           )}`,
           {
@@ -137,8 +140,13 @@ const SearchPage: React.FC = () => {
         }
 
         const data = await response.json();
-        if (Array.isArray(data.result)) {
-          setPosts(data.result);
+        if (Array.isArray(data)) {
+          const sortedPosts = [...data].sort((a, b) => {
+            const dateA = new Date(a.postTime).getTime();
+            const dateB = new Date(b.postTime).getTime();
+            return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
+          });
+          setPosts(sortedPosts); // Sắp xếp ngay khi nhận dữ liệu
         } else {
           setPosts([]);
         }
@@ -156,14 +164,43 @@ const SearchPage: React.FC = () => {
     if (keyword) {
       fetchSearchResults();
     }
-  }, [keyword]);
+  }, [keyword, sortOrder]); // Thêm sortOrder vào dependency để cập nhật khi thay đổi
+
+  // Hàm sắp xếp bài viết theo thời gian
+  const sortPosts = (order: "desc" | "asc") => {
+    const sortedPosts = [...posts].sort((a, b) => {
+      const dateA = new Date(a.postTime).getTime();
+      const dateB = new Date(b.postTime).getTime();
+      return order === "desc" ? dateB - dateA : dateA - dateB;
+    });
+    setPosts(sortedPosts);
+  };
+
+  // Chuyển đổi chế độ sắp xếp
+  const handleSortChange = (order: "desc" | "asc") => {
+    setSortOrder(order); // Cập nhật state
+    sortPosts(order); // Sắp xếp ngay với order mới
+  };
+
+  // Định dạng thời gian
+  const formatDate = (dateTime: string): string => {
+    return new Date(dateTime).toLocaleString("vi-VN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
   if (loading) {
     return (
-      <div className="text-center py-10">
-        <SkeletonPost />
-        <SkeletonPost />
-        <SkeletonPost />
+      <div>
+        <div className="text-center py-10">
+          <SkeletonPost />
+          <SkeletonPost />
+          <SkeletonPost />
+        </div>
       </div>
     );
   }
@@ -173,95 +210,133 @@ const SearchPage: React.FC = () => {
   }
 
   if (posts.length === 0) {
-    return <div className="text-center py-10">Không có bài đăng nào.</div>;
+    return (
+      <div>
+        <p className="text-3xl font-bold text-gray-600 text-center pt-10 pb-5">
+          Không tìm thấy kết quả nào
+        </p>
+        <p className="text-2xl text-center">Hãy thử dùng từ khóa khác</p>
+      </div>
+    );
   }
 
   return (
-    <div className="w-full px-10 py-10 mx-auto">
-      <h1 className="text-2xl font-bold mb-4">
-        Kết quả tìm kiếm cho: {keyword}
-      </h1>
-      {posts.map((post) => (
-        <div
-          key={post.postId}
-          className="bg-white border border-gray-300 rounded-2xl h-fit px-5 mb-5"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 w-fit mx-3 py-3">
-              <div>
-                <p className="text-4xl" />
-              </div>
-              <div>
-                <p className="font-semibold">{post.userName}</p>
-                <p className="text-sm text-gray-500">{post.postTime}</p>
-              </div>
-              <div className="cursor-pointer mx-4 px-4 py-1 bg-orange-300 rounded-full">
-                <div>{post.model.name}</div>
-              </div>
-            </div>
-            <div className="flex">
-              <div>
-                <p className="text-xl mx-3 cursor-pointer" />
-              </div>
-              <div>
-                <IoMdClose className="text-xl mx-3 cursor-pointer" />
-              </div>
-            </div>
-          </div>
-          <div className="px-5 my-5">
-            <p>{post.promotionDescription}</p>
-          </div>
-          <div className="px-5 my-5 flex w-full">
-            <div className="w-full h-auto bg-gray-200">
-              {post.images.length > 0 ? (
-                <img
-                  src={post.images[0].url}
-                  alt={post.model.name}
-                  className="w-full h-auto object-cover rounded-lg"
-                />
-              ) : (
-                <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
-                  Không có ảnh
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="px-5 my-5">
-            <div className="grid grid-cols-4 text-center py-3 border-b border-gray-300">
-              <div className="flex items-center justify-center">
-                <p className="text-base" />
-                <div className="mx-3 text-base">{post.reacts.length || 0}</div>
-              </div>
-              <div className="flex items-center justify-center">
-                <div className="text-base">{post.comments.length || 0}</div>
-                <div className="text-base mx-1">bình luận</div>
-              </div>
-              <div className="flex items-center justify-center">
-                <div className="text-base">0</div>
-                <div className="text-base mx-1">yêu cầu</div>
-              </div>
-              <div className="flex items-center justify-center">
-                <div className="text-base">{post.totalShare || 0}</div>
-                <div className="text-base mx-1">lượt chia sẻ</div>
-              </div>
-            </div>
-            <div className="grid grid-cols-4 text-center py-2">
-              <div className="flex items-center justify-center">
-                <FaHeart className="text-2xl cursor-pointer hover:text-red-500" />
-              </div>
-              <div className="flex items-center justify-center">
-                <FaRegComment className="text-2xl cursor-pointer hover:text-blue-500" />
-              </div>
-              <div className="flex items-center justify-center">
-                <p className="text-2xl cursor-pointer hover:text-green-500" />
-              </div>
-              <div className="flex items-center justify-center">
-                <p className="text-2xl cursor-pointer hover:text-purple-500" />
-              </div>
-            </div>
-          </div>
+    <div>
+      <div className="w-full px-10 py-10 mx-auto">
+        <h1 className="text-2xl font-bold mb-4">
+          Kết quả tìm kiếm cho: {keyword}
+        </h1>
+        <div className="flex gap-2 py-5">
+          <p className="text-center text-xl my-auto pr-2">
+            Thời gian đăng bài{" "}
+          </p>
+          <button
+            onClick={() => handleSortChange("desc")}
+            className={`px-4 py-2 rounded ${
+              sortOrder === "desc"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            Gần đây nhất
+          </button>
+          <button
+            onClick={() => handleSortChange("asc")}
+            className={`px-4 py-2 rounded ${
+              sortOrder === "asc"
+                ? "bg-blue-600 text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            Lâu nhất
+          </button>
         </div>
-      ))}
+        {posts.map((post) => (
+          <div
+            key={post.postId}
+            className="bg-white border border-gray-300 rounded-2xl h-fit px-5 mb-5"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3 w-fit mx-3 py-3">
+                <div>
+                  <p className="text-4xl" />
+                </div>
+                <div>
+                  <p className="font-semibold">{post.userName}</p>
+                  <p className="text-sm text-gray-500">
+                    {formatDate(post.postTime)}
+                  </p>
+                </div>
+                <div className="cursor-pointer mx-4 px-4 py-1 bg-orange-300 rounded-full">
+                  <div>{post.model.name}</div>
+                </div>
+              </div>
+              <div className="flex">
+                <div>
+                  <p className="text-xl mx-3 cursor-pointer" />
+                </div>
+                <div>
+                  <IoMdClose className="text-xl mx-3 cursor-pointer" />
+                </div>
+              </div>
+            </div>
+            <div className="px-5 my-5">
+              <p>{post.promotionDescription}</p>
+            </div>
+            <div className="px-5 my-5 flex w-full">
+              <div className="w-full h-auto bg-gray-200">
+                {post.images.length > 0 ? (
+                  <img
+                    src={post.images[0].url}
+                    alt={post.model.name}
+                    className="w-full h-auto object-cover rounded-lg"
+                  />
+                ) : (
+                  <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+                    Không có ảnh
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="px-5 my-5">
+              <div className="grid grid-cols-4 text-center py-3 border-b border-gray-300">
+                <div className="flex items-center justify-center">
+                  <p className="text-base" />
+                  <div className="mx-3 text-base">
+                    {post.reacts.length || 0}
+                  </div>
+                </div>
+                <div className="flex items-center justify-center">
+                  <div className="text-base">{post.comments.length || 0}</div>
+                  <div className="text-base mx-1">bình luận</div>
+                </div>
+                <div className="flex items-center justify-center">
+                  <div className="text-base">0</div>
+                  <div className="text-base mx-1">yêu cầu</div>
+                </div>
+                <div className="flex items-center justify-center">
+                  <div className="text-base">{post.totalShare || 0}</div>
+                  <div className="text-base mx-1">lượt chia sẻ</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-4 text-center py-2">
+                <div className="flex items-center justify-center">
+                  <FaHeart className="text-2xl cursor-pointer hover:text-red-500" />
+                </div>
+                <div className="flex items-center justify-center">
+                  <FaRegComment className="text-2xl cursor-pointer hover:text-blue-500" />
+                </div>
+                <div className="flex items-center justify-center">
+                  <p className="text-2xl cursor-pointer hover:text-green-500" />
+                </div>
+                <div className="flex items-center justify-center">
+                  <p className="text-2xl cursor-pointer hover:text-purple-500" />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
