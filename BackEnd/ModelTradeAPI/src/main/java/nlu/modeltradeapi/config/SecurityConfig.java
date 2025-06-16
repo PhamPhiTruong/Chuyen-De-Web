@@ -30,16 +30,16 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**")
-                        .permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/api/posts/getAllPosts").permitAll()
                         .requestMatchers("/api/posts/search").permitAll()
-
+                        .requestMatchers("/api/exchange/vnp-return").permitAll()
                         .requestMatchers(
                                 "/api/models/**",
                                 "/api/user/**",
-                                "api/posts/**",
-                                "/api/model/**"
+                                "/api/posts/**",
+                                "/api/model/**",
+                                "/api/exchange/**"
                         ).authenticated()
                         .anyRequest().authenticated()
                 )

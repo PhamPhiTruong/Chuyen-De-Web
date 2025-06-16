@@ -21,19 +21,6 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
 
-    @PostMapping("verifyOtp")
-    public ResponseEntity<MessageResponseDTO> verifyOtp(@RequestBody OTPVerificationRequestDTO requestDTO){
-        userService.verifyOTP(requestDTO);
-        MessageResponseDTO message = MessageResponseDTO.builder().message(" Thành công").build();
-
-        message.setMessage(requestDTO.getEmail() + message.getMessage() + " xác nhận");
-        return new ResponseEntity<>(
-                message,
-                HttpStatus.OK
-                );
-    }
-
-
     @GetMapping("getAll")
     public ApiResponse<List<User>> getUsers(){
         return ApiResponse.<List<User>>builder().message("Lấy danh sách thành công").result(userService.getUsers()).build();

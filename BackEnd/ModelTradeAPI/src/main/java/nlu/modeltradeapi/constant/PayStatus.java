@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum UserRole {
-    ADMIN("Người quản trị"),
-    MANAGER("Người quản lý"),
-    CUSTOMER("Khách hàng");
+public enum PayStatus {
+    FAILED("Thanh toán thất bại"),
+    PENDING("Trong quá trình xử lí thanh toán "),
+    SUCCESS("Thanh toán thành công");
     private final String description;
 }

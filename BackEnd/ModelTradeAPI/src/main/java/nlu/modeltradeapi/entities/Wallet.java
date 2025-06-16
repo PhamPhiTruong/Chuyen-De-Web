@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Table(name = "wallets")
 @Entity(name = "wallet")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Wallets implements Serializable {
+public class Wallet implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "wallet_id")
