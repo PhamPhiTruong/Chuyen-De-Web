@@ -107,10 +107,10 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
             </p>
 
             <div className="mt-6 flex space-x-4">
-              <button className="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">
+              <button className="bg-green-600 text-white py-2 px-4 cursor-pointer rounded-lg hover:bg-green-700 text-xl">
                 Đặt hàng
               </button>
-              <button className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex items-center">
+              <button className="bg-blue-600 text-white py-2 cursor-pointer px-4 rounded-lg hover:bg-blue-700 flex items-center text-xl">
                 <FaShoppingCart className="mr-2" /> Thêm vào giỏ
               </button>
             </div>
@@ -124,10 +124,10 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     className="w-10 h-10 rounded-full mr-2"
                   /> */}
                   <div>
-                    <p className="font-semibold">
+                    <p className=" pb-4 font-bold text-xl">
                       {product.seller?.name || "Unknown Seller"}
                     </p>
-                    <p className="text-yellow-500">
+                    <p className="text-yellow-500 font-bold text-xl">
                       Số điện thoại {product.seller?.phoneNumber || 0}
                     </p>
                   </div>
@@ -136,7 +136,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                   Theo dõi
                 </button> */}
               </div>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-xl text-gray-500 mt-2">
                 Đã tham gia: {getActivityTime(product.seller?.createDate)}
               </p>
               {/* <div className="mt-4 text-sm text-gray-600">

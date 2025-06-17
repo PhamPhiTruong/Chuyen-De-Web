@@ -5,6 +5,7 @@ import Footer from "../layout/navigation/Footer";
 import SellerInfo from "./SellerInfo";
 import ProductList from "./ProductList";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface InventoryPageProps {
   token: string | null;
@@ -83,16 +84,29 @@ const InventoryPage: React.FC<InventoryPageProps> = ({ token }) => {
   return (
     <div className="flex flex-col min-h-screen items-center">
       <Header />
-      <div className="flex-grow w-4/5 py-10">
+      <div className="flex-grow w-4/5 md:py-10">
         <div className="flex flex-col lg:flex-row gap-6">
-          <div className="w-full lg:w-3/10">
-            <SellerInfo seller={seller} onFollow={handleFollow} />
-          </div>
-          <div className="w-full lg:w-7/10">
-            <h2 className="text-xl font-bold mb-4">
-              Đang hiển thị ({products.length})
-            </h2>
-            <p className="text-gray-600 mb-4">Đã bán ({products.length - 1})</p>
+          {/* <div className="w-full lg:w-3/10"> */}
+          {/* <SellerInfo seller={seller} onFollow={handleFollow} /> */}
+          {/* </div> */}
+          <div className="w-full ">
+            <div className="flex w-full items-center my-auto  ">
+              <h2 className="text-xl h-full text-center font-bold mr-5">
+                Đang hiển thị ({products.length})
+              </h2>
+              <div className="flex justify-center">
+                <Link href="/uploadProduct">
+                  <button
+                    // onClick={onFollow}
+                    className="bg-orange-500 text-white px-4 py-2 my-6 rounded hover:bg-orange-600 transition"
+                  >
+                    Thêm sản phẩm
+                  </button>
+                </Link>
+              </div>
+            </div>
+            {/* <p className="text-gray-600 mb-4">Đã bán ({products.length - 1})</p> */}
+
             <ProductList products={products} onViewMore={handleViewMore} />
           </div>
         </div>

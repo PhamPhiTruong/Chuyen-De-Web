@@ -2,7 +2,7 @@ import React from "react";
 
 const HomeSideLeft = () => {
   return (
-    <div className="lg:w-2/10 border-1  border-gray-300 border-b-0 h-screen sticky left-0 top-25">
+    <div className="md:w-2/10 md:block border-1 hidden  border-gray-300 border-b-0 h-screen sticky left-0 top-25">
       <div className=" text-center ">
         <div className="p-1 font-bold  border-gray-300 border-b-1">
           {" "}
