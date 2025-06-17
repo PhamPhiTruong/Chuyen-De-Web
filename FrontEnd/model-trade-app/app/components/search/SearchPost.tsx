@@ -36,7 +36,7 @@ interface Post {
 }
 
 const SkeletonPost = () => (
-  <div className="bg-white border border-gray-300 rounded-2xl h-fit mx-10 my-2">
+  <div className="bg-white border border-gray-300 rounded-2xl h-fit md:mx-30 mx-10 my-2 md:mt-28">
     <div className="flex items-center justify-between py-3">
       <div className="flex items-center gap-3 mx-3">
         <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
@@ -258,7 +258,7 @@ const SearchPage: React.FC = () => {
         {posts.map((post) => (
           <div
             key={post.postId}
-            className="bg-white border border-gray-300 rounded-2xl h-fit px-5 mb-5"
+            className="bg-white border border-gray-300 rounded-2xl h-fit mx-5 md:mx-25 mb-5"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3 w-fit mx-3 py-3">

@@ -98,7 +98,7 @@ const InventoryPage: React.FC<InventoryPageProps> = ({ token }) => {
                 <Link href="/uploadProduct">
                   <button
                     // onClick={onFollow}
-                    className="bg-orange-500 text-white px-4 py-2 my-6 rounded hover:bg-orange-600 transition"
+                    className="bg-orange-500 text-white px-4 py-2 my-6 rounded hover:bg-orange-600 transition cursor-pointer"
                   >
                     Thêm sản phẩm
                   </button>

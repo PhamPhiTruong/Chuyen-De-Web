@@ -56,11 +56,11 @@ export default function RegisterForm() {
       setLoading(false);
       return;
     }
-    // if (!phoneNumber.match(/^\+?[1-9]\d{1,14}$/)) {
-    //   setError("Invalid phone number format");
-    //   setLoading(false);
-    //   return;
-    // }
+    if (!phoneNumber.match(/^\+?[0-9]\d{8,12}$/)) {
+      setError("Invalid phone number format");
+      setLoading(false);
+      return;
+    }
     if (!dateOfBirth) {
       setError("Date of birth is required");
       setLoading(false);
@@ -96,9 +96,9 @@ export default function RegisterForm() {
           body: JSON.stringify(userData),
         }
       );
-      
+
       const data1 = await response.json();
-      console.log(data1.message)
+      console.log(data1.message);
       if (response.ok) {
         setSuccess(
           data1.message ||
