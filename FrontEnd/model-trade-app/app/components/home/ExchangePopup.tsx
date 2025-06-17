@@ -15,6 +15,7 @@ const ExchangePopup = ({
 
   const handlePay = async () => {
     const token = Cookies.get("token");
+    payAmount = (Number(payAmount) * quantity).toString();
     try {
       const response = await fetch(
         "http://localhost:8080/model_trade/api/exchange/createPayModel",

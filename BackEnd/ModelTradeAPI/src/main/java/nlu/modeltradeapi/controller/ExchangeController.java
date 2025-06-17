@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import nlu.modeltradeapi.dtos.requestdto.exchange.PayRequestDTO;
 import nlu.modeltradeapi.dtos.responsedto.ApiResponse;
 import nlu.modeltradeapi.dtos.responsedto.vnpay.PayVNPResponseDTO;
+import nlu.modeltradeapi.entities.Exchange;
 import nlu.modeltradeapi.services.template.IExchangeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -69,7 +71,19 @@ public class ExchangeController {
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(redirectUrl)).build();
     }
 
-
+    @GetMapping("getAllExchangeByUser")
+    public ApiResponse<List<Exchange>> getAllExchangeByUser() {
+        List<Exchange> list = exchangeService.getExchangesByUser();
+        if (list == null || list.isEmpty()) {
+            return ApiResponse.<List<Exchange>>builder()
+                    .message("Empty")
+                    .code(1010)
+                    .build();
+        }
+        return ApiResponse.<List<Exchange>>builder()
+                .result(list)
+                .build();
+    }
 
 
 }
