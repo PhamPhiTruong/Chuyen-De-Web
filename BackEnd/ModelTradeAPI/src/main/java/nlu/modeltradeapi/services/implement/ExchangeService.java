@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class ExchangeService implements IExchangeService {
@@ -39,6 +41,12 @@ public class ExchangeService implements IExchangeService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    WalletRepository walletRepository;
+
+    @Autowired
+    WalletChangeRepository walletChangeRepository;
 
     @Autowired
     private PayMapper payMapper;
@@ -74,11 +82,42 @@ public class ExchangeService implements IExchangeService {
 
     @Override
     public String handleReturnDTO(PayVNPResponseDTO payVNPResponseDTO) {
-        Exchange exchange = exchangeRepository.findById(payVNPResponseDTO.getPayTxnRef()).orElseThrow(() -> new RuntimeException("Exchange Illegal"));
         if (payVNPResponseDTO.getPayResponseCode()==0){
+            String info = payVNPResponseDTO.getPayOrderInfo();
+            String exchangeId = "";
+            String userId = "";
+            Pattern pattern = Pattern.compile("Thanh toan ([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}) cua user ([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})");
+
+            Matcher matcher = pattern.matcher(info);
+
+            System.out.println(info);
+            System.out.println("Hello world");
+            if (matcher.find()) {
+                exchangeId = matcher.group(1);
+                userId = matcher.group(2);
+
+                System.out.println("exchangeId = " + exchangeId);
+                System.out.println("userId = " + userId);
+            } else {
+                System.out.println("Chuỗi không đúng định dạng");
+            }
+
+            User user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User not found"));
+
+            Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(() -> new RuntimeException("Exchange Illegal"));
             Pay pay = payMapper.toEntity(payVNPResponseDTO);
             pay.setExchange(exchange);
-            payRepository.save(pay);
+            Pay paySaved = payRepository.save(pay);
+
+            Wallet wallet = walletRepository.findByUser(user).orElseThrow(()-> new RuntimeException("Wallet not found"));
+
+            WalletChange walletChange = WalletChange.builder()
+                    .pay(paySaved)
+                    .wallet(wallet)
+                    .type("Thanh toan")
+                    .build();
+            walletChangeRepository.save(walletChange);
+
             MoneyExchange moneyExchange = exchangeMoneyRepository.findByExchange(exchange).orElseThrow(() -> new RuntimeException("Exchange Not Exist"));
             moneyExchange.setStatus(ExchangeStatus.SUCCESS_TRADE);
             MoneyExchange moneyExchangeSaved = exchangeMoneyRepository.save(moneyExchange);
@@ -102,7 +141,7 @@ public class ExchangeService implements IExchangeService {
     public String VNPPay(String exchangeId, String clientIp) throws UnsupportedEncodingException {
         Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(() -> new RuntimeException("Exchange Not Exist"));
         MoneyExchange moneyExchange = exchangeMoneyRepository.findByExchange(exchange).orElseThrow(() -> new RuntimeException("Exchange Not Exist"));
-        double num = moneyExchange.getMoney();
+        double num = moneyExchange.getMoney()*100;
         String money = Double.toString(num);
         return vnpService.createPaymentUrl(money,clientIp,exchangeId);
     }

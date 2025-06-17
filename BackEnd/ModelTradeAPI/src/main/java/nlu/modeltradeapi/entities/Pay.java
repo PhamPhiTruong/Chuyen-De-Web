@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Pay {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "pay_id")
-    Long payId;
+    String payId;
     @ManyToOne(optional = true)
     @JoinColumn(name = "exchange_id")
     Exchange exchange;
