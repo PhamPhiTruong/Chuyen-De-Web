@@ -109,7 +109,7 @@ const Home: React.FC = () => {
   };
   // Component Skeleton Loading
   const SkeletonPost = () => (
-    <div className="bg-white border border-gray-300 rounded-2xl h-fit   mx-10 my-2">
+    <div className="bg-white border border-gray-300 rounded-2xl h-fit   md:mx-25 my-2">
       <div className="flex items-center justify-between py-3">
         <div className="flex items-center gap-3 mx-3">
           <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
@@ -230,7 +230,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="w-full md:px-10 mdd:py-10 mx-auto">
+    <div className="w-full md:px-25 md:py-10 mx-auto">
       {posts.map((post) => (
         <div
           key={post.postId}
@@ -289,7 +289,7 @@ const Home: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="px-5 my-5">
+          <div className="px-5 my-1">
             <div className="grid md:grid-cols-4 grid-cols-3 text-center py-3 border-b border-gray-300">
               <div className="flex items-center justify-center">
                 <FcLike className="text-base" />

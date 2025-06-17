@@ -9,23 +9,19 @@
 // import SearchBar from "./Search";
 // import { useRouter } from "next/navigation";
 // import { IoLogOutOutline } from "react-icons/io5";
+// import { MdOutlineInventory2 } from "react-icons/md";
+// import { useTranslation } from "react-i18next";
 
 // interface HeaderProps {
 //   openModal?: () => void;
 // }
 
 // const Header: React.FC<HeaderProps> = ({ openModal }) => {
-//   const [searchQuery, setSearchQuery] = useState("");
 //   const [isNavVisible, setIsNavVisible] = useState(true);
 //   const [lastScrollY, setLastScrollY] = useState(0);
 //   const [isAuthenticated, setIsAuthenticated] = useState(false);
 //   const router = useRouter();
 
-//   // Kiểm tra trạng thái đăng nhập dựa trên token
-//   // useEffect(() => {
-//   //   const token = localStorage.getItem("token");
-//   //   setIsAuthenticated(!!token);
-//   // }, []);
 //   useEffect(() => {
 //     const token = document.cookie
 //       .split("; ")
@@ -34,7 +30,6 @@
 //     setIsAuthenticated(!!token);
 //   }, []);
 
-//   // Xử lý sự kiện cuộn
 //   const controlNavbar = () => {
 //     if (typeof window !== "undefined") {
 //       if (window.scrollY > lastScrollY && window.scrollY > 20) {
@@ -53,52 +48,36 @@
 //     }
 //   }, [lastScrollY]);
 
-//   const handleSearch = (e: React.FormEvent) => {
-//     e.preventDefault();
-//     if (searchQuery.trim()) {
-//       router.push(`/search?keyword=${encodeURIComponent(searchQuery.trim())}`);
-//     }
-//   };
-
-//   // // Xử lý đăng xuất
-//   // const handleLogout = () => {
-//   //   localStorage.removeItem("token"); // Xóa token khỏi localStorage
-//   //   setIsAuthenticated(false); // Cập nhật trạng thái đăng nhập
-//   //   router.push("/login"); // Chuyển hướng về trang đăng nhập
-//   // };
 //   const handleLogout = () => {
-//     document.cookie = "token=; max-age=0"; // Xóa cookie
+//     document.cookie = "token=; max-age=0";
 //     setIsAuthenticated(false);
 //     router.push("/login");
 //   };
 
-//   //  Xử lý nhấp vào logo reload trang
 //   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-//     e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ a
-//     const curentPath = window.location.pathname; // Lưu đường dẫn hiện tại
-//     if (curentPath === "/home") {
-//       // Nếu đang ở trang home, không cần reload
-//       window.location.reload(); // Tải lại trang
+//     e.preventDefault();
+//     const currentPath = window.location.pathname;
+//     if (currentPath === "/home") {
+//       window.location.reload();
 //     }
-//     router.push("/home"); // Chuyển hướng về trang home
+//     router.push("/home");
 //   };
 
 //   return (
 //     <header className="border-gray-200 w-full top-0 left-0 sticky z-10">
 //       <div className="bg-primary py-2 relative lg:h-17 z-20">
-//         <div className="container mx-auto flex justify-between items-center ">
+//         <div className="container mx-auto flex justify-between items-center">
 //           <Link
 //             href="/home"
 //             className="top-0 left-0 flex items-start ml-4 md:mx-8"
-//             onClick={handleLogoClick} // Thêm sự kiện nhấp vào logo
+//             onClick={handleLogoClick}
 //           >
-//             <div className="relative  lg:pt-0">
+//             <div className="relative lg:pt-0">
 //               <Image
 //                 src="https://res.cloudinary.com/dxgqzu2vb/image/upload/v1748609195/nludev/product/Efigure.png_20250530194627.png"
 //                 alt="Logo"
 //                 width={60}
 //                 height={30}
-//                 className=""
 //               />
 //             </div>
 //           </Link>
@@ -106,52 +85,68 @@
 //             <SearchBar />
 //           </div>
 //           <div className="flex items-center justify-end">
-//             {/* Hiển thị các thẻ và nút đăng xuất chỉ khi đã đăng nhập */}
 //             {isAuthenticated && (
 //               <>
+//                 <Link
+//                   href="/inventory"
+//                   className="flex md:hidden items-center mx-3"
+//                 >
+//                   <div className="flex w-fit items-center">
+//                     <MdOutlineInventory2 className="text-2xl mr-2" />
+//                     <p className="md:flex hidden text-base items-center">
+//                       Inventory
+//                     </p>
+//                   </div>
+//                 </Link>
 //                 <Link href="/cart" className="flex items-center mx-3">
 //                   <div className="flex w-fit items-center">
 //                     <MdOutlineShoppingCart className="text-2xl mr-2" />
-//                     <p className="flex text-base items-center">Cart</p>
+//                     <p className="md:flex hidden text-base items-center">
+//                       Cart
+//                     </p>
 //                   </div>
 //                 </Link>
-
-//                 <Link href="/chat" className="flex items-center mx-3">
+//                 <Link href="/chat" className="hidden md:flex items-center mx-3">
 //                   <div className="flex w-fit items-center">
 //                     <BsChatDots className="text-2xl mr-2" />
-//                     <p className="flex text-base items-center">Chat</p>
+//                     <p className="md:flex hidden text-base items-center">
+//                       Chat
+//                     </p>
 //                   </div>
 //                 </Link>
-
 //                 <button
 //                   className="cursor-pointer flex items-center w-full mx-3"
 //                   onClick={openModal}
 //                 >
 //                   <div className="flex h-auto w-fit items-center justify-center">
 //                     <BsChatDots className="text-2xl mr-2" />
-//                     <p className="flex whitespace-nowrap text-base">Bài viết</p>
+//                     <p className="md:flex hidden whitespace-nowrap text-base">
+//                       Post
+//                     </p>
 //                   </div>
 //                 </button>
-
-//                 <Link className="flex items-center mx-3" href="/notification">
+//                 <Link
+//                   className="hidden md:flex items-center mx-3"
+//                   href="/notification"
+//                 >
 //                   <div className="flex h-auto w-fit items-center">
 //                     <BsChatDots className="text-2xl mr-2" />
-//                     <p className="flex text-base whitespace-nowrap">
-//                       Thông báo
+//                     <p className="md:flex hidden text-base whitespace-nowrap">
+//                       Notification
 //                     </p>
 //                   </div>
 //                 </Link>
-
 //                 <button
 //                   onClick={handleLogout}
 //                   className="flex items-center mx-3 hover:text-red-700"
 //                 >
 //                   <IoLogOutOutline className="text-2xl mr-2" />
-//                   <span className="flex text-base items-center">Logout</span>
+//                   <span className="md:flex hidden text-base items-center">
+//                     Logout
+//                   </span>
 //                 </button>
 //               </>
 //             )}
-//             {/* Hiển thị nút đăng nhập nếu chưa đăng nhập */}
 //             {!isAuthenticated && (
 //               <Link href="/login" className="flex items-center mx-3 mr-5">
 //                 <div className="flex w-fit items-center">
@@ -176,31 +171,31 @@
 //               href="/newsletter"
 //               className="text-sm font-medium whitespace-nowrap"
 //             >
-//               Join Our Newsletter
+//               Newsletter
 //             </Link>
 //             <Link
 //               href="/how-to"
 //               className="text-sm font-medium whitespace-nowrap"
 //             >
-//               How to Use It
+//               How to
 //             </Link>
 //             <Link
 //               href="/warehouse"
 //               className="text-sm font-medium whitespace-nowrap"
 //             >
-//               What's Private Warehouse?
+//               Warehouse
 //             </Link>
 //             <Link
 //               href="/help"
 //               className="text-sm font-medium whitespace-nowrap"
 //             >
-//               Help Center
+//               Help
 //             </Link>
 //             <Link
 //               href="/wishlist"
 //               className="text-sm font-medium whitespace-nowrap"
 //             >
-//               Wish List
+//               WishList
 //               <svg
 //                 xmlns="http://www.w3.org/2000/svg"
 //                 className="h-4 w-4 inline-block ml-1"
@@ -227,7 +222,7 @@
 "use client";
 import { BsChatDots } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
-import { MdOutlineShoppingCart } from "react-icons/md";
+import { MdOutlineNotifications, MdOutlineShoppingCart } from "react-icons/md";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -236,18 +231,20 @@ import SearchBar from "./Search";
 import { useRouter } from "next/navigation";
 import { IoLogOutOutline } from "react-icons/io5";
 import { MdOutlineInventory2 } from "react-icons/md";
+import { useTranslation } from "react-i18next";
+import { MdOutlineBookmarkAdd } from "react-icons/md";
 
 interface HeaderProps {
   openModal?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ openModal }) => {
+  const { t, i18n } = useTranslation();
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const router = useRouter();
+  const [language, setLanguage] = useState("vi"); // Ngôn ngữ mặc định là 'vi'
 
-  // Kiểm tra trạng thái đăng nhập dựa trên token
   useEffect(() => {
     const token = document.cookie
       .split("; ")
@@ -256,7 +253,6 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
     setIsAuthenticated(!!token);
   }, []);
 
-  // Xử lý sự kiện cuộn
   const controlNavbar = () => {
     if (typeof window !== "undefined") {
       if (window.scrollY > lastScrollY && window.scrollY > 20) {
@@ -275,14 +271,12 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
     }
   }, [lastScrollY]);
 
-  // Xử lý đăng xuất
   const handleLogout = () => {
-    document.cookie = "token=; max-age=0"; // Xóa cookie
+    document.cookie = "token=; max-age=0";
     setIsAuthenticated(false);
     router.push("/login");
   };
 
-  // Xử lý nhấp vào logo reload trang
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     const currentPath = window.location.pathname;
@@ -292,8 +286,119 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
     router.push("/home");
   };
 
+  const changeLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const lng = e.target.value;
+    i18n.changeLanguage(lng);
+    setLanguage(lng);
+  };
+
+  const router = useRouter();
+
   return (
     <header className="border-gray-200 w-full top-0 left-0 sticky z-10">
+      {/* <div className="bg-primary py-2 relative lg:h-17 z-20">
+        <div className="container mx-auto flex  justify-between items-center">
+          <Link
+            href="/home"
+            className="top-0 left-0 flex items-start ml-4 md:mx-8"
+            onClick={handleLogoClick}
+          >
+            <div className="relative lg:pt-0">
+              <Image
+                src="https://res.cloudinary.com/dxgqzu2vb/image/upload/v1748609195/nludev/product/Efigure.png_20250530194627.png"
+                alt="Logo"
+                width={60}
+                height={30}
+              />
+            </div>
+          </Link>
+          <div className="hidden md:block w-3/5">
+            <SearchBar />
+          </div>
+          <div className="flex items-center justify-end space-x-2">
+            <select
+              value={language}
+              onChange={changeLanguage}
+              className="px-2 py-1 border rounded"
+            >
+              <option value="vi">Tiếng Việt</option>
+              <option value="en">English</option>
+            </select>
+            {isAuthenticated && (
+              <>
+                <Link
+                  href="/inventory"
+                  className="flex md:hidden items-center mx-1"
+                >
+                  <div className="flex w-fit items-center">
+                    <MdOutlineInventory2 className="text-2xl mr-1" />
+                    <p className="md:flex hidden text-base items-center">
+                      {t("inventory")}
+                    </p>
+                  </div>
+                </Link>
+                <Link href="/cart" className="flex items-center mx-1">
+                  <div className="flex w-fit items-center">
+                    <MdOutlineShoppingCart className="text-2xl mr-1" />
+                    <p className="md:flex hidden text-base items-center">
+                      {t("cart")}
+                    </p>
+                  </div>
+                </Link>
+                <Link href="/chat" className="hidden md:flex items-center mx-1">
+                  <div className="flex w-fit items-center">
+                    <BsChatDots className="text-2xl mr-1" />
+                    <p className="md:flex hidden text-base items-center">
+                      {t("chat")}
+                    </p>
+                  </div>
+                </Link>
+                <button
+                  className="cursor-pointer flex items-center w-full mx-1"
+                  onClick={openModal}
+                >
+                  <div className="flex h-auto w-fit items-center justify-center">
+                    <BsChatDots className="text-2xl mr-1" />
+                    <p className="md:flex hidden whitespace-nowrap text-base">
+                      {t("post")}
+                    </p>
+                  </div>
+                </button>
+                <Link
+                  className="hidden md:flex items-center mx-1"
+                  href="/notification"
+                >
+                  <div className="flex h-auto w-fit items-center">
+                    <BsChatDots className="text-2xl mr-1" />
+                    <p className="md:flex hidden text-base whitespace-nowrap">
+                      {t("notification")}
+                    </p>
+                  </div>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center mx-1 hover:text-red-700"
+                >
+                  <IoLogOutOutline className="text-2xl mr-1" />
+                  <span className="md:flex hidden text-base items-center">
+                    {t("logout")}
+                  </span>
+                </button>
+              </>
+            )}
+            {!isAuthenticated && (
+              <Link href="/login" className="flex items-center mx-1 mr-2">
+                <div className="flex w-fit items-center">
+                  <FaRegUser className="text-2xl mr-1" />
+                  <span className="flex text-base items-center">
+                    {t("login")}
+                  </span>
+                </div>
+              </Link>
+            )}
+          </div>
+        </div>
+      </div> */}
       <div className="bg-primary py-2 relative lg:h-17 z-20">
         <div className="container mx-auto flex justify-between items-center">
           <Link
@@ -307,85 +412,93 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
                 alt="Logo"
                 width={60}
                 height={30}
-                className=""
               />
             </div>
           </Link>
           <div className="hidden md:block w-3/5">
             <SearchBar />
           </div>
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-end space-x-2">
+            <select
+              value={language}
+              onChange={changeLanguage}
+              className="hidden md:block px-2 py-1 border rounded min-w-[100px] cursor-pointer  hover:text-gray-600" // Thêm min-width để tránh co lại quá mức
+            >
+              <option value="vi">Tiếng Việt</option>
+              <option value="en">English</option>
+            </select>
             {isAuthenticated && (
               <>
                 <Link
                   href="/inventory"
-                  className="flex md:hidden items-center mx-3"
+                  className="flex md:hidden items-center mx-1"
                 >
                   <div className="flex w-fit items-center">
-                    <MdOutlineInventory2 className="text-2xl mr-2" />
-                    <p className="md:flex hidden text-base items-center">
-                      Inventory
+                    <MdOutlineInventory2 className="text-2xl mr-1" />
+                    <p className="md:flex hidden text-base items-center truncate">
+                      {t("inventory")}
                     </p>
                   </div>
                 </Link>
-                <Link href="/cart" className="flex items-center mx-3">
+                {/* <Link href="/cart" className="flex items-center mx-1">
                   <div className="flex w-fit items-center">
-                    <MdOutlineShoppingCart className="text-2xl mr-2" />
-                    <p className="md:flex hidden text-base items-center">
-                      Cart
+                    <MdOutlineShoppingCart className="text-2xl mr-1" />
+                    <p className="hidden md:block text-base items-center truncate">
+                      {t("cart")}
                     </p>
                   </div>
-                </Link>
-
-                <Link href="/chat" className="hidden md:flex items-center mx-3">
+                </Link> */}
+                <Link
+                  href="/chat"
+                  className=" hidden md:flex items-center mx-1 hover:text-gray-600"
+                >
                   <div className="flex w-fit items-center">
-                    <BsChatDots className="text-2xl mr-2" />
-                    <p className="md:flex hidden   text-base items-center">
-                      Chat
+                    <BsChatDots className="text-2xl mr-1" />
+                    <p className=" hidden md:block text-base items-center truncate">
+                      {t("chat")}
                     </p>
                   </div>
                 </Link>
-
                 <button
-                  className="cursor-pointer flex items-center w-full mx-3"
+                  className="cursor-pointer flex items-center mx-1  hover:text-gray-600"
                   onClick={openModal}
                 >
                   <div className="flex h-auto w-fit items-center justify-center">
-                    <BsChatDots className="text-2xl mr-2" />
-                    <p className="md:flex hidden  whitespace-nowrap text-base">
-                      Bài viết
+                    <MdOutlineBookmarkAdd className=" text-2xl mr-1 " />
+                    <p className=" hidden md:block text-base items-center truncate">
+                      {t("post")}
                     </p>
                   </div>
                 </button>
-
                 <Link
-                  className="hidden md:flex items-center mx-3"
                   href="/notification"
+                  className=" hidden md:flex items-center mx-1  hover:text-gray-600"
                 >
                   <div className="flex h-auto w-fit items-center">
-                    <BsChatDots className="text-2xl mr-2" />
-                    <p className="md:flex hidden  text-base whitespace-nowrap">
-                      Thông báo
+                    <MdOutlineNotifications className="text-2xl mr-1" />
+                    <p className="text-base items-center truncate">
+                      {t("notification")}
                     </p>
                   </div>
                 </Link>
-
                 <button
                   onClick={handleLogout}
-                  className="flex items-center mx-3 hover:text-red-700"
+                  className="flex items-center mx-1 hover:text-red-700"
                 >
-                  <IoLogOutOutline className="text-2xl mr-2" />
-                  <span className="md:flex hidden  text-base items-center">
-                    Logout
+                  <IoLogOutOutline className="text-2xl mr-1" />
+                  <span className="hidden md:block text-base items-center truncate">
+                    {t("logout")}
                   </span>
                 </button>
               </>
             )}
             {!isAuthenticated && (
-              <Link href="/login" className="flex items-center mx-3 mr-5">
+              <Link href="/login" className="flex items-center mx-1 mr-2">
                 <div className="flex w-fit items-center">
-                  <FaRegUser className="text-2xl mr-2" />
-                  <span className="flex text-base items-center">Login</span>
+                  <FaRegUser className="text-2xl mr-1" />
+                  <span className="text-base items-center truncate">
+                    {t("login")}
+                  </span>
                 </div>
               </Link>
             )}
@@ -405,31 +518,31 @@ const Header: React.FC<HeaderProps> = ({ openModal }) => {
               href="/newsletter"
               className="text-sm font-medium whitespace-nowrap"
             >
-              Join Our Newsletter
+              {t("newsletter")}
             </Link>
             <Link
               href="/how-to"
               className="text-sm font-medium whitespace-nowrap"
             >
-              How to Use It
+              {t("howTo")}
             </Link>
             <Link
               href="/warehouse"
               className="text-sm font-medium whitespace-nowrap"
             >
-              What's Private Warehouse?
+              {t("warehouse")}
             </Link>
             <Link
               href="/help"
               className="text-sm font-medium whitespace-nowrap"
             >
-              Help Center
+              {t("help")}
             </Link>
             <Link
               href="/wishlist"
               className="text-sm font-medium whitespace-nowrap"
             >
-              Wish List
+              {t("wishlist")}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4 inline-block ml-1"

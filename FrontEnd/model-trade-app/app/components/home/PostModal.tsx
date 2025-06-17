@@ -148,8 +148,8 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
         </div>
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center mb-4">
-            <FaUserCircle className="text-2xl mr-2" />
-            <div>Trần Sơn</div>
+            <FaUserCircle className="text-3xl mr-2" />
+            {/* <div>Trần Sơn</div> */}
           </div>
           <div className="flex items-center mx-4 bg-gray-200 p-1.5 rounded">
             <div className="rounded-full w-6 h-6 bg-amber-300 mr-2"></div>

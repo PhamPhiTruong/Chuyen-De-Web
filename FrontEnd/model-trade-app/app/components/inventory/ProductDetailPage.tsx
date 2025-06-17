@@ -71,11 +71,11 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="flex-grow bg-white container rounded-2xl mx-auto w-3/4 my-4 px-4 py-6">
+      <div className="flex-grow bg-white container rounded-2xl mx-auto md:w-3/4 my-4 md:px-4 px-2 py-6">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Hình ảnh sản phẩm */}
           <div className="w-full lg:w-1/2">
-            <div className="w-full h-124 bg-gray-200 rounded-lg overflow-hidden">
+            <div className="w-full md:h-124 bg-gray-200 rounded-lg overflow-hidden">
               <img
                 src={selectedImage}
                 alt={product.name}
@@ -100,7 +100,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
           </div>
 
           {/* Thông tin sản phẩm */}
-          <div className="w-full pl-10 lg:w-1/2">
+          <div className="w-full  pl-10 lg:w-1/2">
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <p className="text-red-600 text-xl mt-2">
               {formatPrice(product.price)}
@@ -115,7 +115,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               </button>
             </div>
             {/* Phần chat và thông tin người bán */}
-            <div className="w-full bg-gray-100 p-4 rounded-lg mt-8">
+            <div className="w-full bg-gray-100 justify-center p-4 rounded-lg mt-8">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   {/* <img
@@ -158,7 +158,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 Tình trạng: {product.see ? "Mới" : "Đã dùng"}
               </span>
               <span className="text-sm text-gray-500 ml-4">
-                Địa chỉ: Thủ Đức
+                Địa chỉ: Hồ Chí Minh
               </span>{" "}
               {/* Có thể lấy từ API */}
             </div>

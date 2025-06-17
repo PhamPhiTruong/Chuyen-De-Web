@@ -36,7 +36,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, onViewMore }) => {
           <p className="text-gray-600 mb-2">Tp.Hồ Chí Minh</p>
           <button
             onClick={() => onViewMore(product.modelId)}
-            className="text-blue-500 hover:underline"
+            className="text-blue-500 hover:underline cursor-pointer"
           >
             Xem thêm
           </button>
