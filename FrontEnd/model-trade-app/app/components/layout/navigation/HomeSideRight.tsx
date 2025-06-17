@@ -15,7 +15,9 @@ const HomeSideRight = () => {
                 <Link href="/inventory">
                   <div className="my-5">Cửa hàng của bạn</div>
                 </Link>
-                <div className="my-5">Lịch sử giao dịch</div>
+                <Link href="/exchange-history">
+                  <div className="my-5">Lịch sử giao dịch</div>
+                </Link>
                 <div className="my-5">Người liên hệ</div>
                 <div className="my-5">Sự kiện</div>
                 <div className="my-5">Quản lý mô hình</div>

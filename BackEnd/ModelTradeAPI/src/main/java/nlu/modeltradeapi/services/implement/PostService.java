@@ -34,6 +34,9 @@ public class PostService {
     @Autowired
     private final ModelRepository modelRepository;
 
+    public String getModelIdFromPost(String postId) {
+        return postRepository.getModelIdByPromotionPostId(postId);
+    }
 
     public ModelPromotionPost createPost(PostCreateRequestDTO request) {
 

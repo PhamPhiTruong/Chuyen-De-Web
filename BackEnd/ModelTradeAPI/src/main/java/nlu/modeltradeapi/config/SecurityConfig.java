@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/posts/getAllPosts").permitAll()
                         .requestMatchers("/api/posts/search").permitAll()
                         .requestMatchers("/api/exchange/vnp-return").permitAll()
+                        .requestMatchers("/api/posts/getModelIdFromPost/*").permitAll()
                         .requestMatchers(
                                 "/api/models/**",
                                 "/api/user/**",

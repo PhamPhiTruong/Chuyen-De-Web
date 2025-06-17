@@ -121,7 +121,13 @@ public class ModelService implements IModelService {
         return convertToDTO(model);
     }
 
-//    private ModelResponseDTO convertToDTO(Model model) {
+    @Override
+    public String getPriceByModelId(String modelId) {
+        double price = modelRepository.getPriceByModelId(modelId);
+        return ""+price;
+    }
+
+    //    private ModelResponseDTO convertToDTO(Model model) {
 //        return ModelResponseDTO.builder()
 //                .modelId(model.getModelId())
 //                .name(model.getName())

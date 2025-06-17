@@ -86,9 +86,6 @@ const InventoryPage: React.FC<InventoryPageProps> = ({ token }) => {
       <Header />
       <div className="flex-grow w-4/5 md:py-10">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* <div className="w-full lg:w-3/10"> */}
-          {/* <SellerInfo seller={seller} onFollow={handleFollow} /> */}
-          {/* </div> */}
           <div className="w-full ">
             <div className="flex w-full items-center my-auto  ">
               <h2 className="text-xl h-full text-center font-bold mr-5">
