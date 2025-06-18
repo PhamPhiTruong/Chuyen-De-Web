@@ -21,7 +21,7 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
   const [modelName, setModelName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(10000);
-  const [quantity, setQuantity] = useState(10);
+  const [quantity, setQuantity] = useState(1);
   const [images, setImages] = useState<File[]>([]);
   const router = useRouter();
 
@@ -62,10 +62,24 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
     return;
   }
 
+  if (price < 10000) {
+    alert("Giá ít nhất phải lạ 10000 đ. Hãy nhập lại")
+    return;
+  }
+
   if (description.trim() === "") {
     alert("Hãy nhập mô tả mô hình")
     return;
   }
+
+
+
+  if (quantity < 1) {
+    alert("Số lượng ít nhất là 1. Hãy nhập lại")
+    return;
+  }
+
+
 
   if (images.length === 0) {
     alert("Bạn phải chọn ít nhất một hình ảnh để tiếp tục.");
@@ -215,11 +229,11 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
                   <input
                     type="number"
                     className="h-fit w-full border-1 px-2 py-2 focus:border-4 rounded-lg"
-                    placeholder="Số lượng >= 10"
+                    placeholder="Số lượng >= 1"
                     name="quantity"
                     value={quantity}
-                    min={10}
-                    onChange={(e) => setPrice(Number(e.target.value))}
+                    min={1}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
                   />
                 </div>
 
