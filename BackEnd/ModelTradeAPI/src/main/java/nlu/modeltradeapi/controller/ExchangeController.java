@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import nlu.modeltradeapi.dtos.requestdto.exchange.PayRequestDTO;
 import nlu.modeltradeapi.dtos.responsedto.ApiResponse;
 import nlu.modeltradeapi.dtos.responsedto.vnpay.PayVNPResponseDTO;
+import nlu.modeltradeapi.entities.Exchange;
 import nlu.modeltradeapi.services.template.IExchangeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -65,11 +67,23 @@ public class ExchangeController {
                 .paySecureHash(params.get("vnp_SecureHash"))
                 .build();
         String mess = exchangeService.handleReturnDTO(payVNPResponseDTO);
-        String redirectUrl = "http://172.19.224.1:3000/test-return-api?status=" + (mess.contains("Success") ? "Success" : "Fail");
+        String redirectUrl = "http://172.19.224.1:3000/return-api?status=" + (mess.contains("Success") ? "Success" : "Fail");
         return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(redirectUrl)).build();
     }
 
-
+    @GetMapping("getAllExchangeByUser")
+    public ApiResponse<List<Exchange>> getAllExchangeByUser() {
+        List<Exchange> list = exchangeService.getExchangesByUser();
+        if (list == null || list.isEmpty()) {
+            return ApiResponse.<List<Exchange>>builder()
+                    .message("Empty")
+                    .code(1010)
+                    .build();
+        }
+        return ApiResponse.<List<Exchange>>builder()
+                .result(list)
+                .build();
+    }
 
 
 }

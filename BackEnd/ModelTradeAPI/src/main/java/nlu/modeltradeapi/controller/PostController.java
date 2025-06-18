@@ -8,9 +8,11 @@ import nlu.modeltradeapi.entities.Model;
 import nlu.modeltradeapi.entities.ModelPromotionPost;
 import nlu.modeltradeapi.repository.ModelRepository;
 import nlu.modeltradeapi.services.implement.PostService;
+import nlu.modeltradeapi.services.template.IModelService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,6 +22,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final ModelRepository modelRepository;
+    private final IModelService modelService;
 
     @PostMapping("/createPost")
     public ResponseEntity<ModelPromotionPost> createPost(@Valid @RequestBody PostCreateRequestDTO request){
@@ -44,6 +47,16 @@ public class PostController {
             @RequestHeader("Authorization") String authorization) {
         List<PostResponseDTO> posts = postService.searchPosts(keyword);
         return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/getModelIdFromPost/{postId}")
+    public ResponseEntity<List<String>> getModelIdFromPost(@PathVariable String postId) {
+        List<String> response = new ArrayList<>();
+        String modelId = postService.getModelIdFromPost(postId);
+        String payAmount = modelService.getPriceByModelId(modelId);
+        response.add(modelId);
+        response.add(payAmount);
+        return ResponseEntity.ok(response);
     }
 
 }

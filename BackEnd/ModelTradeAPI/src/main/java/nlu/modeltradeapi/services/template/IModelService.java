@@ -13,4 +13,5 @@ public interface IModelService {
     public List<ModelResponseDTO> getAllModelByUser();
     public ModelResponseDTO updateModel(ModelUpdateRequestDTO modelUpdateRequestDTO, List<MultipartFile> files);
     public ModelResponseDTO getModelById(String id);
+    public String getPriceByModelId(String modelId);
 }

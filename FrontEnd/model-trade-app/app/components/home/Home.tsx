@@ -8,6 +8,8 @@ import { FaHeart, FaRegComment } from "react-icons/fa";
 import { TbArrowsExchange } from "react-icons/tb";
 import { PiShareFat } from "react-icons/pi";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import ExchangePopup from "./ExchangePopup";
 // Định nghĩa kiểu dữ liệu trực tiếp trong file
 interface ImageDTO {
   imageId: string;
@@ -54,6 +56,10 @@ const Home: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedModelId, setSelectedModelId] = useState("");
+  const [selectedPayAmount, setSelectedPayAmount] = useState("");
 
   // Fetch dữ liệu từ API khi component mount
   useEffect(() => {
@@ -185,6 +191,44 @@ const Home: React.FC = () => {
     return <div className="text-center py-10">Không có bài đăng nào.</div>;
   }
 
+  // Hàm gọi exchange
+  const handleExchange = async (postId: String) => {
+    try {
+      const token = Cookies.get("token")
+      if (!token) {
+        console.warn("Token không tồn tại");
+        return;
+      }
+
+      const response = await fetch(
+        `http://localhost:8080/model_trade/api/posts/getModelIdFromPost/${postId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: "cors",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Lỗi khi gọi API");
+      }
+
+      const data = await response.json();
+      console.log("modelId là:", data[0]);
+      console.log("AmountPay :", data[1]);
+
+      setSelectedModelId(data[0])
+      setSelectedPayAmount(data[1])
+      setShowPopup(true);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="w-full md:px-25 md:py-10 mx-auto">
       {posts.map((post) => (
@@ -272,7 +316,10 @@ const Home: React.FC = () => {
                 <FaRegComment className="text-2xl cursor-pointer hover:text-blue-500" />
               </div>
               <div className="md:flex hidden items-center justify-center">
-                <TbArrowsExchange className="text-2xl cursor-pointer hover:text-green-500" />
+                <TbArrowsExchange
+                  className="text-2xl cursor-pointer hover:text-green-500"
+                  onClick={() => handleExchange(post.postId)}
+                />
               </div>
               <div className="flex items-center justify-center">
                 <PiShareFat className="text-2xl cursor-pointer hover:text-purple-500" />
@@ -281,6 +328,13 @@ const Home: React.FC = () => {
           </div>
         </div>
       ))}
+      {showPopup && (
+        <ExchangePopup
+          modelId={selectedModelId}
+          payAmount={selectedPayAmount}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
     </div>
   );
 };

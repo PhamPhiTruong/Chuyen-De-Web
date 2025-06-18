@@ -57,7 +57,9 @@ const HomeSideRight = () => {
                 <Link href="/inventory" className="hover:underline">
                   <div className="my-5">{t("yourStore")}</div>
                 </Link>
-                <div className="my-5">{t("transactionHistory")}</div>
+                <Link href="/exchange-history">
+                  <div className="my-5">{t("transactionHistory")}</div>
+                </Link>
                 <div className="my-5">{t("contacts")}</div>
                 <div className="my-5">{t("events")}</div>
                 <div className="my-5">{t("modelManagement")}</div>
