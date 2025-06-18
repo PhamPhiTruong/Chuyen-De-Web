@@ -21,7 +21,7 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
   const [modelName, setModelName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(10000);
-  const [quantity, setQuantity] = useState(100);
+  const [quantity, setQuantity] = useState(10);
   const [images, setImages] = useState<File[]>([]);
   const router = useRouter();
 
