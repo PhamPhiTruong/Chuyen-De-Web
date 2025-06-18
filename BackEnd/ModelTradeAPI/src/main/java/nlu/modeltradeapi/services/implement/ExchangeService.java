@@ -141,7 +141,7 @@ public class ExchangeService implements IExchangeService {
     public String VNPPay(String exchangeId, String clientIp) throws UnsupportedEncodingException {
         Exchange exchange = exchangeRepository.findById(exchangeId).orElseThrow(() -> new RuntimeException("Exchange Not Exist"));
         MoneyExchange moneyExchange = exchangeMoneyRepository.findByExchange(exchange).orElseThrow(() -> new RuntimeException("Exchange Not Exist"));
-        double num = moneyExchange.getMoney()*10000;
+        double num = moneyExchange.getMoney();
         String money = Double.toString(num);
         return vnpService.createPaymentUrl(money,clientIp,exchangeId);
     }

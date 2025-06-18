@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Header from "../layout/navigation/Header";
 import Footer from "../layout/navigation/Footer";
 import RadioButton from "../radioGroup/RadioButton";
-import { IoInformationCircle } from "react-icons/io5";
 import { TbCameraPlus } from "react-icons/tb";
 import { FaPlus } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
@@ -21,7 +20,7 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
 
   const [modelName, setModelName] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState(1);
+  const [price, setPrice] = useState(10000);
   const [quantity, setQuantity] = useState(100);
   const [images, setImages] = useState<File[]>([]);
   const router = useRouter();
@@ -172,13 +171,15 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
                   value={modelName}
                   onChange={(e) => setModelName(e.target.value)}
                 ></textarea>
-                <textarea
+                <input
+                  type="number"
                   className="h-fit w-full border-1 px-2 py-2 focus:border-4 rounded-lg"
-                  placeholder="Giá sản phẩm"
+                  placeholder="Giá sản phẩm (>= 10.000 VND)"
                   name="price"
                   value={price}
+                  min={10000}
                   onChange={(e) => setPrice(Number(e.target.value))}
-                ></textarea>
+                />
                 <textarea
                   className="h-fit w-full border-1 px-2 py-2 focus:border-4 rounded-lg"
                   placeholder="Mô tả sản phẩm"
