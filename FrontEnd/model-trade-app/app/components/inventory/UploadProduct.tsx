@@ -23,6 +23,7 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
   const [price, setPrice] = useState(10000);
   const [quantity, setQuantity] = useState(1);
   const [images, setImages] = useState<File[]>([]);
+  const [selectedProvince, setProvince] = useState("");
   const router = useRouter();
 
   const modelData = {
@@ -55,71 +56,75 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
 
   // Xử lý submit form (gửi dữ liệu lên backend)
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (modelName.trim() === "") {
-    alert("Hãy nhập tên mô hình")
-    return;
-  }
+    if (modelName.trim() === "") {
+      alert("Hãy nhập tên mô hình")
+      return;
+    }
 
-  if (price < 10000) {
-    alert("Giá ít nhất phải lạ 10000 đ. Hãy nhập lại")
-    return;
-  }
+    if (price < 10000) {
+      alert("Giá ít nhất phải lạ 10000 đ. Hãy nhập lại")
+      return;
+    }
 
-  if (description.trim() === "") {
-    alert("Hãy nhập mô tả mô hình")
-    return;
-  }
-
-
-
-  if (quantity < 1) {
-    alert("Số lượng ít nhất là 1. Hãy nhập lại")
-    return;
-  }
+    if (description.trim() === "") {
+      alert("Hãy nhập mô tả mô hình")
+      return;
+    }
 
 
+    if (quantity < 1) {
+      alert("Số lượng ít nhất là 1. Hãy nhập lại")
+      return;
+    }
 
-  if (images.length === 0) {
-    alert("Bạn phải chọn ít nhất một hình ảnh để tiếp tục.");
-    return;
-  }
 
-  const formData = new FormData();
-  formData.append(
-    "model",
-    new Blob([JSON.stringify(modelData)], { type: "application/json" })
-  );
 
-  images.forEach((file) => {
-    formData.append("images", file);
-  });
+    if (images.length === 0) {
+      alert("Bạn phải chọn ít nhất một hình ảnh để tiếp tục.");
+      return;
+    }
 
-  try {
-    const response = await fetch(
-      "http://localhost:8080/model_trade/api/model/addModel",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        mode: "cors",
-        credentials: "include",
-        body: formData,
-      }
+    if (selectedProvince === "") {
+      alert("Vui lòng chọn địa chỉ");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append(
+      "model",
+      new Blob([JSON.stringify(modelData)], { type: "application/json" })
     );
 
-    if (!response.ok) throw new Error("Upload thất bại!");
+    images.forEach((file) => {
+      formData.append("images", file);
+    });
 
-    const result = await response.json();
-    alert(`Thêm thành công: ${result.result.modelName}`);
-    router.push("/inventory");
-  } catch (err) {
-    console.error(err);
-    alert("Đã xảy ra lỗi khi thêm sản phẩm. Vui lòng thử lại sau.");
-  }
-};
+    try {
+      const response = await fetch(
+        "http://localhost:8080/model_trade/api/model/addModel",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          mode: "cors",
+          credentials: "include",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) throw new Error("Upload thất bại!");
+
+      const result = await response.json();
+      alert(`Thêm thành công: ${result.result.modelName}`);
+      router.push("/inventory");
+    } catch (err) {
+      console.error(err);
+      alert("Đã xảy ra lỗi khi thêm sản phẩm. Vui lòng thử lại sau.");
+    }
+  };
 
 
   return (
@@ -241,7 +246,9 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
                   <span className="whitespace-nowrap">Chọn địa chỉ</span>
                   <select
                     className="h-fit w-full border-1 px-2 py-2 focus:border-4 rounded-lg"
-                    defaultValue=""
+                    value={selectedProvince}
+                    onChange={(e) => setProvince(e.target.value)}
+                    required
                     name="address"
                   >
                     <option disabled value="" className="text-gray-400">
