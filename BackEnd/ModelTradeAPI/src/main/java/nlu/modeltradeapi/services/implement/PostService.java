@@ -2,6 +2,7 @@ package nlu.modeltradeapi.services.implement;
 
 import lombok.RequiredArgsConstructor;
 import nlu.modeltradeapi.dtos.requestdto.post.PostCreateRequestDTO;
+import nlu.modeltradeapi.dtos.responsedto.ApiResponse;
 import nlu.modeltradeapi.dtos.responsedto.comment.CommentDTO;
 import nlu.modeltradeapi.dtos.responsedto.image.ImageDTO;
 import nlu.modeltradeapi.dtos.responsedto.model.ModelDTO;
@@ -33,6 +34,9 @@ public class PostService {
     @Autowired
     private final ModelRepository modelRepository;
 
+    public String getModelIdFromPost(String postId) {
+        return postRepository.getModelIdByPromotionPostId(postId);
+    }
 
     public ModelPromotionPost createPost(PostCreateRequestDTO request) {
 
@@ -123,6 +127,72 @@ public class PostService {
                 .filter(postDTO -> postDTO != null)
                 .collect(Collectors.toList());
     }
+    public List<PostResponseDTO> searchPosts(String keyword) {
+        List<ModelPromotionPost> posts = postRepository.findByModel_NameContainingIgnoreCase(keyword);
+
+        return posts.stream()
+                .filter(post -> !post.isDelete())
+                .map(post -> {
+                    Model model = post.getModel();
+                    if (model == null) {
+                        return null;
+                    }
+
+                    User user = model.getUser();
+                    String userName = (user != null) ? user.getName() : "Unknown";
+
+                    ModelDTO modelDTO = ModelDTO.builder()
+                            .modelId(model.getModelId())
+                            .name(model.getName() != null ? model.getName() : "N/A")
+                            .description(model.getDescription() != null ? model.getDescription() : "N/A")
+                            .price(model.getPrice())
+                            .quantity(model.getQuantity())
+                            .build();
+
+                    List<ImageDTO> images = (model.getImages() != null) ? model.getImages().stream()
+                            .filter(imageEntity -> imageEntity != null && imageEntity.getImage() != null)
+                            .map(imageEntity -> ImageDTO.builder()
+                                    .imageId(imageEntity.getImage().getImageId())
+                                    .url(imageEntity.getImage().getUrl() != null ? imageEntity.getImage().getUrl() : "N/A")
+                                    .build())
+                            .collect(Collectors.toList()) : Collections.emptyList();
+
+                    List<CommentDTO> comments = (post.getModelPromotionPostComments() != null) ? post.getModelPromotionPostComments().stream()
+                            .filter(comment -> comment != null && comment.getUser() != null)
+                            .map(comment -> CommentDTO.builder()
+                                    .commentId(comment.getMppcId())
+                                    .userName(comment.getUser().getName() != null ? comment.getUser().getName() : "Unknown")
+                                    .context(comment.getContext() != null ? comment.getContext() : "N/A")
+                                    .createdTime(comment.getCreatedTime())
+                                    .build())
+                            .collect(Collectors.toList()) : Collections.emptyList();
+
+                    List<ReactDTO> reacts = (post.getModelPromotionPostReacts() != null) ? post.getModelPromotionPostReacts().stream()
+                            .filter(react -> react != null && react.getUser() != null && react.getReact() != null)
+                            .map(react -> ReactDTO.builder()
+                                    .reactId(react.getMpprId())
+                                    .userName(react.getUser().getName() != null ? react.getUser().getName() : "Unknown")
+                                    .reactName(react.getReact().getName() != null ? react.getReact().getName() : "N/A")
+                                    .isPositive(react.getReact().isPositive())
+                                    .reactTime(react.getReactTime())
+                                    .build())
+                            .collect(Collectors.toList()) : Collections.emptyList();
+
+                    return PostResponseDTO.builder()
+                            .postId(post.getMppId())
+                            .userName(userName)
+                            .postTime(post.getPostTime())
+                            .promotionDescription(post.getPromotionDescription() != null ? post.getPromotionDescription() : "N/A")
+                            .model(modelDTO)
+                            .images(images)
+                            .comments(comments)
+                            .reacts(reacts)
+                            .build();
+                })
+                .filter(postDTO -> postDTO != null)
+                .collect(Collectors.toList());
+    }
+
 
 
 }

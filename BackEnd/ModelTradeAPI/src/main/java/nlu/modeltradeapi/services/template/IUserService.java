@@ -3,6 +3,7 @@ package nlu.modeltradeapi.services.template;
 import nlu.modeltradeapi.dtos.requestdto.user.OTPVerificationRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserRegisterRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserUpdateRequestDTO;
+import nlu.modeltradeapi.dtos.responsedto.user.UserBasicDTO;
 import nlu.modeltradeapi.entities.User;
 import nlu.modeltradeapi.exceptions.CustomException;
 
@@ -15,4 +16,6 @@ public interface IUserService {
     public User updateUser(UserUpdateRequestDTO updateRequest);
     public void deleteUser(String userId) throws CustomException;
     void verifyOTP(OTPVerificationRequestDTO request);
+    public UserBasicDTO getUser();
+
 }

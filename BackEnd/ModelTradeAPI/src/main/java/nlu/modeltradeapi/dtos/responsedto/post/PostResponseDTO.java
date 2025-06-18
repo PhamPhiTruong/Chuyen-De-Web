@@ -27,3 +27,4 @@ public class PostResponseDTO {
     private List<CommentDTO> comments;
     private List<ReactDTO> reacts;
 }
+

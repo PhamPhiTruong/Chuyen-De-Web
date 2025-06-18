@@ -2,10 +2,9 @@ package nlu.modeltradeapi.controller;
 
 import lombok.RequiredArgsConstructor;
 import nlu.modeltradeapi.dtos.requestdto.model.ModelAddRequestDTO;
-import nlu.modeltradeapi.dtos.requestdto.model.ModelResponseDTO;
+import nlu.modeltradeapi.dtos.responsedto.model.ModelResponseDTO;
 import nlu.modeltradeapi.dtos.responsedto.ApiResponse;
 import nlu.modeltradeapi.dtos.responsedto.model.ModelAddResponseDTO;
-import nlu.modeltradeapi.entities.Model;
 import nlu.modeltradeapi.services.implement.ModelService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -42,4 +41,29 @@ public class ModelController {
                 .result(modelService.getAllModelByUser())
                 .build();
     }
+
+    @GetMapping("{modelId}")
+    public ApiResponse<ModelResponseDTO> getModelById(@PathVariable String modelId) {
+        try{
+        ModelResponseDTO model = modelService.getModelById(modelId);
+        if (model == null) {
+            return ApiResponse.<ModelResponseDTO>builder()
+                    .message("Không tìm thấy sản phẩm với modelId: " + modelId)
+                    .result(null)
+                    .build();
+        }
+        return ApiResponse.<ModelResponseDTO>builder()
+                .message("Lấy thông tin sản phẩm thành công")
+                .result(model)
+                .build();
+    } catch (Exception e) {
+        return ApiResponse.<ModelResponseDTO>builder()
+                .message("Lỗi khi lấy thông tin sản phẩm: " + e.getMessage())
+                .result(null)
+                .build();
+    }
+    }
+
+
+
 }

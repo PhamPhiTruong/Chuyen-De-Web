@@ -3,6 +3,7 @@ package nlu.modeltradeapi.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import nlu.modeltradeapi.constant.ExchangeStatus;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "exchanges")
 @Entity(name = "exchange")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Exhange implements Serializable {
+public class Exchange implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "exchange_id")
@@ -25,5 +26,6 @@ public class Exhange implements Serializable {
     @Builder.Default
     LocalDateTime transactionDate = LocalDateTime.now();
     @Column(name = "status")
-    private String status;
+    @Builder.Default
+    private ExchangeStatus status = ExchangeStatus.PENDING;
 }

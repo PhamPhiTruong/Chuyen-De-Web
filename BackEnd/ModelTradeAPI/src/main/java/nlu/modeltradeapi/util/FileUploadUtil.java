@@ -13,7 +13,7 @@ import lombok.experimental.UtilityClass;
 public class FileUploadUtil {
     public static final long MAX_FILE_SIZE = 2 * 1024 * 1024;
 
-    public static final String IMAGE_PATTERN = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
+    public static final String IMAGE_PATTERN = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp|jpeg|webp))$)";
 
     public static final String DATE_FORMAT = "yyyyMMddHHmmss";
 
@@ -33,7 +33,7 @@ public class FileUploadUtil {
         final String fileName = file.getOriginalFilename();
         final String extension = FilenameUtils.getExtension(fileName);
         if (!isAllowedExtension(fileName, pattern)) {
-            throw new RuntimeException("Only jpg, png, gif, bmp files are allowed");
+            throw new RuntimeException("Only jpg, png, gif, bmp, jpeg, webp files are allowed");
         }
     }
 

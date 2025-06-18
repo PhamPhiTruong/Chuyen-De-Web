@@ -56,11 +56,11 @@ export default function RegisterForm() {
       setLoading(false);
       return;
     }
-    // if (!phoneNumber.match(/^\+?[1-9]\d{1,14}$/)) {
-    //   setError("Invalid phone number format");
-    //   setLoading(false);
-    //   return;
-    // }
+    if (!phoneNumber.match(/^\+?[0-9]\d{8,12}$/)) {
+      setError("Invalid phone number format");
+      setLoading(false);
+      return;
+    }
     if (!dateOfBirth) {
       setError("Date of birth is required");
       setLoading(false);
@@ -98,23 +98,22 @@ export default function RegisterForm() {
       );
 
       const data1 = await response.json();
-      const data = data1.result;
+      console.log(data1.message);
       if (response.ok) {
         setSuccess(
-          data.message ||
+          data1.message ||
             "Registration successful! Please check your email for OTP."
         );
-
-        console.log("Registration successful  :", data); // Debug response data
+        console.log("Registration successful  :", data1); // Debug response data
 
         // Lưu email vào localStorage để dùng trong OTPVerificationForm
-        if (data.email) {
-          localStorage.setItem("email", data.email);
+        if (userData.email) {
+          localStorage.setItem("email", userData.email);
         }
-        console.log("User Email:", data.email); // Debug userId
+        console.log("User Email:", userData.email); // Debug userId
         router.push("/verify-otp"); // Chuyển hướng đến trang xác thực OTP
       } else {
-        setError(data.message || "Registration failed. Please try again.");
+        setError(data1.message || "Registration failed. Please try again.");
       }
     } catch (err) {
       setError("Server error. Please check your connection and try again.");

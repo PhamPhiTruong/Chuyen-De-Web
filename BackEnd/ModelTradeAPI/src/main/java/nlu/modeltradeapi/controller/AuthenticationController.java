@@ -3,6 +3,7 @@ package nlu.modeltradeapi.controller;
 import jakarta.validation.Valid;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import nlu.modeltradeapi.dtos.requestdto.user.OTPVerificationRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserLoginRequestDTO;
 import nlu.modeltradeapi.dtos.requestdto.user.UserRegisterRequestDTO;
 import nlu.modeltradeapi.dtos.responsedto.ApiResponse;
@@ -28,6 +29,18 @@ public class AuthenticationController {
         message.setMessage(urrd.getEmail() + message.getMessage());
         if(userService.registerUser(urrd)!= null) message.setMessage("Đăng kí thành công. Vui lòng kiểm tra email");
 
+        return new ResponseEntity<>(
+                message,
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping("verifyOtp")
+    public ResponseEntity<MessageResponseDTO> verifyOtp(@RequestBody OTPVerificationRequestDTO requestDTO){
+        userService.verifyOTP(requestDTO);
+        MessageResponseDTO message = MessageResponseDTO.builder().message(" Thành công").build();
+
+        message.setMessage(requestDTO.getEmail() + message.getMessage() + " xác nhận");
         return new ResponseEntity<>(
                 message,
                 HttpStatus.OK

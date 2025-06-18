@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import React, { useEffect, useRef, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosArrowDown, IoIosCloseCircle } from "react-icons/io";
@@ -17,19 +18,27 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   const [error, setError] = useState("");
   const modelIdTest = "001";
 
+  // Hàm lấy token từ cookie
+  // Phải tải js-cookie để sử dụng Cookies.get
+  // npm install js-cookie
+  // Phải tải npm install --save-dev @types/js-cookie để phù hợp tsx
+  const getToken = () => {
+    return Cookies.get("token");
+  };
+
   // Lấy danh sách model từ API khi modal mở
   useEffect(() => {
+    const token = getToken();
     if (isOpen) {
       // const token = localStorage.getItem("token");
-      const token =
-        "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
+
       if (!token) {
         setError("Vui lòng đăng nhập để lấy danh sách sản phẩm");
         return;
       }
 
       console.log("Gọi API getModels");
-      fetch("http://localhost:8080/model_trade/api/posts/getModels", {
+      fetch("http://localhost:8080/model_trade/api/model/getAllModelByUser", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +61,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
         })
         .then((data) => {
           console.log("Dữ liệu models:", data);
-          setModels(data);
+          setModels(data.result);
         })
         .catch((err: unknown) => {
           let errorMessage = "Lỗi không xác định";
@@ -74,10 +83,8 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       setError("Vui lòng nhập nội dung và chọn sản phẩm");
       return;
     }
-    const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkZXZubHUuY29tIiwic3ViIjoic29uMTIzNDUiLCJleHAiOjE3NDg2NjEyNTYsImlhdCI6MTc0ODU3NDg1Nn0.jn02vOoNB2ef7dCKaUPfQgwb-fE2oNN1rqmBa3RoR0nRQeVkpZijkOaoTGBWlhiG7RgrAqTd4vm5nxpmLs8gRA";
 
-    // const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
       setError("Vui lòng đăng nhập để đăng bài");
       return;
@@ -113,6 +120,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
       setError("");
       onClose();
       alert("Đăng bài thành công!");
+      window.location.href = "/home"; // Tải lại trang để cập nhật danh sách bài viết
     } catch (err: unknown) {
       let errorMessage = "Lỗi không xác định";
       if (err instanceof Error) {
@@ -127,7 +135,7 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0  z-50 flex items-center justify-center bg-black/50">
       <div className="absolute inset-0" onClick={onClose}></div>
       <div className="relative bg-white rounded-lg shadow-lg p-6 w-full max-w-lg mx-4">
         <div className="flex items-center justify-between mb-4">
@@ -140,8 +148,8 @@ const PostModal: React.FC<PostModalProps> = ({ isOpen, onClose }) => {
         </div>
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center mb-4">
-            <FaUserCircle className="text-2xl mr-2" />
-            <div>Trần Sơn</div>
+            <FaUserCircle className="text-3xl mr-2" />
+            {/* <div>Trần Sơn</div> */}
           </div>
           <div className="flex items-center mx-4 bg-gray-200 p-1.5 rounded">
             <div className="rounded-full w-6 h-6 bg-amber-300 mr-2"></div>
