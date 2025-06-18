@@ -50,7 +50,6 @@ public class UserService implements IUserService {
             throw new RuntimeException("Email already exists");
         }
 
-
         User user = User.builder()
                 .userName(registerRequest.getUserName())
                 .name(registerRequest.getName())

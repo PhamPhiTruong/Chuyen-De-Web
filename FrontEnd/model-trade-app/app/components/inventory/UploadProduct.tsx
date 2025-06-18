@@ -215,11 +215,11 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
                   <input
                     type="number"
                     className="h-fit w-full border-1 px-2 py-2 focus:border-4 rounded-lg"
-                    placeholder="Số lượng >= 10"
+                    placeholder="Số lượng >= 1"
                     name="quantity"
                     value={quantity}
-                    min={10}
-                    onChange={(e) => setPrice(Number(e.target.value))}
+                    min={1}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
                   />
                 </div>
 
