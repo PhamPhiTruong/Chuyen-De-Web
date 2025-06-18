@@ -55,44 +55,58 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
 
   // Xử lý submit form (gửi dữ liệu lên backend)
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append(
-      "model",
-      new Blob([JSON.stringify(modelData)], { type: "application/json" })
+  e.preventDefault();
+
+  if (modelName.trim() === "") {
+    alert("Hãy nhập tên mô hình")
+    return;
+  }
+
+  if (description.trim() === "") {
+    alert("Hãy nhập mô tả mô hình")
+    return;
+  }
+
+  if (images.length === 0) {
+    alert("Bạn phải chọn ít nhất một hình ảnh để tiếp tục.");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append(
+    "model",
+    new Blob([JSON.stringify(modelData)], { type: "application/json" })
+  );
+
+  images.forEach((file) => {
+    formData.append("images", file);
+  });
+
+  try {
+    const response = await fetch(
+      "http://localhost:8080/model_trade/api/model/addModel",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        mode: "cors",
+        credentials: "include",
+        body: formData,
+      }
     );
 
-    // Gửi các ảnh
-    images.forEach((file) => {
-      formData.append("images", file); // tên này phải đúng với `@RequestPart("images")`
-    });
-    //  const token = localStorage.getItem("token");
+    if (!response.ok) throw new Error("Upload thất bại!");
 
-    try {
-      const response = await fetch(
-        "http://localhost:8080/model_trade/api/model/addModel",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          mode: "cors",
-          credentials: "include",
-          body: formData,
-        }
-      );
+    const result = await response.json();
+    alert(`Thêm thành công: ${result.result.modelName}`);
+    router.push("/inventory");
+  } catch (err) {
+    console.error(err);
+    alert("Đã xảy ra lỗi khi thêm sản phẩm. Vui lòng thử lại sau.");
+  }
+};
 
-      if (!response.ok) throw new Error("Upload thất bại!");
-
-      const result = await response.json();
-      // alert("Thêm thành công:  ${result.result.modelName}"); // Có thể in riêng tên nếu muốn
-      alert(`Thêm thành công: ${result.result.modelName}`);
-      router.push("/inventory"); // Điều hướng về trang danh sách sản phẩm
-    } catch (err) {
-      console.error(err);
-      alert("Đã xảy ra lỗi khi thêm sản phẩm. Vui lòng thử lại sau.");
-    }
-  };
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-center">
@@ -277,7 +291,6 @@ const SellProduct: React.FC<SellProductProps> = ({ token }) => {
                     <option value="Thanh Hóa">Thanh Hóa</option>
                     <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
                     <option value="Tiền Giang">Tiền Giang</option>
-                    {/* <option value="TP Hồ Chí Minh">TP Hồ Chí Minh</option> */}
                     <option value="Trà Vinh">Trà Vinh</option>
                     <option value="Tuyên Quang">Tuyên Quang</option>
                     <option value="Vĩnh Long">Vĩnh Long</option>
